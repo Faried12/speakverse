@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
@@ -10,7 +11,9 @@ use App\Http\Controllers\ProfileController;
 */
 
 Route::get('/', function () {
+
     return redirect('/login');
+
 });
 
 /*
@@ -23,42 +26,46 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Dashboard
+    | Dashboard Redirect
     |--------------------------------------------------------------------------
     */
 
     Route::get('/dashboard', function () {
+
+        // admin redirect
+        if (Auth::user()->role === 'admin') {
+
+            return redirect('/admin/dashboard');
+
+        }
+
+        // student dashboard
         return view('dashboard');
+
     })->name('dashboard');
 
     /*
     |--------------------------------------------------------------------------
-    | Missions
+    | Student Pages
     |--------------------------------------------------------------------------
     */
 
     Route::get('/missions', function () {
+
         return view('missions.index');
+
     })->name('missions');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Practice
-    |--------------------------------------------------------------------------
-    */
-
     Route::get('/practice', function () {
+
         return view('practice.index');
+
     })->name('practice');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Progress
-    |--------------------------------------------------------------------------
-    */
-
     Route::get('/progress', function () {
+
         return view('progress.index');
+
     })->name('progress');
 
     /*
@@ -77,6 +84,46 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('profile.destroy');
 
 });
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified', 'admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Dashboard
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/dashboard', function () {
+
+            return view('admin.dashboard');
+
+        })->name('admin.dashboard');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Users
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/users', function () {
+
+            $users = \App\Models\User::latest()->get(['*']);
+
+            return view('admin.users.index', [
+                'users' => $users
+            ]);
+
+        })->name('admin.users');
+
+    });
 
 /*
 |--------------------------------------------------------------------------
