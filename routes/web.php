@@ -115,7 +115,7 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         Route::get('/users', function () {
 
-            $users = \App\Models\User::latest()->get(['*']);
+            $users = \App\Models\User::latest('created_at')->get(['*']);
 
             return view('admin.users.index', [
                 'users' => $users
