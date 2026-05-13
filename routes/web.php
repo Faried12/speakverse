@@ -123,6 +123,43 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         })->name('admin.users');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Missions
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/missions', function () {
+
+            return view('admin.missions.mission');
+
+        })->name('admin.missions');
+
+         /*
+        |--------------------------------------------------------------------------
+        | Admin Practice
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/practices', function () {
+
+            return view('admin.practices.practice');
+
+        })->name('admin.practices');
+
+         /*
+        |--------------------------------------------------------------------------
+        | Admin Analytics
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/analytics', function () {
+
+            return view('admin.analytics.analytic');
+
+        })->name('admin.analytics');
+
+
     });
 
 /*

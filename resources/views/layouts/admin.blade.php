@@ -73,21 +73,27 @@
 
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 transition">
+                <a href="{{ route('admin.missions') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
+                    {{ request()->routeIs('admin.missions') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
 
                     <span>🎯</span>
                     <span>Missions</span>
 
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 transition">
+                <a href="{{ route('admin.practices') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
+                    {{ request()->routeIs('admin.practices') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
 
                     <span>🎤</span>
                     <span>Practice</span>
 
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/5 transition">
+                <a href="{{ route('admin.analytics') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
+                    {{ request()->routeIs('admin.analytics') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
 
                     <span>📈</span>
                     <span>Analytics</span>
