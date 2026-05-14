@@ -319,22 +319,22 @@ document.documentElement.classList.toggle('dark', darkMode)"
                         <!-- DROPDOWN -->
                         <div x-show="profileOpen" @click.away="profileOpen = false" x-transition
                             class="absolute right-0 top-20
-    w-[320px]
-    rounded-[32px]
-    overflow-hidden
-    bg-white dark:bg-[#081120]
-    border border-slate-200 dark:border-white/10
-    shadow-2xl z-50">
+                            w-[320px]
+                            rounded-[32px]
+                            overflow-hidden
+                            bg-white dark:bg-[#081120]
+                            border border-slate-200 dark:border-white/10
+                            shadow-2xl z-50">
 
                             <!-- TOP -->
                             <div class="p-6 flex items-center gap-4">
 
                                 <div
                                     class="w-20 h-20 rounded-3xl
-            bg-gradient-to-br from-cyan-400 to-blue-600
-            flex items-center justify-center
-            text-white text-3xl font-black
-            shadow-lg shadow-cyan-500/20">
+                                    bg-gradient-to-br from-cyan-400 to-blue-600
+                                    flex items-center justify-center
+                                    text-white text-3xl font-black
+                                    shadow-lg shadow-cyan-500/20">
 
                                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
 
@@ -352,10 +352,10 @@ document.documentElement.classList.toggle('dark', darkMode)"
 
                                     <div
                                         class="mt-3 inline-flex items-center
-                px-3 py-1 rounded-full
-                bg-cyan-500/10
-                text-cyan-400
-                text-xs font-bold">
+                                        px-3 py-1 rounded-full
+                                        bg-cyan-500/10
+                                        text-cyan-400
+                                        text-xs font-bold">
 
                                         Administrator
 
@@ -369,16 +369,16 @@ document.documentElement.classList.toggle('dark', darkMode)"
                             <div class="border-t border-slate-200 dark:border-white/10 p-4">
 
                                 <!-- PROFILE SETTINGS -->
-                                <a href="{{ route('profile.edit') }}"
+                                <a href="{{ route('admin.profile.edit') }}"
                                     class="flex items-center gap-4
-            px-4 py-4 rounded-2xl
-            hover:bg-slate-100 dark:hover:bg-white/5
-            transition-all duration-200">
+                                    px-4 py-4 rounded-2xl
+                                    hover:bg-slate-100 dark:hover:bg-white/5
+                                    transition-all duration-200">
 
                                     <div
                                         class="w-12 h-12 rounded-2xl
-                bg-slate-100 dark:bg-white/5
-                flex items-center justify-center">
+                                        bg-slate-100 dark:bg-white/5
+                                        flex items-center justify-center">
 
                                         ⚙️
 
@@ -403,6 +403,8 @@ document.documentElement.classList.toggle('dark', darkMode)"
                         </div>
 
                     </div>
+
+                </div>
 
             </header>
 

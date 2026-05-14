@@ -1,92 +1,201 @@
-<x-app-layout>
+@if ((Auth::user()->role ?? 'user') === 'admin')
 
-    <!-- HEADER -->
-    <div class="mb-8">
+    @extends('layouts.admin')
 
-        <h1 class="text-4xl font-black leading-tight">
-            Profile Settings
-        </h1>
+    @section('content')
+        <!-- HEADER -->
+        <div class="mb-8">
 
-        <p class="mt-3 text-slate-500 dark:text-slate-400 text-lg">
-            Manage your account settings and security preferences
-        </p>
+            <h1 class="text-4xl lg:text-5xl font-black leading-tight">
+                Profile Settings
+            </h1>
 
-    </div>
+            <p class="mt-3 text-slate-500 dark:text-slate-400 text-lg">
+                Manage your administrator account settings and security
+            </p>
 
-    <!-- PROFILE INFO -->
-    <div
-        class="rounded-[32px]
-        bg-white dark:bg-white/[0.03]
-        border border-slate-200 dark:border-white/10
-        shadow-sm
-        p-6 lg:p-8 mb-8">
+        </div>
 
-        <div class="flex items-center gap-5 mb-8">
+        <!-- PROFILE INFO -->
+        <div
+            class="rounded-[32px]
+            bg-white dark:bg-[#081120]
+            border border-slate-200 dark:border-white/10
+            shadow-sm
+            overflow-hidden
+            mb-8">
 
-            <!-- AVATAR -->
-            <div
-                class="w-20 h-20 rounded-3xl
-                bg-gradient-to-br from-cyan-400 to-blue-600
-                flex items-center justify-center
-                text-white text-3xl font-black
-                shadow-lg shadow-cyan-500/20">
+            <!-- TOP -->
+            <div class="p-6 lg:p-8
+                border-b border-slate-200 dark:border-white/10">
 
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                <div class="flex items-center gap-5">
 
-            </div>
+                    <!-- AVATAR -->
+                    <div
+                        class="w-24 h-24 rounded-[28px]
+                        bg-gradient-to-br from-cyan-400 to-blue-600
+                        flex items-center justify-center
+                        text-white text-4xl font-black
+                        shadow-xl shadow-cyan-500/20">
 
-            <!-- INFO -->
-            <div>
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
 
-                <h2 class="text-2xl font-black">
-                    {{ Auth::user()->name }}
-                </h2>
+                    </div>
 
-                <p class="mt-2 text-slate-500 dark:text-slate-400">
-                    {{ Auth::user()->email }}
-                </p>
+                    <!-- INFO -->
+                    <div>
 
-                <div
-                    class="mt-3 inline-flex items-center
-                    px-4 py-2 rounded-2xl
-                    bg-cyan-500/10
-                    text-cyan-400
-                    text-sm font-bold">
+                        <h2 class="text-3xl font-black">
+                            {{ Auth::user()->name }}
+                        </h2>
 
-                    {{ ucfirst(Auth::user()->role ?? 'Student') }}
+                        <p class="mt-2 text-slate-500 dark:text-slate-400">
+                            {{ Auth::user()->email }}
+                        </p>
+
+                        <div
+                            class="mt-4 inline-flex items-center
+                            px-4 py-2 rounded-2xl
+                            bg-cyan-500/10
+                            text-cyan-400
+                            text-sm font-bold">
+
+                            Administrator
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
+            <!-- FORM -->
+            <div class="p-6 lg:p-8">
+
+                @include('profile.partials.update-profile-information-form')
+
+            </div>
+
         </div>
 
-        @include('profile.partials.update-profile-information-form')
+        <!-- UPDATE PASSWORD -->
+        <div
+            class="rounded-[32px]
+            bg-white dark:bg-[#081120]
+            border border-slate-200 dark:border-white/10
+            shadow-sm
+            p-6 lg:p-8 mb-8">
 
-    </div>
+            @include('profile.partials.update-password-form')
 
-    <!-- UPDATE PASSWORD -->
-    <div
-        class="rounded-[32px]
-        bg-white dark:bg-white/[0.03]
-        border border-slate-200 dark:border-white/10
-        shadow-sm
-        p-6 lg:p-8 mb-8">
+        </div>
 
-        @include('profile.partials.update-password-form')
+        <!-- DELETE ACCOUNT -->
+        <div
+            class="rounded-[32px]
+            bg-white dark:bg-[#081120]
+            border border-red-500/20
+            shadow-sm
+            p-6 lg:p-8">
 
-    </div>
+            @include('profile.partials.delete-user-form')
 
-    <!-- DELETE ACCOUNT -->
-    <div
-        class="rounded-[32px]
-        bg-white dark:bg-white/[0.03]
-        border border-red-500/20
-        shadow-sm
-        p-6 lg:p-8">
+        </div>
+    @endsection
+@else
+    <x-app-layout>
 
-        @include('profile.partials.delete-user-form')
+        <!-- HEADER -->
+        <div class="mb-8">
 
-    </div>
+            <h1 class="text-4xl font-black leading-tight">
+                Profile Settings
+            </h1>
 
-</x-app-layout>
+            <p class="mt-3 text-slate-500 dark:text-slate-400 text-lg">
+                Manage your account settings and security preferences
+            </p>
+
+        </div>
+
+        <!-- PROFILE INFO -->
+        <div
+            class="rounded-[32px]
+            bg-white dark:bg-white/[0.03]
+            border border-slate-200 dark:border-white/10
+            shadow-sm
+            p-6 lg:p-8 mb-8">
+
+            <div class="flex items-center gap-5 mb-8">
+
+                <!-- AVATAR -->
+                <div
+                    class="w-20 h-20 rounded-3xl
+                    bg-gradient-to-br from-cyan-400 to-blue-600
+                    flex items-center justify-center
+                    text-white text-3xl font-black
+                    shadow-lg shadow-cyan-500/20">
+
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
+                </div>
+
+                <!-- INFO -->
+                <div>
+
+                    <h2 class="text-2xl font-black">
+                        {{ Auth::user()->name }}
+                    </h2>
+
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">
+                        {{ Auth::user()->email }}
+                    </p>
+
+                    <div
+                        class="mt-3 inline-flex items-center
+                        px-4 py-2 rounded-2xl
+                        bg-cyan-500/10
+                        text-cyan-400
+                        text-sm font-bold">
+
+                        {{ ucfirst(Auth::user()->role ?? 'Student') }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            @include('profile.partials.update-profile-information-form')
+
+        </div>
+
+        <!-- UPDATE PASSWORD -->
+        <div
+            class="rounded-[32px]
+            bg-white dark:bg-white/[0.03]
+            border border-slate-200 dark:border-white/10
+            shadow-sm
+            p-6 lg:p-8 mb-8">
+
+            @include('profile.partials.update-password-form')
+
+        </div>
+
+        <!-- DELETE ACCOUNT -->
+        <div
+            class="rounded-[32px]
+            bg-white dark:bg-white/[0.03]
+            border border-red-500/20
+            shadow-sm
+            p-6 lg:p-8">
+
+            @include('profile.partials.delete-user-form')
+
+        </div>
+
+    </x-app-layout>
+
+@endif
