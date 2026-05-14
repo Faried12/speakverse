@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
     sidebar: false,
-    darkMode: localStorage.getItem('darkMode') === 'true'
+    darkMode: localStorage.getItem('darkMode') === 'true',
+    profileOpen: false
 }" x-init="$watch('darkMode', value => {
     localStorage.setItem('darkMode', value)
     document.documentElement.classList.toggle('dark', value)
@@ -279,38 +280,129 @@ document.documentElement.classList.toggle('dark', darkMode)"
                     </button>
 
                     <!-- PROFILE -->
-                    <div
-                        class="flex items-center gap-3
-                        px-3 py-2 rounded-2xl
-                        bg-white dark:bg-white/5
-                        border border-slate-200 dark:border-white/10">
+                    <div class="relative">
 
-                        <div class="hidden sm:block text-right">
+                        <!-- BUTTON -->
+                        <button @click="profileOpen = !profileOpen"
+                            class="flex items-center gap-3
+                            px-3 py-2 rounded-2xl
+                            bg-white dark:bg-white/5
+                            border border-slate-200 dark:border-white/10
+                            hover:shadow-lg
+                            transition-all duration-200">
 
-                            <h3 class="font-bold leading-none">
-                                {{ Auth::user()->name }}
-                            </h3>
+                            <div class="hidden sm:block text-right">
 
-                            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                Administrator
-                            </p>
+                                <h3 class="font-bold leading-none">
+                                    {{ Auth::user()->name }}
+                                </h3>
 
-                        </div>
+                                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                                    Administrator
+                                </p>
 
-                        <div
-                            class="w-12 h-12 rounded-2xl
-                            bg-gradient-to-br from-cyan-400 to-blue-600
-                            flex items-center justify-center
-                            text-white font-bold
-                            shadow-lg shadow-cyan-500/20">
+                            </div>
 
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            <div
+                                class="w-12 h-12 rounded-2xl
+                                bg-gradient-to-br from-cyan-400 to-blue-600
+                                flex items-center justify-center
+                                text-white font-bold
+                                shadow-lg shadow-cyan-500/20">
+
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
+                            </div>
+
+                        </button>
+
+                        <!-- DROPDOWN -->
+                        <div x-show="profileOpen" @click.away="profileOpen = false" x-transition
+                            class="absolute right-0 top-20
+    w-[320px]
+    rounded-[32px]
+    overflow-hidden
+    bg-white dark:bg-[#081120]
+    border border-slate-200 dark:border-white/10
+    shadow-2xl z-50">
+
+                            <!-- TOP -->
+                            <div class="p-6 flex items-center gap-4">
+
+                                <div
+                                    class="w-20 h-20 rounded-3xl
+            bg-gradient-to-br from-cyan-400 to-blue-600
+            flex items-center justify-center
+            text-white text-3xl font-black
+            shadow-lg shadow-cyan-500/20">
+
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
+                                </div>
+
+                                <div>
+
+                                    <h3 class="text-2xl font-black">
+                                        {{ Auth::user()->name }}
+                                    </h3>
+
+                                    <p class="text-slate-500 dark:text-slate-400 mt-1">
+                                        {{ Auth::user()->email }}
+                                    </p>
+
+                                    <div
+                                        class="mt-3 inline-flex items-center
+                px-3 py-1 rounded-full
+                bg-cyan-500/10
+                text-cyan-400
+                text-xs font-bold">
+
+                                        Administrator
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- MENU -->
+                            <div class="border-t border-slate-200 dark:border-white/10 p-4">
+
+                                <!-- PROFILE SETTINGS -->
+                                <a href="{{ route('profile.edit') }}"
+                                    class="flex items-center gap-4
+            px-4 py-4 rounded-2xl
+            hover:bg-slate-100 dark:hover:bg-white/5
+            transition-all duration-200">
+
+                                    <div
+                                        class="w-12 h-12 rounded-2xl
+                bg-slate-100 dark:bg-white/5
+                flex items-center justify-center">
+
+                                        ⚙️
+
+                                    </div>
+
+                                    <div>
+
+                                        <h4 class="font-bold">
+                                            Profile Settings
+                                        </h4>
+
+                                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                                            Manage your account settings
+                                        </p>
+
+                                    </div>
+
+                                </a>
+
+                            </div>
 
                         </div>
 
                     </div>
-
-                </div>
 
             </header>
 
