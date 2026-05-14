@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ sidebar: true }">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
+    sidebar: false,
+    darkMode: localStorage.getItem('darkMode') === 'true'
+}" x-init="$watch('darkMode', value => {
+    localStorage.setItem('darkMode', value)
+    document.documentElement.classList.toggle('dark', value)
+});
+
+document.documentElement.classList.toggle('dark', darkMode)"
+    :class="{ 'dark': darkMode }">
 
 <head>
 
@@ -22,94 +31,186 @@
 
 </head>
 
-<body class="font-[Outfit] bg-slate-100 text-slate-900 overflow-x-hidden">
+<body
+    class="font-[Outfit]
+    bg-slate-100
+    dark:bg-[#050816]
+    text-slate-900
+    dark:text-white
+    overflow-x-hidden
+    transition-colors duration-300">
 
-    <div class="min-h-screen flex">
+    <!-- BACKGROUND -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+
+        <div
+            class="absolute top-[-200px] left-[-200px]
+            w-[420px] h-[420px]
+            bg-cyan-500/10 rounded-full blur-3xl">
+        </div>
+
+        <div
+            class="absolute bottom-[-200px] right-[-200px]
+            w-[420px] h-[420px]
+            bg-purple-500/10 rounded-full blur-3xl">
+        </div>
+
+    </div>
+
+    <!-- APP -->
+    <div class="relative z-10 flex min-h-screen">
+
+        <!-- OVERLAY -->
+        <div x-show="sidebar" x-transition.opacity @click="sidebar = false"
+            class="fixed inset-0 bg-black/50 z-40 lg:hidden">
+        </div>
 
         <!-- SIDEBAR -->
-        <aside class="w-[280px] bg-[#0f172a] text-white flex flex-col border-r border-white/10">
+        <aside
+            class="fixed lg:sticky top-0 left-0 z-50
+            w-[280px] h-screen shrink-0
+            flex flex-col
+            bg-white/95 dark:bg-[#081120]/95
+            backdrop-blur-xl
+            border-r border-slate-200 dark:border-white/10
+            transition-transform duration-300
+            shadow-2xl lg:shadow-none"
+            :class="sidebar ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
 
             <!-- LOGO -->
-            <div class="h-20 px-6 flex items-center border-b border-white/10">
+            <div
+                class="h-20 px-6
+                flex items-center justify-between
+                border-b border-slate-200 dark:border-white/10">
 
-                <div
-                    class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center font-bold text-xl">
+                <div class="flex items-center gap-4">
 
-                    S
+                    <div
+                        class="w-12 h-12 rounded-2xl
+                        bg-gradient-to-br from-cyan-400 to-blue-600
+                        flex items-center justify-center
+                        text-white text-xl font-black
+                        shadow-lg shadow-cyan-500/20">
+
+                        S
+
+                    </div>
+
+                    <div>
+
+                        <h1 class="text-xl font-black">
+                            SpeakVerse
+                        </h1>
+
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Admin Panel
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <div class="ml-4">
+                <!-- CLOSE -->
+                <button @click="sidebar = false"
+                    class="lg:hidden w-10 h-10 rounded-xl
+                    bg-slate-100 dark:bg-white/10">
 
-                    <h1 class="text-xl font-bold">
-                        SpeakVerse
-                    </h1>
+                    ✕
 
-                    <p class="text-xs text-slate-400">
-                        Admin Panel
-                    </p>
-
-                </div>
+                </button>
 
             </div>
 
             <!-- MENU -->
-            <nav class="flex-1 p-5 space-y-2">
+            <div class="flex-1 overflow-y-auto p-5">
 
-                <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-cyan-500/10 text-cyan-400 font-semibold">
+                <nav class="space-y-2">
 
-                    <span>📊</span>
-                    <span>Dashboard</span>
+                    <!-- DASHBOARD -->
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
+                        {{ request()->routeIs('admin.dashboard')
+                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
+                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
 
-                </a>
+                        <span class="text-xl">📊</span>
 
-                <a href="{{ route('admin.users') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
-                    {{ request()->routeIs('admin.users') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
+                        <span>Dashboard</span>
 
-                    <span>👥</span>
-                    <span>Users</span>
+                    </a>
 
-                </a>
+                    <!-- USERS -->
+                    <a href="{{ route('admin.users') }}"
+                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
+                        {{ request()->routeIs('admin.users')
+                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
+                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
 
-                <a href="{{ route('admin.missions') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
-                    {{ request()->routeIs('admin.missions') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
+                        <span class="text-xl">👥</span>
 
-                    <span>🎯</span>
-                    <span>Missions</span>
+                        <span>Users</span>
 
-                </a>
+                    </a>
 
-                <a href="{{ route('admin.practices') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
-                    {{ request()->routeIs('admin.practices') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
+                    <!-- MISSIONS -->
+                    <a href="{{ route('admin.missions') }}"
+                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
+                        {{ request()->routeIs('admin.missions')
+                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
+                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
 
-                    <span>🎤</span>
-                    <span>Practice</span>
+                        <span class="text-xl">🎯</span>
 
-                </a>
+                        <span>Missions</span>
 
-                <a href="{{ route('admin.analytics') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
-                    {{ request()->routeIs('admin.analytics') ? 'bg-cyan-500/10 text-cyan-400 font-semibold' : 'hover:bg-white/5' }}">
+                    </a>
 
-                    <span>📈</span>
-                    <span>Analytics</span>
+                    <!-- PRACTICE -->
+                    <a href="{{ route('admin.practices') }}"
+                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
+                        {{ request()->routeIs('admin.practices')
+                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
+                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
 
-                </a>
+                        <span class="text-xl">🎤</span>
 
-            </nav>
+                        <span>Practice</span>
+
+                    </a>
+
+                    <!-- ANALYTICS -->
+                    <a href="{{ route('admin.analytics') }}"
+                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
+                        {{ request()->routeIs('admin.analytics')
+                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
+                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
+
+                        <span class="text-xl">📈</span>
+
+                        <span>Analytics</span>
+
+                    </a>
+
+                </nav>
+
+            </div>
 
             <!-- FOOTER -->
-            <div class="p-5 border-t border-white/10">
+            <div
+                class="p-5
+                border-t border-slate-200 dark:border-white/10
+                bg-white/80 dark:bg-[#081120]/80">
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <button
-                        class="w-full px-4 py-3 rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition">
+                        class="w-full py-3 rounded-2xl
+                        bg-red-500/10
+                        text-red-400
+                        hover:bg-red-500/20
+                        transition-all duration-200
+                        font-semibold">
 
                         Logout
 
@@ -121,42 +222,91 @@
 
         </aside>
 
-        <!-- CONTENT -->
-        <div class="flex-1 flex flex-col">
+        <!-- MAIN -->
+        <div class="flex-1 min-w-0 flex flex-col">
 
             <!-- TOPBAR -->
-            <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between">
+            <header
+                class="sticky top-0 z-30
+                h-20
+                px-5 lg:px-8
+                flex items-center justify-between
+                bg-white/80 dark:bg-[#050816]/80
+                backdrop-blur-xl
+                border-b border-slate-200 dark:border-white/10">
 
-                <div>
-
-                    <h2 class="text-2xl font-black">
-                        Admin Dashboard
-                    </h2>
-
-                    <p class="text-sm text-slate-500">
-                        Manage SpeakVerse Platform
-                    </p>
-
-                </div>
-
+                <!-- LEFT -->
                 <div class="flex items-center gap-4">
 
-                    <div class="text-right">
+                    <!-- MOBILE BUTTON -->
+                    <button @click="sidebar = true"
+                        class="lg:hidden
+                        w-12 h-12 rounded-2xl
+                        bg-white dark:bg-white/5
+                        border border-slate-200 dark:border-white/10">
 
-                        <h3 class="font-bold">
-                            {{ Auth::user()->name }}
-                        </h3>
+                        ☰
 
-                        <p class="text-sm text-slate-500">
-                            Administrator
+                    </button>
+
+                    <div>
+
+                        <h2 class="text-2xl lg:text-4xl font-black leading-none">
+                            Admin Dashboard
+                        </h2>
+
+                        <p class="hidden sm:block mt-2 text-sm text-slate-500 dark:text-slate-400">
+                            Manage SpeakVerse Platform
                         </p>
 
                     </div>
 
-                    <div
-                        class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-bold">
+                </div>
 
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                <!-- RIGHT -->
+                <div class="flex items-center gap-3">
+
+                    <!-- DARK MODE -->
+                    <button @click="darkMode = !darkMode"
+                        class="w-12 h-12 rounded-2xl
+                        border border-slate-200 dark:border-white/10
+                        bg-white dark:bg-white/5
+                        hover:scale-105 transition-all duration-200">
+
+                        <span x-show="darkMode">☀️</span>
+                        <span x-show="!darkMode">🌙</span>
+
+                    </button>
+
+                    <!-- PROFILE -->
+                    <div
+                        class="flex items-center gap-3
+                        px-3 py-2 rounded-2xl
+                        bg-white dark:bg-white/5
+                        border border-slate-200 dark:border-white/10">
+
+                        <div class="hidden sm:block text-right">
+
+                            <h3 class="font-bold leading-none">
+                                {{ Auth::user()->name }}
+                            </h3>
+
+                            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                                Administrator
+                            </p>
+
+                        </div>
+
+                        <div
+                            class="w-12 h-12 rounded-2xl
+                            bg-gradient-to-br from-cyan-400 to-blue-600
+                            flex items-center justify-center
+                            text-white font-bold
+                            shadow-lg shadow-cyan-500/20">
+
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+
+                        </div>
 
                     </div>
 
@@ -164,8 +314,8 @@
 
             </header>
 
-            <!-- PAGE -->
-            <main class="flex-1 p-8">
+            <!-- CONTENT -->
+            <main class="flex-1 p-5 lg:p-8">
 
                 @yield('content')
 
