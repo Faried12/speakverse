@@ -236,17 +236,12 @@
                     </div>
 
                     <!-- BUTTON -->
-                    <button
-                        class="mt-8 w-full py-4 rounded-2xl
-                        bg-gradient-to-r from-cyan-500 to-blue-600
-                        text-white font-semibold
-                        hover:scale-[1.01]
-                        transition-all duration-300
-                        shadow-lg shadow-cyan-500/20">
-
+                    <a href="{{ route('speaking.quest') }}"
+                    class="mt-8 block w-full py-4 rounded-2xl
+                    bg-gradient-to-r from-cyan-500 to-blue-600
+                    text-white font-semibold text-center">
                         Continue Mission
-
-                    </button>
+                    </a>
 
                 </div>
 
@@ -270,7 +265,7 @@
                                 flex items-center justify-center
                                 text-3xl">
 
-                                🧠
+                                📖
 
                             </div>
 
@@ -286,13 +281,13 @@
                                 </div>
 
                                 <h3 class="text-2xl font-black">
-                                    AI Pronunciation Test
+                                    Reading Challenge
                                 </h3>
 
                                 <p class="mt-3 text-slate-500 dark:text-slate-400 leading-relaxed">
 
-                                    Speak several English sentences and
-                                    receive AI-generated pronunciation feedback.
+                                    Read passages, answer comprehension questions,
+                                    and improve your reading understanding skills.
 
                                 </p>
 
@@ -305,13 +300,12 @@
                             bg-purple-500/10 text-purple-400
                             text-sm font-bold whitespace-nowrap">
 
-                            +200 XP
+                            +150 XP
 
                         </div>
 
                     </div>
 
-                    <!-- PROGRESS -->
                     <div class="mt-8">
 
                         <div class="flex justify-between text-sm mb-2">
@@ -321,7 +315,7 @@
                             </span>
 
                             <span class="font-semibold">
-                                15%
+                                0%
                             </span>
 
                         </div>
@@ -331,7 +325,7 @@
                             bg-slate-200 dark:bg-white/10 overflow-hidden">
 
                             <div
-                                class="w-[15%] h-full rounded-full
+                                class="w-[0%] h-full rounded-full
                                 bg-gradient-to-r from-purple-400 to-pink-500">
                             </div>
 
@@ -339,7 +333,6 @@
 
                     </div>
 
-                    <!-- BUTTON -->
                     <button
                         class="mt-8 w-full py-4 rounded-2xl
                         border border-slate-300 dark:border-white/10
@@ -348,7 +341,109 @@
                         hover:bg-slate-100 dark:hover:bg-white/10
                         transition-all duration-300">
 
-                        Start Mission
+                        Start Challenge
+
+                    </button>
+
+                </div>
+
+                <!-- CARD VOCABULARY -->
+                <div
+                    class="group rounded-[32px]
+                    border border-slate-200 dark:border-white/10
+                    bg-white/70 dark:bg-white/5
+                    backdrop-blur-xl
+                    p-7
+                    hover:scale-[1.01]
+                    transition-all duration-300">
+
+                    <div class="flex items-start justify-between gap-5">
+
+                        <div class="flex gap-5">
+
+                            <div
+                                class="w-16 h-16 rounded-3xl
+                                bg-emerald-500/10
+                                flex items-center justify-center
+                                text-3xl">
+
+                                📚
+
+                            </div>
+
+                            <div>
+
+                                <div
+                                    class="inline-flex px-3 py-1 rounded-full
+                                    bg-emerald-500/10 text-emerald-400
+                                    text-xs font-semibold mb-4">
+
+                                    NEW
+
+                                </div>
+
+                                <h3 class="text-2xl font-black">
+                                    Vocabulary Challenge
+                                </h3>
+
+                                <p class="mt-3 text-slate-500 dark:text-slate-400 leading-relaxed">
+
+                                    Learn new words, understand meanings,
+                                    and strengthen your English vocabulary mastery.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="px-4 py-2 rounded-2xl
+                            bg-emerald-500/10 text-emerald-400
+                            text-sm font-bold whitespace-nowrap">
+
+                            +100 XP
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-8">
+
+                        <div class="flex justify-between text-sm mb-2">
+
+                            <span class="text-slate-500 dark:text-slate-400">
+                                Progress
+                            </span>
+
+                            <span class="font-semibold">
+                                0%
+                            </span>
+
+                        </div>
+
+                        <div
+                            class="w-full h-3 rounded-full
+                            bg-slate-200 dark:bg-white/10 overflow-hidden">
+
+                            <div
+                                class="w-[0%] h-full rounded-full
+                                bg-gradient-to-r from-emerald-400 to-green-500">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="mt-8 w-full py-4 rounded-2xl
+                        border border-slate-300 dark:border-white/10
+                        bg-white dark:bg-white/5
+                        font-semibold
+                        hover:bg-slate-100 dark:hover:bg-white/10
+                        transition-all duration-300">
+
+                        Start Learning
 
                     </button>
 
