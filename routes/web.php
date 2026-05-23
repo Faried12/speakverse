@@ -168,6 +168,12 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         })->name('admin.missions');
 
+        Route::get('/missions/edit', function () {
+
+            return view('admin.missions.edit');
+
+        })->name('admin.missions.edit');
+
         /*
         |--------------------------------------------------------------------------
         | Admin Practice
