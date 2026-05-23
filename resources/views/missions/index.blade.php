@@ -146,7 +146,7 @@
 
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
 
-                <!-- CARD -->
+                <!-- SPEAKING -->
                 <div
                     class="group rounded-[32px]
                     border border-slate-200 dark:border-white/10
@@ -237,15 +237,17 @@
 
                     <!-- BUTTON -->
                     <a href="{{ route('speaking.quest') }}"
-                    class="mt-8 block w-full py-4 rounded-2xl
-                    bg-gradient-to-r from-cyan-500 to-blue-600
-                    text-white font-semibold text-center">
+                        class="mt-8 block w-full py-4 rounded-2xl
+                        bg-gradient-to-r from-cyan-500 to-blue-600
+                        text-white font-semibold text-center">
+
                         Continue Mission
+
                     </a>
 
                 </div>
 
-                <!-- CARD -->
+                <!-- READING -->
                 <div
                     class="group rounded-[32px]
                     border border-slate-200 dark:border-white/10
@@ -306,6 +308,7 @@
 
                     </div>
 
+                    <!-- PROGRESS -->
                     <div class="mt-8">
 
                         <div class="flex justify-between text-sm mb-2">
@@ -333,21 +336,22 @@
 
                     </div>
 
-                    <button
-                        class="mt-8 w-full py-4 rounded-2xl
+                    <!-- BUTTON -->
+                    <a href="{{ route('reading.quest') }}"
+                        class="mt-8 block w-full py-4 rounded-2xl
                         border border-slate-300 dark:border-white/10
                         bg-white dark:bg-white/5
-                        font-semibold
+                        font-semibold text-center
                         hover:bg-slate-100 dark:hover:bg-white/10
                         transition-all duration-300">
 
                         Start Challenge
 
-                    </button>
+                    </a>
 
                 </div>
 
-                <!-- CARD VOCABULARY -->
+                <!-- VOCABULARY -->
                 <div
                     class="group rounded-[32px]
                     border border-slate-200 dark:border-white/10
@@ -408,6 +412,7 @@
 
                     </div>
 
+                    <!-- PROGRESS -->
                     <div class="mt-8">
 
                         <div class="flex justify-between text-sm mb-2">
@@ -435,17 +440,18 @@
 
                     </div>
 
-                    <button
-                        class="mt-8 w-full py-4 rounded-2xl
+                    <!-- BUTTON -->
+                    <a href="{{ route('vocabulary.quest') }}"
+                        class="mt-8 block w-full py-4 rounded-2xl
                         border border-slate-300 dark:border-white/10
                         bg-white dark:bg-white/5
-                        font-semibold
+                        font-semibold text-center
                         hover:bg-slate-100 dark:hover:bg-white/10
                         transition-all duration-300">
 
                         Start Learning
 
-                    </button>
+                    </a>
 
                 </div>
 

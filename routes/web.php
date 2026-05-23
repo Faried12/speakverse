@@ -70,7 +70,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Reading Quest
+    | Quest Pages
     |--------------------------------------------------------------------------
     */
 
@@ -79,6 +79,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('speaking.quest');
 
     })->name('speaking.quest');
+
+    Route::get('/reading-quest', function () {
+
+        return view('reading.quest');
+
+    })->name('reading.quest');
+
+    Route::get('/vocabulary-quest', function () {
+
+        return view('vocabulary.quest');
+
+    })->name('vocabulary.quest');
 
     /*
     |--------------------------------------------------------------------------
