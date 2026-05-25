@@ -79,6 +79,35 @@
 
         <!-- CONTENT -->
         <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div
+                class="rounded-[28px]
+                border border-blue-500/30
+                bg-white/70 dark:bg-white/5
+                backdrop-blur-xl p-6">
+
+                <div class="text-4xl mb-5">
+                    📖
+                </div>
+
+                <h3 class="text-2xl font-bold">
+                    Pre Test
+                </h3>
+
+                <p class="mt-2 text-slate-500">
+                    Test your vocabulary knowledge before starting the learning journey.
+                </p>
+
+                <a href="{{ route('vocabulary.pretest') }}"
+                    class="mt-6 w-full py-3 rounded-2xl
+                    bg-gradient-to-r from-blue-500 to-cyan-500
+                    text-white font-semibold
+                    flex items-center justify-center">
+
+                    Start Pre Test
+
+                </a>
+
+            </div>
 
             <div
                 class="rounded-[28px]

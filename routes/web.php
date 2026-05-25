@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VocabularyPretestController;
+use App\Http\Controllers\AdminVocabularyPretestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +109,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Vocabullary Pretest
+    |--------------------------------------------------------------------------
+    */
+    Route::get(
+        '/vocabulary/pretest',
+        [VocabularyPretestController::class,'index']
+    )->name('vocabulary.pretest');
+
+    Route::post(
+        '/vocabulary/pretest/submit',
+        [VocabularyPretestController::class,'submit']
+    )->name('vocabulary.pretest.submit');
+
+
 });
 
 /*
@@ -173,6 +191,25 @@ Route::middleware(['auth', 'verified', 'admin'])
             return view('admin.missions.edit');
 
         })->name('admin.missions.edit');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Pretests
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/pretests', function () {
+            return view('admin.pretests.index');
+        })->name('admin.pretests');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Mission-Vocabulary
+        |--------------------------------------------------------------------------
+        */
+        Route::resource(
+            'vocabulary-pretests',
+            AdminVocabularyPretestController::class
+        )->names('admin.vocabulary-pretests');
 
         /*
         |--------------------------------------------------------------------------
