@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VocabularyPretestController;
 use App\Http\Controllers\AdminVocabularyPretestController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,11 +144,10 @@ Route::middleware(['auth', 'verified', 'admin'])
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/dashboard', function () {
-
-            return view('admin.dashboard');
-
-        })->name('admin.dashboard');
+        Route::get(
+            '/dashboard',
+            [DashboardController::class, 'index']
+        )->name('admin.dashboard');
 
         /*
         |--------------------------------------------------------------------------

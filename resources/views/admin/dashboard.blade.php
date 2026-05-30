@@ -4,11 +4,11 @@
     <!-- STATS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
-        <!-- CARD -->
+        <!-- TOTAL USERS -->
         <div
             class="rounded-3xl border border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/[0.03]
-            p-6 shadow-sm">
+        bg-white dark:bg-white/[0.03]
+        p-6 shadow-sm">
 
             <div class="flex items-center justify-between">
 
@@ -19,15 +19,15 @@
                     </p>
 
                     <h2 class="text-4xl font-black mt-3">
-                        120
+                        {{ $totalUsers }}
                     </h2>
 
                 </div>
 
                 <div
                     class="w-16 h-16 rounded-2xl
-                    bg-cyan-500/10 text-cyan-400
-                    flex items-center justify-center text-3xl">
+                bg-cyan-500/10 text-cyan-400
+                flex items-center justify-center text-3xl">
 
                     👥
 
@@ -37,30 +37,63 @@
 
         </div>
 
-        <!-- CARD -->
+        <!-- TOTAL QUESTIONS -->
         <div
             class="rounded-3xl border border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/[0.03]
-            p-6 shadow-sm">
+        bg-white dark:bg-white/[0.03]
+        p-6 shadow-sm">
 
             <div class="flex items-center justify-between">
 
                 <div>
 
                     <p class="text-sm text-slate-500 dark:text-slate-400">
-                        Total Missions
+                        Total Questions
                     </p>
 
                     <h2 class="text-4xl font-black mt-3">
-                        32
+                        {{ $totalQuestions }}
                     </h2>
 
                 </div>
 
                 <div
                     class="w-16 h-16 rounded-2xl
-                    bg-pink-500/10 text-pink-400
-                    flex items-center justify-center text-3xl">
+                bg-pink-500/10 text-pink-400
+                flex items-center justify-center text-3xl">
+
+                    📚
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- TOTAL ATTEMPTS -->
+        <div
+            class="rounded-3xl border border-slate-200 dark:border-white/10
+        bg-white dark:bg-white/[0.03]
+        p-6 shadow-sm">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                        Total Attempts
+                    </p>
+
+                    <h2 class="text-4xl font-black mt-3">
+                        {{ $totalAttempts }}
+                    </h2>
+
+                </div>
+
+                <div
+                    class="w-16 h-16 rounded-2xl
+                bg-purple-500/10 text-purple-400
+                flex items-center justify-center text-3xl">
 
                     🎯
 
@@ -70,65 +103,32 @@
 
         </div>
 
-        <!-- CARD -->
+        <!-- AVERAGE SCORE -->
         <div
             class="rounded-3xl border border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/[0.03]
-            p-6 shadow-sm">
+        bg-white dark:bg-white/[0.03]
+        p-6 shadow-sm">
 
             <div class="flex items-center justify-between">
 
                 <div>
 
                     <p class="text-sm text-slate-500 dark:text-slate-400">
-                        Practice Sessions
-                    </p>
-
-                    <h2 class="text-4xl font-black mt-3">
-                        890
-                    </h2>
-
-                </div>
-
-                <div
-                    class="w-16 h-16 rounded-2xl
-                    bg-purple-500/10 text-purple-400
-                    flex items-center justify-center text-3xl">
-
-                    🎤
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- CARD -->
-        <div
-            class="rounded-3xl border border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/[0.03]
-            p-6 shadow-sm">
-
-            <div class="flex items-center justify-between">
-
-                <div>
-
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
-                        Active Users
+                        Average Score
                     </p>
 
                     <h2 class="text-4xl font-black mt-3 text-green-400">
-                        87
+                        {{ $averageScore }}
                     </h2>
 
                 </div>
 
                 <div
                     class="w-16 h-16 rounded-2xl
-                    bg-green-500/10 text-green-400
-                    flex items-center justify-center text-3xl">
+                bg-green-500/10 text-green-400
+                flex items-center justify-center text-3xl">
 
-                    ⚡
+                    ⭐
 
                 </div>
 
@@ -144,9 +144,9 @@
         <!-- RECENT USERS -->
         <div
             class="xl:col-span-2
-            rounded-3xl border border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/[0.03]
-            p-6 shadow-sm">
+        rounded-3xl border border-slate-200 dark:border-white/10
+        bg-white dark:bg-white/[0.03]
+        p-6 shadow-sm">
 
             <div class="flex items-center justify-between mb-6">
 
@@ -162,44 +162,37 @@
 
                 </div>
 
-                <button class="px-5 py-2 rounded-2xl
-                    bg-cyan-500/10 text-cyan-400 font-semibold">
-
-                    View All
-
-                </button>
-
             </div>
 
             <div class="space-y-4">
 
-                @for ($i = 1; $i <= 5; $i++)
+                @forelse($recentUsers as $user)
                     <div
                         class="flex items-center justify-between
-                        p-4 rounded-2xl
-                        bg-slate-50 dark:bg-white/[0.03]
-                        border border-slate-200 dark:border-white/5">
+                    p-4 rounded-2xl
+                    bg-slate-50 dark:bg-white/[0.03]
+                    border border-slate-200 dark:border-white/5">
 
                         <div class="flex items-center gap-4">
 
                             <div
                                 class="w-12 h-12 rounded-2xl
-                                bg-gradient-to-br from-cyan-400 to-blue-600
-                                flex items-center justify-center
-                                text-white font-bold">
+                            bg-gradient-to-br from-cyan-400 to-blue-600
+                            flex items-center justify-center
+                            text-white font-bold">
 
-                                U
+                                {{ strtoupper(substr($user->name, 0, 1)) }}
 
                             </div>
 
                             <div>
 
                                 <h4 class="font-bold">
-                                    User {{ $i }}
+                                    {{ $user->name }}
                                 </h4>
 
                                 <p class="text-sm text-slate-500 dark:text-slate-400">
-                                    user{{ $i }}@gmail.com
+                                    {{ $user->email }}
                                 </p>
 
                             </div>
@@ -208,15 +201,26 @@
 
                         <span
                             class="px-4 py-2 rounded-xl
-                            bg-green-500/10 text-green-400
-                            text-sm font-semibold">
+                        bg-green-500/10 text-green-400
+                        text-sm font-semibold">
 
-                            Active
+                            {{ ucfirst($user->role) }}
 
                         </span>
 
                     </div>
-                @endfor
+
+                @empty
+
+                    <div class="p-8 text-center rounded-2xl
+                    border border-dashed border-slate-300">
+
+                        <p class="text-slate-500">
+                            No users found
+                        </p>
+
+                    </div>
+                @endforelse
 
             </div>
 
@@ -225,11 +229,11 @@
         <!-- ACTIVITY -->
         <div
             class="rounded-3xl border border-slate-200 dark:border-white/10
-            bg-white dark:bg-white/[0.03]
-            p-6 shadow-sm">
+        bg-white dark:bg-white/[0.03]
+        p-6 shadow-sm">
 
             <h3 class="text-xl font-black mb-6">
-                Activity
+                System Information
             </h3>
 
             <div class="space-y-5">
@@ -241,11 +245,11 @@
                     <div>
 
                         <h4 class="font-semibold">
-                            New user registered
+                            Registered Users
                         </h4>
 
                         <p class="text-sm text-slate-500 dark:text-slate-400">
-                            5 minutes ago
+                            {{ $totalUsers }} users in database
                         </p>
 
                     </div>
@@ -259,11 +263,11 @@
                     <div>
 
                         <h4 class="font-semibold">
-                            New mission created
+                            Vocabulary Questions
                         </h4>
 
                         <p class="text-sm text-slate-500 dark:text-slate-400">
-                            20 minutes ago
+                            {{ $totalQuestions }} questions available
                         </p>
 
                     </div>
@@ -277,11 +281,11 @@
                     <div>
 
                         <h4 class="font-semibold">
-                            Practice completed
+                            Pretest Attempts
                         </h4>
 
                         <p class="text-sm text-slate-500 dark:text-slate-400">
-                            1 hour ago
+                            {{ $totalAttempts }} attempts recorded
                         </p>
 
                     </div>
@@ -293,4 +297,5 @@
         </div>
 
     </div>
+    ```
 @endsection
