@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VocabularyPretestController;
 use App\Http\Controllers\AdminVocabularyPretestController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,17 +181,30 @@ Route::middleware(['auth', 'verified', 'admin'])
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/missions', function () {
+        Route::get(
+            '/missions',
+            [MissionController::class, 'index']
+        )->name('admin.missions');
 
-            return view('admin.missions.mission');
+        Route::post(
+            '/missions',
+            [MissionController::class, 'store']
+        )->name('admin.missions.store');
 
-        })->name('admin.missions');
+        Route::get(
+            '/missions/{id}/edit',
+            [MissionController::class, 'edit']
+        )->name('admin.missions.edit');
 
-        Route::get('/missions/edit', function () {
+        Route::put(
+            '/missions/{id}',
+            [MissionController::class, 'update']
+        )->name('admin.missions.update');
 
-            return view('admin.missions.edit');
-
-        })->name('admin.missions.edit');
+        Route::delete(
+            '/missions/{id}',
+            [MissionController::class, 'destroy']
+        )->name('admin.missions.destroy');
 
         /*
         |--------------------------------------------------------------------------

@@ -41,7 +41,7 @@
         </div>
 
         <!-- FORM -->
-        <form action="" method="POST">
+        <form action="{{ route('admin.missions.store') }}" method="POST">
 
             @csrf
 
@@ -60,7 +60,7 @@
 
                     </label>
 
-                    <input type="text" placeholder="Enter mission title"
+                    <input type="text" name="title" value="{{ old('title') }}" placeholder="Enter mission title"
                         class="w-full
                         px-5 py-4 rounded-2xl
                         bg-slate-50 dark:bg-white/[0.03]
@@ -83,7 +83,7 @@
 
                     </label>
 
-                    <select
+                    <select name="category"
                         class="w-full
                         px-5 py-4 rounded-2xl
                         bg-slate-50 dark:bg-white/[0.03]
@@ -92,9 +92,9 @@
                         focus:ring-2 focus:ring-cyan-500
                         transition-all duration-200">
 
-                        <option>Speaking</option>
-                        <option>Reading</option>
-                        <option>Vocabulary</option>
+                        <option value="speaking">Speaking</option>
+                        <option value="reading">Reading</option>
+                        <option value="vocabulary">Vocabulary</option>
 
                     </select>
 
@@ -112,7 +112,7 @@
 
                     </label>
 
-                    <select
+                    <select name="difficulty"
                         class="w-full
                         px-5 py-4 rounded-2xl
                         bg-slate-50 dark:bg-white/[0.03]
@@ -121,9 +121,9 @@
                         focus:ring-2 focus:ring-cyan-500
                         transition-all duration-200">
 
-                        <option>Easy</option>
-                        <option>Medium</option>
-                        <option>Hard</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
 
                     </select>
 
@@ -141,7 +141,7 @@
 
                     </label>
 
-                    <input type="number" placeholder="Enter reward XP"
+                    <input type="number" name="reward_xp" value="{{ old('reward_xp') }}" placeholder="Enter reward XP"
                         class="w-full
                         px-5 py-4 rounded-2xl
                         bg-slate-50 dark:bg-white/[0.03]
@@ -164,7 +164,7 @@
 
                     </label>
 
-                    <input type="date"
+                    <input type="date" name="deadline" value="{{ old('deadline') }}"
                         class="w-full
                         px-5 py-4 rounded-2xl
                         bg-slate-50 dark:bg-white/[0.03]
@@ -187,7 +187,7 @@
 
                     </label>
 
-                    <select
+                    <select name="status"
                         class="w-full
                         px-5 py-4 rounded-2xl
                         bg-slate-50 dark:bg-white/[0.03]
@@ -196,8 +196,8 @@
                         focus:ring-2 focus:ring-cyan-500
                         transition-all duration-200">
 
-                        <option>Active</option>
-                        <option>Draft</option>
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
 
                     </select>
 
@@ -217,14 +217,14 @@
 
                 </label>
 
-                <textarea rows="5" placeholder="Enter mission description"
+                <textarea name="description" rows="5" placeholder="Enter mission description"
                     class="w-full
                     px-5 py-4 rounded-2xl
                     bg-slate-50 dark:bg-white/[0.03]
                     border border-slate-200 dark:border-white/10
                     focus:outline-none
                     focus:ring-2 focus:ring-cyan-500
-                    transition-all duration-200"></textarea>
+                    transition-all duration-200">{{ old('description') }}</textarea>
 
             </div>
 
@@ -462,307 +462,103 @@
 
                 <tbody>
 
-                    <!-- SPEAKING -->
-                    <tr
-                        class="border-b border-slate-100 dark:border-white/5
-                        hover:bg-slate-50 dark:hover:bg-white/[0.02]
-                        transition-all duration-200">
+                    @forelse($missions as $mission)
+                        <tr class="border-b border-slate-100 dark:border-white/5">
 
-                        <td class="px-8 py-6">
-
-                            <div class="flex items-center gap-5">
-
-                                <div
-                                    class="w-16 h-16 rounded-3xl
-                                    bg-cyan-500/10
-                                    flex items-center justify-center
-                                    text-3xl shrink-0">
-
-                                    🎤
-
-                                </div>
+                            <td class="px-8 py-6">
 
                                 <div>
 
-                                    <h3 class="font-black text-lg leading-tight">
-                                        Speaking Challenge
+                                    <h3 class="font-black text-lg">
+                                        {{ $mission->title }}
                                     </h3>
 
-                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                        Practice speaking for 10 minutes.
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                                        {{ $mission->description }}
                                     </p>
 
                                 </div>
 
-                            </div>
+                            </td>
 
-                        </td>
+                            <td class="px-8 py-6">
+                                {{ ucfirst($mission->category) }}
+                            </td>
 
-                        <td class="px-8 py-6 font-medium">
-                            Speaking
-                        </td>
+                            <td class="px-8 py-6">
+                                {{ ucfirst($mission->difficulty) }}
+                            </td>
 
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-4 py-2 rounded-xl
-                                bg-yellow-500/10
-                                text-yellow-400
-                                text-sm font-bold">
+                            <td class="px-8 py-6 font-semibold">
+                                {{ $mission->reward_xp }} XP
+                            </td>
 
-                                Medium
+                            <td class="px-8 py-6">
 
-                            </span>
-                        </td>
+                                @if ($mission->status == 'active')
+                                    <span class="px-4 py-2 rounded-xl bg-green-500/10 text-green-400 text-sm font-bold">
+                                        Active
+                                    </span>
+                                @else
+                                    <span class="px-4 py-2 rounded-xl bg-yellow-500/10 text-yellow-400 text-sm font-bold">
+                                        Draft
+                                    </span>
+                                @endif
 
-                        <td class="px-8 py-6 font-semibold">
-                            120 XP
-                        </td>
+                            </td>
 
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-4 py-2 rounded-xl
-                                bg-green-500/10
-                                text-green-400
-                                text-sm font-bold">
+                            <td class="px-8 py-6">
 
-                                Active
+                                <div class="flex items-center justify-end gap-3">
 
-                            </span>
-                        </td>
+                                    <a href="{{ route('admin.missions.edit', $mission->id) }}"
+                                        class="px-5 py-3 rounded-2xl
+                bg-slate-100 dark:bg-white/5
+                hover:bg-slate-200 dark:hover:bg-white/10
+                transition-all duration-200
+                font-semibold">
 
-                        <td class="px-8 py-6">
+                                        Edit
 
-                            <div class="flex items-center justify-end gap-3">
+                                    </a>
 
-                                <a href="{{ route('admin.missions.edit') }}"
-                                    class="px-5 py-3 rounded-2xl
-                                    bg-slate-100 dark:bg-white/5
-                                    hover:bg-slate-200 dark:hover:bg-white/10
-                                    transition-all duration-200
-                                    font-semibold text-center">
+                                    <form action="{{ route('admin.missions.destroy', $mission->id) }}" method="POST">
 
-                                    Edit
+                                        @csrf
+                                        @method('DELETE')
 
-                                </a>
+                                        <button type="submit" onclick="return confirm('Hapus mission ini?')"
+                                            class="px-5 py-3 rounded-2xl
+                    bg-red-500/10
+                    text-red-400
+                    hover:bg-red-500/20
+                    transition-all duration-200
+                    font-semibold">
 
-                                <button
-                                    class="px-5 py-3 rounded-2xl
-                                    bg-red-500/10
-                                    text-red-400
-                                    hover:bg-red-500/20
-                                    transition-all duration-200
-                                    font-semibold">
+                                            Delete
 
-                                    Delete
+                                        </button>
 
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    <!-- READING -->
-                    <tr
-                        class="border-b border-slate-100 dark:border-white/5
-                        hover:bg-slate-50 dark:hover:bg-white/[0.02]
-                        transition-all duration-200">
-
-                        <td class="px-8 py-6">
-
-                            <div class="flex items-center gap-5">
-
-                                <div
-                                    class="w-16 h-16 rounded-3xl
-                                    bg-purple-500/10
-                                    flex items-center justify-center
-                                    text-3xl shrink-0">
-
-                                    📖
+                                    </form>
 
                                 </div>
 
-                                <div>
+                            </td>
 
-                                    <h3 class="font-black text-lg leading-tight">
-                                        Reading Challenge
-                                    </h3>
+                        </tr>
 
-                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                        Improve reading comprehension skills.
-                                    </p>
+                    @empty
 
-                                </div>
+                        <tr>
 
-                            </div>
+                            <td colspan="6" class="text-center py-10 text-slate-500">
 
-                        </td>
+                                Belum ada mission.
 
-                        <td class="px-8 py-6 font-medium">
-                            Reading
-                        </td>
+                            </td>
 
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-4 py-2 rounded-xl
-                                bg-green-500/10
-                                text-green-400
-                                text-sm font-bold">
-
-                                Easy
-
-                            </span>
-                        </td>
-
-                        <td class="px-8 py-6 font-semibold">
-                            150 XP
-                        </td>
-
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-4 py-2 rounded-xl
-                                bg-yellow-500/10
-                                text-yellow-400
-                                text-sm font-bold">
-
-                                Draft
-
-                            </span>
-                        </td>
-
-                        <td class="px-8 py-6">
-
-                            <div class="flex items-center justify-end gap-3">
-
-                                <button
-                                    class="px-5 py-3 rounded-2xl
-                                    bg-slate-100 dark:bg-white/5
-                                    hover:bg-slate-200 dark:hover:bg-white/10
-                                    transition-all duration-200
-                                    font-semibold">
-
-                                    Edit
-
-                                </button>
-
-                                <button
-                                    class="px-5 py-3 rounded-2xl
-                                    bg-red-500/10
-                                    text-red-400
-                                    hover:bg-red-500/20
-                                    transition-all duration-200
-                                    font-semibold">
-
-                                    Delete
-
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-                    <!-- VOCABULARY -->
-                    <tr
-                        class="hover:bg-slate-50 dark:hover:bg-white/[0.02]
-                        transition-all duration-200">
-
-                        <td class="px-8 py-6">
-
-                            <div class="flex items-center gap-5">
-
-                                <div
-                                    class="w-16 h-16 rounded-3xl
-                                    bg-emerald-500/10
-                                    flex items-center justify-center
-                                    text-3xl shrink-0">
-
-                                    📚
-
-                                </div>
-
-                                <div>
-
-                                    <h3 class="font-black text-lg leading-tight">
-                                        Vocabulary Challenge
-                                    </h3>
-
-                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                        Learn new vocabulary every day.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td class="px-8 py-6 font-medium">
-                            Vocabulary
-                        </td>
-
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-4 py-2 rounded-xl
-                                bg-red-500/10
-                                text-red-400
-                                text-sm font-bold">
-
-                                Hard
-
-                            </span>
-                        </td>
-
-                        <td class="px-8 py-6 font-semibold">
-                            100 XP
-                        </td>
-
-                        <td class="px-8 py-6">
-                            <span
-                                class="px-4 py-2 rounded-xl
-                                bg-green-500/10
-                                text-green-400
-                                text-sm font-bold">
-
-                                Active
-
-                            </span>
-                        </td>
-
-                        <td class="px-8 py-6">
-
-                            <div class="flex items-center justify-end gap-3">
-
-                                <button
-                                    class="px-5 py-3 rounded-2xl
-                                    bg-slate-100 dark:bg-white/5
-                                    hover:bg-slate-200 dark:hover:bg-white/10
-                                    transition-all duration-200
-                                    font-semibold">
-
-                                    Edit
-
-                                </button>
-
-                                <button
-                                    class="px-5 py-3 rounded-2xl
-                                    bg-red-500/10
-                                    text-red-400
-                                    hover:bg-red-500/20
-                                    transition-all duration-200
-                                    font-semibold">
-
-                                    Delete
-
-                                </button>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
+                        </tr>
+                    @endforelse
 
                 </tbody>
 
