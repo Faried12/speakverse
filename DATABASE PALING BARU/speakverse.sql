@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Bulan Mei 2026 pada 11.52
+-- Waktu pembuatan: 31 Bulan Mei 2026 pada 10.45
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -120,7 +120,35 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2026_05_12_084716_add_role_column_to_users_table', 3),
 (6, '2026_05_25_013941_create_vocabulary_pretests_table', 4),
 (7, '2026_05_25_014522_create_vocabulary_pretest_results_table', 4),
-(8, '2026_05_25_053303_add_category_to_vocabulary_pretests_table', 5);
+(8, '2026_05_25_053303_add_category_to_vocabulary_pretests_table', 5),
+(9, '2026_05_31_054053_create_missions_table', 6),
+(10, '2026_05_31_054851_add_fields_to_missions_table', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `missions`
+--
+
+CREATE TABLE `missions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `category` enum('speaking','reading','vocabulary') NOT NULL,
+  `difficulty` enum('easy','medium','hard') NOT NULL,
+  `reward_xp` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `deadline` date DEFAULT NULL,
+  `status` enum('active','draft') NOT NULL DEFAULT 'active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `missions`
+--
+
+INSERT INTO `missions` (`id`, `title`, `category`, `difficulty`, `reward_xp`, `description`, `deadline`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'New Missions', 'reading', 'medium', 89, 'New Mission Unlocked', '2026-06-03', 'active', '2026-05-30 23:48:14', '2026-05-30 23:48:14');
 
 -- --------------------------------------------------------
 
@@ -154,7 +182,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CPrY9wx2zOUxCw5LR2l11qMLI6ty3ImAgo9G4lVC', 3, '::1', 'Mozilla/5.0 (Linux; Android 16; SM-A125M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.260 Mobile Safari/537.36', 'eyJfdG9rZW4iOiJ0WnZFSHRmaW10NWpwV25sM053RlpHUmVnbW1qTm45cDdoMTNSV21pIiwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119LCJfcHJldmlvdXMiOnsidXJsIjoiaHR0cDpcL1wvbG9jYWxob3N0OjkwMDBcL3ZvY2FidWxhcnlcL3ByZXRlc3QiLCJyb3V0ZSI6InZvY2FidWxhcnkucHJldGVzdCJ9LCJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI6M30=', 1779702678);
+('DugqTWWJh2w9TRN8WqUDRCL3blW19RJ8L6NcMMAm', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJKeHlNWkRSM0FLQ2x2Q2hwT0ZYdmhjOUJDUXVpM3doSFRjOW9vTEhtIiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL3NwZWFrdmVyc2UudGVzdFwvYWRtaW5cL21pc3Npb25zIiwicm91dGUiOiJhZG1pbi5taXNzaW9ucyJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoyfQ==', 1780166850),
+('kZLAYCchY5LG288TIV3IlyiJoW1FNfPESGyQZUV6', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36', 'eyJfdG9rZW4iOiJ0Vkk2NWk5bXhzQU9sRjlvdm9sa3p3ZHJ0dVFBNGhqR2VLU3NvMTN5IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL3NwZWFrdmVyc2UudGVzdFwvYWRtaW5cL21pc3Npb25zIiwicm91dGUiOiJhZG1pbi5taXNzaW9ucyJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX0sImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjoyfQ==', 1780211016);
 
 -- --------------------------------------------------------
 
@@ -270,6 +299,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `missions`
+--
+ALTER TABLE `missions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -323,7 +358,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT untuk tabel `missions`
+--
+ALTER TABLE `missions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
