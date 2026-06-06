@@ -47,8 +47,7 @@
                             text-lg max-w-2xl leading-relaxed">
 
                             Improve your English skills through interactive
-                            daily challenges, pronunciation tasks,
-                            speaking practice, and AI-powered exercises.
+                            daily challenges, listening exercises, reading comprehension, writing prompts, and speaking practice with AI-powered exercises.
 
                         </p>
 
@@ -144,318 +143,1078 @@
 
             </div>
 
-            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <!-- TIMELINE -->
+        <div class="relative">
 
-                <!-- SPEAKING -->
-                <div
-                    class="group rounded-[32px]
-                    border border-slate-200 dark:border-white/10
-                    bg-white/70 dark:bg-white/5
-                    backdrop-blur-xl
-                    p-7
-                    hover:scale-[1.01]
-                    transition-all duration-300">
+            <!-- LINE -->
+            <div
+                class="absolute left-7 lg:left-8
+                top-8
+                bottom-[250px]
+                w-[4px]
+                bg-slate-500 dark:bg-slate-700">
+            </div>
+            <div class="space-y-14">
 
-                    <div class="flex items-start justify-between gap-5">
+                <!-- PRETEST -->
+                <div class="relative flex gap-6">
 
-                        <div class="flex gap-5">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white text-3xl">
 
+                        <x-heroicon-o-clipboard-document-check
+                        class="w-9 h-9 text-white" />
+
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+
+                        <h2 class="text-2xl lg:text-3xl font-black">
+                            PRE-TEST
+                        </h2>
+
+                        <p class="text-slate-500 mb-5">
+                            Baseline Assessment
+                        </p>
+
+                        <a href="{{ route('missions.pretest') }}"
+                            class="group block w-full lg:max-w-md text-left
+
+                            rounded-[28px]
+                            border border-slate-200 dark:border-white/10
+                            bg-white/70 dark:bg-white/5
+                            backdrop-blur-xl p-6
+
+                            hover:-translate-y-1
+                            hover:shadow-xl
+                            hover:shadow-cyan-500/10
+                            hover:border-cyan-400/30
+
+                            active:scale-[0.98]
+
+                            transition-all duration-300">
+
+                            <!-- ICON -->
                             <div
-                                class="w-16 h-16 rounded-3xl
+                                class="w-12 h-12 rounded-2xl
                                 bg-cyan-500/10
+                                border border-cyan-500/20
                                 flex items-center justify-center
-                                text-3xl">
+                                mb-5
 
-                                🎤
+                                group-hover:bg-cyan-500/20
+                                transition-all duration-300">
 
-                            </div>
-
-                            <div>
-
-                                <div
-                                    class="inline-flex px-3 py-1 rounded-full
-                                    bg-green-500/10 text-green-400
-                                    text-xs font-semibold mb-4">
-
-                                    ACTIVE
-
-                                </div>
-
-                                <h3 class="text-2xl font-black">
-                                    Speaking Challenge
-                                </h3>
-
-                                <p class="mt-3 text-slate-500 dark:text-slate-400 leading-relaxed">
-
-                                    Practice speaking for 10 minutes and
-                                    improve pronunciation accuracy.
-
-                                </p>
+                                <x-heroicon-o-play
+                                    class="w-6 h-6 text-cyan-400
+                                    group-hover:scale-110
+                                    transition-all duration-300" />
 
                             </div>
 
-                        </div>
+                            <!-- TITLE -->
+                            <h3
+                                class="text-xl lg:text-2xl font-bold
+                                transition-colors duration-300">
 
-                        <div
-                            class="px-4 py-2 rounded-2xl
-                            bg-cyan-500/10 text-cyan-400
-                            text-sm font-bold whitespace-nowrap">
+                                Start Pre-Test
 
-                            +120 XP
+                            </h3>
 
-                        </div>
+                            <!-- DESCRIPTION -->
+                            <!-- <p class="text-slate-500 mt-2">
+                                TASK: SPEAKING • +50 XP
+                            </p> -->
+
+                            <!-- FOOTER -->
+                            <div class="flex items-center justify-between mt-5">
+
+                                <span
+                                    class="inline-flex items-center gap-2
+                                    px-3 py-1 rounded-full
+                                    bg-cyan-500/10
+                                    text-cyan-400 text-xs font-medium">
+
+                                    Ready to Start
+
+                                </span>
+
+                                <x-heroicon-o-arrow-right
+                                    class="w-5 h-5 text-slate-400
+
+                                    group-hover:text-cyan-400
+                                    group-hover:translate-x-1
+
+                                    transition-all duration-300" />
+
+                            </div>
+
+                        </a>
 
                     </div>
-
-                    <!-- PROGRESS -->
-                    <div class="mt-8">
-
-                        <div class="flex justify-between text-sm mb-2">
-
-                            <span class="text-slate-500 dark:text-slate-400">
-                                Progress
-                            </span>
-
-                            <span class="font-semibold">
-                                72%
-                            </span>
-
-                        </div>
-
-                        <div
-                            class="w-full h-3 rounded-full
-                            bg-slate-200 dark:bg-white/10 overflow-hidden">
-
-                            <div
-                                class="w-[72%] h-full rounded-full
-                                bg-gradient-to-r from-cyan-400 to-blue-500">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- BUTTON -->
-                    <a href="{{ route('speaking.quest') }}"
-                        class="mt-8 block w-full py-4 rounded-2xl
-                        bg-gradient-to-r from-cyan-500 to-blue-600
-                        text-white font-semibold text-center">
-
-                        Continue Mission
-
-                    </a>
 
                 </div>
 
-                <!-- READING -->
-                <div
-                    class="group rounded-[32px]
-                    border border-slate-200 dark:border-white/10
-                    bg-white/70 dark:bg-white/5
-                    backdrop-blur-xl
-                    p-7
-                    hover:scale-[1.01]
-                    transition-all duration-300">
+                <!-- UNIT 1 -->
+                <div class="relative flex gap-6">
 
-                    <div class="flex items-start justify-between gap-5">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-yellow-400 to-green-500 flex items-center justify-center text-white text-3xl">
 
-                        <div class="flex gap-5">
+                        <x-heroicon-o-book-open
+                        class="w-9 h-9 text-white" />
 
-                            <div
-                                class="w-16 h-16 rounded-3xl
-                                bg-purple-500/10
-                                flex items-center justify-center
-                                text-3xl">
+                    </div>
 
-                                📖
+                    <div class="flex-1">
 
-                            </div>
+                        <h2 class="text-3xl font-black">
+                            UNIT 1
+                        </h2>
 
-                            <div>
+                        <p class="text-slate-500 mb-6">
+                            Are We Connected to Nature?
+                        </p>
 
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                            <!-- LISTENING -->
+                            <button
+                                type="button"
+                                class="group w-full text-left cursor-pointer
+
+                                rounded-[28px]
+                                border border-slate-200 dark:border-white/10
+                                bg-white/70 dark:bg-white/5
+                                backdrop-blur-xl p-6
+
+                                hover:-translate-y-1
+                                hover:shadow-xl
+                                hover:shadow-cyan-500/10
+                                hover:border-cyan-400/30
+
+                                active:scale-[0.98]
+                                transition-all duration-300">
+
+                                <!-- ICON -->
                                 <div
-                                    class="inline-flex px-3 py-1 rounded-full
-                                    bg-yellow-500/10 text-yellow-400
-                                    text-xs font-semibold mb-4">
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-cyan-500/10
+                                    border border-cyan-500/20
+                                    flex items-center justify-center
+                                    mb-5
 
-                                    NEW
+                                    group-hover:bg-cyan-500/20
+                                    transition-all duration-300">
+
+                                    <x-heroicon-o-musical-note
+                                        class="w-6 h-6 text-cyan-400
+                                        group-hover:scale-110
+                                        transition-all duration-300" />
 
                                 </div>
 
-                                <h3 class="text-2xl font-black">
-                                    Reading Challenge
+                                <h3 class="text-2xl font-bold">
+                                    Listening
                                 </h3>
 
-                                <p class="mt-3 text-slate-500 dark:text-slate-400 leading-relaxed">
-
-                                    Read passages, answer comprehension questions,
-                                    and improve your reading understanding skills.
-
+                                <p class="mt-2 text-slate-500">
+                                    Listen carefully and identify important information.
                                 </p>
 
-                            </div>
+                            </button>
 
-                        </div>
+                            <!-- READING -->
+                            <button
+                                type="button"
+                                class="group w-full text-left cursor-pointer
 
-                        <div
-                            class="px-4 py-2 rounded-2xl
-                            bg-purple-500/10 text-purple-400
-                            text-sm font-bold whitespace-nowrap">
+                                rounded-[28px]
+                                border border-slate-200 dark:border-white/10
+                                bg-white/70 dark:bg-white/5
+                                backdrop-blur-xl p-6
 
-                            +150 XP
+                                hover:-translate-y-1
+                                hover:shadow-xl
+                                hover:shadow-cyan-500/10
+                                hover:border-cyan-400/30
+
+                                active:scale-[0.98]
+                                transition-all duration-300">
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-cyan-500/10
+                                    border border-cyan-500/20
+                                    flex items-center justify-center
+                                    mb-5
+
+                                    group-hover:bg-cyan-500/20
+                                    transition-all duration-300">
+
+                                    <x-heroicon-o-book-open
+                                        class="w-6 h-6 text-cyan-400
+                                        group-hover:scale-110
+                                        transition-all duration-300" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold">
+                                    Reading
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Learn key vocabulary and understand the topic.
+                                </p>
+
+                            </button>
+
+                            <!-- WRITING -->
+                            <button
+                                type="button"
+                                class="group w-full text-left cursor-pointer
+
+                                rounded-[28px]
+                                border border-slate-200 dark:border-white/10
+                                bg-white/70 dark:bg-white/5
+                                backdrop-blur-xl p-6
+
+                                hover:-translate-y-1
+                                hover:shadow-xl
+                                hover:shadow-cyan-500/10
+                                hover:border-cyan-400/30
+
+                                active:scale-[0.98]
+                                transition-all duration-300">
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-cyan-500/10
+                                    border border-cyan-500/20
+                                    flex items-center justify-center
+                                    mb-5
+
+                                    group-hover:bg-cyan-500/20
+                                    transition-all duration-300">
+
+                                    <x-heroicon-o-pencil-square
+                                        class="w-6 h-6 text-cyan-400
+                                        group-hover:scale-110
+                                        transition-all duration-300" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold">
+                                    Writing
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Organize and write your ideas effectively.
+                                </p>
+
+                            </button>
+
+                            <!-- SPEAKING -->
+                            <button
+                                type="button"
+                                class="group w-full text-left cursor-pointer
+
+                                rounded-[28px]
+                                border border-slate-200 dark:border-white/10
+                                bg-white/70 dark:bg-white/5
+                                backdrop-blur-xl p-6
+
+                                hover:-translate-y-1
+                                hover:shadow-xl
+                                hover:shadow-cyan-500/10
+                                hover:border-cyan-400/30
+
+                                active:scale-[0.98]
+                                transition-all duration-300">
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-cyan-500/10
+                                    border border-cyan-500/20
+                                    flex items-center justify-center
+                                    mb-5
+
+                                    group-hover:bg-cyan-500/20
+                                    transition-all duration-300">
+
+                                    <x-heroicon-o-microphone
+                                        class="w-6 h-6 text-cyan-400
+                                        group-hover:scale-110
+                                        transition-all duration-300" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold">
+                                    Speaking
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Practice expressing ideas confidently.
+                                </p>
+
+                            </button>
 
                         </div>
 
                     </div>
-
-                    <!-- PROGRESS -->
-                    <div class="mt-8">
-
-                        <div class="flex justify-between text-sm mb-2">
-
-                            <span class="text-slate-500 dark:text-slate-400">
-                                Progress
-                            </span>
-
-                            <span class="font-semibold">
-                                0%
-                            </span>
-
-                        </div>
-
-                        <div
-                            class="w-full h-3 rounded-full
-                            bg-slate-200 dark:bg-white/10 overflow-hidden">
-
-                            <div
-                                class="w-[0%] h-full rounded-full
-                                bg-gradient-to-r from-purple-400 to-pink-500">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- BUTTON -->
-                    <a href="{{ route('reading.quest') }}"
-                        class="mt-8 block w-full py-4 rounded-2xl
-                        border border-slate-300 dark:border-white/10
-                        bg-white dark:bg-white/5
-                        font-semibold text-center
-                        hover:bg-slate-100 dark:hover:bg-white/10
-                        transition-all duration-300">
-
-                        Start Challenge
-
-                    </a>
 
                 </div>
 
-                <!-- VOCABULARY -->
-                <div
-                    class="group rounded-[32px]
-                    border border-slate-200 dark:border-white/10
-                    bg-white/70 dark:bg-white/5
-                    backdrop-blur-xl
-                    p-7
-                    hover:scale-[1.01]
-                    transition-all duration-300">
+                <!-- UNIT 2 -->
+                <div class="relative flex gap-6">
 
-                    <div class="flex items-start justify-between gap-5">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-400 to-cyan-500 flex items-center justify-center text-white text-3xl">
 
-                        <div class="flex gap-5">
+                        <x-heroicon-o-user
+                            class="w-9 h-9 text-white" />
 
-                            <div
-                                class="w-16 h-16 rounded-3xl
-                                bg-emerald-500/10
-                                flex items-center justify-center
-                                text-3xl">
+                    </div>
 
-                                📚
+                    <div class="flex-1">
 
-                            </div>
+                        <h2 class="text-3xl font-black">
+                            UNIT 2
+                        </h2>
 
-                            <div>
+                        <p class="text-slate-500 mb-6">
+                            Discovering Ourselves
+                        </p>
 
-                                <div
-                                    class="inline-flex px-3 py-1 rounded-full
-                                    bg-emerald-500/10 text-emerald-400
-                                    text-xs font-semibold mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-                                    NEW
+                            <!-- LISTENING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
 
                                 </div>
 
-                                <h3 class="text-2xl font-black">
-                                    Vocabulary Challenge
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-musical-note
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Listening
                                 </h3>
 
-                                <p class="mt-3 text-slate-500 dark:text-slate-400 leading-relaxed">
-
-                                    Learn new words, understand meanings,
-                                    and strengthen your English vocabulary mastery.
-
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
                                 </p>
 
-                            </div>
+                            </button>
+
+                            <!-- READING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-book-open
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Reading
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- WRITING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-pencil-square
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Writing
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- SPEAKING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-microphone
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Speaking
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
 
                         </div>
+                    </div>
 
-                        <div
-                            class="px-4 py-2 rounded-2xl
-                            bg-emerald-500/10 text-emerald-400
-                            text-sm font-bold whitespace-nowrap">
+                </div>
 
-                            +100 XP
+                <!-- UNIT 3 -->
+                <div class="relative flex gap-6">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white text-3xl">
+
+                        <x-heroicon-o-chat-bubble-left-right
+                                class="w-9 h-9 text-white" />
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        <h2 class="text-3xl font-black">
+                            UNIT 3
+                        </h2>
+
+                        <p class="text-slate-500 mb-6">
+                            Why is Water Important?
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                            <!-- LISTENING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-musical-note
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Listening
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- READING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-book-open
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Reading
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- WRITING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-pencil-square
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Writing
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- SPEAKING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-microphone
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Speaking
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
 
                         </div>
 
                     </div>
 
-                    <!-- PROGRESS -->
-                    <div class="mt-8">
+                </div>
 
-                        <div class="flex justify-between text-sm mb-2">
+                <!-- UNIT 4 -->
+                <div class="relative flex gap-6">
 
-                            <span class="text-slate-500 dark:text-slate-400">
-                                Progress
-                            </span>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl">
 
-                            <span class="font-semibold">
-                                0%
-                            </span>
+                        <x-heroicon-o-shield-check
+                            class="w-9 h-9 text-white" />
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        <h2 class="text-3xl font-black">
+                            UNIT 4
+                        </h2>
+
+                        <p class="text-slate-500 mb-6">
+                            Why Should We Live a Healthy Life?
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                            <!-- LISTENING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-musical-note
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Listening
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- READING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-book-open
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Reading
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- WRITING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-pencil-square
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Writing
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
+
+                            <!-- SPEAKING -->
+                            <button
+                                type="button"
+                                disabled
+                                class="w-full text-left
+
+                                rounded-[28px]
+                                border border-slate-700
+                                bg-black/30
+                                backdrop-blur-xl
+                                p-6
+
+                                opacity-60
+                                cursor-not-allowed
+
+                                relative">
+
+                                <!-- LOCK -->
+                                <div class="absolute top-5 right-5">
+
+                                    <x-heroicon-o-lock-closed
+                                        class="w-5 h-5 text-slate-400" />
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div
+                                    class="w-12 h-12 rounded-2xl
+                                    bg-slate-700/50
+                                    border border-slate-600
+                                    flex items-center justify-center
+                                    mb-5">
+
+                                    <x-heroicon-o-microphone
+                                        class="w-6 h-6 text-slate-400" />
+
+                                </div>
+
+                                <h3 class="text-2xl font-bold text-slate-300">
+                                    Speaking
+                                </h3>
+
+                                <p class="mt-2 text-slate-500">
+                                    Complete Unit 1 to unlock this activity.
+                                </p>
+
+                            </button>
 
                         </div>
 
-                        <div
-                            class="w-full h-3 rounded-full
-                            bg-slate-200 dark:bg-white/10 overflow-hidden">
+                    </div>
 
+                </div>
+
+                <!-- POSTTEST -->
+                <div class="relative flex gap-6">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white text-3xl">
+
+                        <x-heroicon-o-clipboard-document-check
+                        class="w-9 h-9 text-white" />
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        <h2 class="text-3xl font-black">
+                            POST-TEST
+                        </h2>
+
+                        <p class="text-slate-500 mb-5">
+                            Final Assessment
+                        </p>
+
+                        <button
+                            type="button"
+                            disabled
+                            class="max-w-md w-full text-left
+
+                            rounded-[28px]
+                            border border-slate-700/50
+                            bg-slate-900/40
+                            backdrop-blur-xl
+                            p-6
+
+                            opacity-75
+                            cursor-not-allowed
+
+                            relative">
+
+                            <!-- LOCK -->
+                            <div class="absolute top-5 right-5">
+
+                                <x-heroicon-o-lock-closed
+                                    class="w-5 h-5 text-slate-400" />
+
+                            </div>
+
+                            <!-- ICON -->
                             <div
-                                class="w-[0%] h-full rounded-full
-                                bg-gradient-to-r from-emerald-400 to-green-500">
+                                class="w-12 h-12 rounded-2xl
+                                bg-slate-700/50
+                                border border-slate-600
+                                flex items-center justify-center
+                                mb-5">
+
+                                <x-heroicon-o-play
+                                    class="w-6 h-6 text-slate-400" />
+
                             </div>
 
-                        </div>
+                            <h3 class="text-2xl font-bold text-slate-300">
+                                Start Post-Test
+                            </h3>
+
+                            <p class="mt-2 text-slate-500">
+                                Complete all units to unlock the final assessment.
+                            </p>
+
+                            <span
+                                class="inline-flex items-center gap-2
+                                mt-5 px-3 py-1 rounded-full
+                                bg-slate-700/50
+                                text-slate-400 text-xs">
+
+                                🔒 Locked
+
+                            </span>
+
+                        </button>
 
                     </div>
-
-                    <!-- BUTTON -->
-                    <a href="{{ route('vocabulary.quest') }}"
-                        class="mt-8 block w-full py-4 rounded-2xl
-                        border border-slate-300 dark:border-white/10
-                        bg-white dark:bg-white/5
-                        font-semibold text-center
-                        hover:bg-slate-100 dark:hover:bg-white/10
-                        transition-all duration-300">
-
-                        Start Learning
-
-                    </a>
 
                 </div>
 
             </div>
+
+        </div>
 
         </section>
 

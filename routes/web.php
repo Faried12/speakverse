@@ -60,6 +60,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     })->name('missions');
 
+    Route::get('/missions/pretest', function () {
+
+        return view('missions.pretest');
+
+    })->name('missions.pretest');
+
     Route::get('/practice', function () {
 
         return view('practice.index');
@@ -71,6 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('progress.index');
 
     })->name('progress');
+
 
     /*
     |--------------------------------------------------------------------------

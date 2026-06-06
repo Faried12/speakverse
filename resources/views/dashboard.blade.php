@@ -44,7 +44,7 @@
                             <button
                                 class="px-6 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold hover:scale-[1.02] transition-all duration-300 shadow-lg shadow-cyan-500/20">
 
-                                Continue Learning
+                                Get Started
 
                             </button>
 
@@ -126,138 +126,296 @@
 
         </section>
 
-        <!-- CONTINUE LEARNING -->
+        <!-- CONTINUE JOURNEY -->
         <section>
 
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
 
-                <div>
+                <h2 class="text-3xl font-black">
+                    Continue Your Journey
+                </h2>
 
-                    <h2 class="text-2xl font-bold">
-                        Continue Learning
-                    </h2>
-
-                    <p class="text-slate-500 dark:text-slate-400 mt-1">
-                        Pick up where you left off.
-                    </p>
-
-                </div>
+                <p class="text-slate-500 dark:text-slate-400 mt-1">
+                    Continue your learning path and complete each step.
+                </p>
 
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                <!-- CARD -->
+                <!-- PRE TEST -->
                 <div
-                    class="rounded-[28px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] transition-all duration-300">
+                    class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-300">
 
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-5">
 
-                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-2xl">
-                            🎤
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white text-3xl">
+
+                            <x-heroicon-o-clipboard-document-check
+                                class="w-9 h-9 text-white" />
+
                         </div>
 
-                        <span class="px-3 py-1 rounded-full bg-green-500/10 text-green-400 text-xs font-medium">
-                            Active
-                        </span>
+                        <div class="flex-1">
 
-                    </div>
+                            <div class="flex justify-between items-center mb-3">
 
-                    <h3 class="text-2xl font-bold mb-3">
-                        Speaking Practice
-                    </h3>
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-orange-400 font-semibold">
+                                        Baseline Assessment
+                                    </p>
 
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Improve pronunciation and fluency with guided speaking exercises.
-                    </p>
+                                    <h3 class="text-xl font-black">
+                                        PRE-TEST
+                                    </h3>
+                                </div>
 
-                    <!-- PROGRESS -->
-                    <div class="mt-6">
+                                <span class="font-bold text-slate-400">
+                                    0%
+                                </span>
 
-                        <div class="flex justify-between text-sm mb-2">
-                            <span class="text-slate-500 dark:text-slate-400">
-                                Progress
-                            </span>
+                            </div>
 
-                            <span class="font-semibold">
-                                72%
-                            </span>
-                        </div>
-
-                        <div class="w-full h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
-
-                            <div class="w-[72%] h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500">
+                            <div class="h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                <div class="h-full w-0 bg-gradient-to-r from-orange-500 to-red-500"></div>
                             </div>
 
                         </div>
 
+                        <span class="text-slate-400 text-3xl">›</span>
+
                     </div>
 
                 </div>
 
-                <!-- CARD -->
+                <!-- UNIT 1 -->
                 <div
-                    class="rounded-[28px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] transition-all duration-300">
+                    class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] hover:shadow-lg hover:shadow-green-500/10 transition-all duration-300">
 
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-5">
 
-                        <div class="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-2xl">
-                            🧠
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gradient-to-r from-yellow-400 to-green-500 flex items-center justify-center text-white text-3xl">
+
+                            <x-heroicon-o-book-open
+                                class="w-9 h-9 text-white" />
+
                         </div>
 
-                        <span class="px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-400 text-xs font-medium">
-                            New
-                        </span>
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-center mb-3">
+
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-green-400 font-semibold">
+                                        Unit 1
+                                    </p>
+
+                                    <h3 class="text-xl font-black">
+                                        Are We Connected to Nature?
+                                    </h3>
+                                </div>
+
+                                <span class="font-bold text-slate-400">
+                                    33%
+                                </span>
+
+                            </div>
+
+                            <div class="h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                <div class="h-full w-1/3 bg-gradient-to-r from-yellow-400 to-green-500"></div>
+                            </div>
+
+                        </div>
+
+                        <span class="text-slate-400 text-3xl">›</span>
 
                     </div>
-
-                    <h3 class="text-2xl font-bold mb-3">
-                        AI Feedback
-                    </h3>
-
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Receive AI-generated feedback for pronunciation and confidence.
-                    </p>
-
-                    <button
-                        class="mt-6 px-5 py-3 rounded-2xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 transition font-medium">
-
-                        Start Practice
-
-                    </button>
 
                 </div>
 
-                <!-- CARD -->
+                <!-- UNIT 2 -->
                 <div
-                    class="rounded-[28px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] transition-all duration-300">
+                    class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-300">
 
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-5">
 
-                        <div class="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-2xl">
-                            📚
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-400 to-cyan-500 flex items-center justify-center text-white text-3xl">
+
+                            <x-heroicon-o-user
+                                class="w-9 h-9 text-white" />
+
                         </div>
 
-                        <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-medium">
-                            Daily
-                        </span>
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-center mb-3">
+
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-cyan-400 font-semibold">
+                                        Unit 2
+                                    </p>
+
+                                    <h3 class="text-xl font-black">
+                                        Discovering Ourselves
+                                    </h3>
+                                </div>
+
+                                <span class="font-bold text-slate-400">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <div class="h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                <div class="h-full w-0 bg-gradient-to-r from-green-400 to-cyan-500"></div>
+                            </div>
+
+                        </div>
+
+                        <span class="text-slate-400 text-3xl">›</span>
 
                     </div>
 
-                    <h3 class="text-2xl font-bold mb-3">
-                        Vocabulary Builder
-                    </h3>
+                </div>
 
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
-                        Learn new vocabulary and practice contextual speaking.
-                    </p>
+                <!-- UNIT 3 -->
+                <div
+                    class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
 
-                    <button
-                        class="mt-6 px-5 py-3 rounded-2xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 transition font-medium">
+                    <div class="flex items-center gap-5">
 
-                        Continue
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white text-3xl">
 
-                    </button>
+                            <x-heroicon-o-chat-bubble-left-right
+                                class="w-9 h-9 text-white" />
+
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-center mb-3">
+
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-blue-400 font-semibold">
+                                        Unit 3
+                                    </p>
+
+                                    <h3 class="text-xl font-black">
+                                        Why is Water Important?
+                                    </h3>
+                                </div>
+
+                                <span class="font-bold text-slate-400">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <div class="h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                <div class="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+                            </div>
+
+                        </div>
+
+                        <span class="text-slate-400 text-3xl">›</span>
+
+                    </div>
+
+                </div>
+
+                <!-- UNIT 4 -->
+                <div
+                    class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300">
+
+                    <div class="flex items-center gap-5">
+
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl">
+
+                            <x-heroicon-o-shield-check
+                                class="w-9 h-9 text-white" />
+
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-center mb-3">
+
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-purple-400 font-semibold">
+                                        Unit 4
+                                    </p>
+
+                                    <h3 class="text-xl font-black">
+                                        Why Should We Live a Healthy Life?
+                                    </h3>
+                                </div>
+
+                                <span class="font-bold text-slate-400">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <div class="h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                <div class="h-full w-0 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                            </div>
+
+                        </div>
+
+                        <span class="text-slate-400 text-3xl">›</span>
+
+                    </div>
+
+                </div>
+
+                <!-- POST TEST -->
+                <div
+                    class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 hover:scale-[1.02] hover:shadow-lg hover:shadow-pink-500/10 transition-all duration-300">
+
+                    <div class="flex items-center gap-5">
+
+                        <div
+                            class="w-16 h-16 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 flex items-center justify-center text-white text-3xl">
+
+                            <x-heroicon-o-trophy
+                                class="w-9 h-9 text-white" />
+
+                        </div>
+
+                        <div class="flex-1">
+
+                            <div class="flex justify-between items-center mb-3">
+
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-pink-400 font-semibold">
+                                        Final Assessment
+                                    </p>
+
+                                    <h3 class="text-xl font-black">
+                                        POST-TEST
+                                    </h3>
+                                </div>
+
+                                <span class="font-bold text-slate-400">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <div class="h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                <div class="h-full w-0 bg-gradient-to-r from-cyan-400 to-purple-500"></div>
+                            </div>
+
+                        </div>
+
+                        <span class="text-slate-400 text-3xl">›</span>
+
+                    </div>
 
                 </div>
 
@@ -266,7 +424,7 @@
         </section>
 
         <!-- DAILY MISSIONS -->
-        <section>
+        <!-- <section>
 
             <div class="flex items-center justify-between mb-6">
 
@@ -287,7 +445,7 @@
             <div class="space-y-4">
 
                 <!-- MISSION -->
-                <div
+                <!-- <div
                     class="rounded-3xl border border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/5 backdrop-blur-xl p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
 
                     <div class="flex items-center gap-5">
@@ -331,7 +489,7 @@
 
             </div>
 
-        </section>
+        </section> -->
 
     </div>
 
