@@ -7,6 +7,9 @@ use App\Http\Controllers\VocabularyPretestController;
 use App\Http\Controllers\AdminVocabularyPretestController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MissionController;
+use App\Http\Controllers\Admin\LearningContentController;
+use App\Http\Controllers\Admin\ReadingMaterialController;
+use App\Http\Controllers\Admin\ReadingQuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -256,6 +259,75 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         })->name('admin.analytics');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Admin learning
+        |--------------------------------------------------------------------------
+        */
+        Route::get(
+            '/learning',
+            [LearningContentController::class, 'index']
+        )->name('admin.learning');
+
+        Route::get(
+            '/reading-materials/{lesson}',
+            [ReadingMaterialController::class, 'index']
+        )->name('admin.reading-materials.index');
+
+        Route::get(
+            '/reading-materials/{lesson}/create',
+            [ReadingMaterialController::class, 'create']
+        )->name('admin.reading-materials.create');
+
+        Route::post(
+            '/reading-materials/{lesson}',
+            [ReadingMaterialController::class, 'store']
+        )->name('admin.reading-materials.store');
+
+        Route::get(
+            '/reading-materials/{material}/edit',
+            [ReadingMaterialController::class, 'edit']
+        )->name('admin.reading-materials.edit');
+
+        Route::put(
+            '/reading-materials/{material}',
+            [ReadingMaterialController::class, 'update']
+        )->name('admin.reading-materials.update');
+
+        Route::delete(
+            '/reading-materials/{material}',
+            [ReadingMaterialController::class, 'destroy']
+        )->name('admin.reading-materials.destroy');
+
+        Route::get(
+            '/reading-questions/{material}',
+            [ReadingQuestionController::class, 'index']
+        )->name('admin.reading-questions.index');
+
+        Route::get(
+            '/reading-questions/{material}/create',
+            [ReadingQuestionController::class, 'create']
+        )->name('admin.reading-questions.create');
+
+        Route::post(
+            '/reading-questions/{material}',
+            [ReadingQuestionController::class, 'store']
+        )->name('admin.reading-questions.store');
+
+        Route::get(
+            '/reading-questions/{question}/edit',
+            [ReadingQuestionController::class, 'edit']
+        )->name('admin.reading-questions.edit');
+
+        Route::put(
+            '/reading-questions/{question}',
+            [ReadingQuestionController::class, 'update']
+        )->name('admin.reading-questions.update');
+
+        Route::delete(
+            '/reading-questions/{question}',
+            [ReadingQuestionController::class, 'destroy']
+        )->name('admin.reading-questions.destroy');
     });
 
 /*
