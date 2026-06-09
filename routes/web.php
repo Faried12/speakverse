@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MissionController;
 use App\Http\Controllers\Admin\LearningContentController;
 use App\Http\Controllers\Admin\ReadingMaterialController;
 use App\Http\Controllers\Admin\ReadingQuestionController;
+use App\Http\Controllers\StudentReadingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +69,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('missions.pretest');
 
     })->name('missions.pretest');
+
+    // Route::get(
+    //     '/missions/unit1/reading',
+    //     [StudentReadingController::class, 'index']
+    // )->name('student.reading');
+
+    Route::get(
+        '/missions/unit1/reading',
+        [StudentReadingController::class, 'reading']
+    )->name('student.reading');
+
+    Route::get(
+        '/missions/unit1/reading/quiz',
+        [StudentReadingController::class, 'quiz']
+    )->name('student.reading.quiz');
 
     Route::get('/practice', function () {
 

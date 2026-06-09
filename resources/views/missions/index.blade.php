@@ -325,8 +325,7 @@
                             </button>
 
                             <!-- READING -->
-                            <button
-                                type="button"
+                            <a href="{{ route('student.reading') }}"
                                 class="group w-full text-left cursor-pointer
 
                                 rounded-[28px]
@@ -368,7 +367,7 @@
                                     Learn key vocabulary and understand the topic.
                                 </p>
 
-                            </button>
+                            </a>
 
                             <!-- WRITING -->
                             <button
