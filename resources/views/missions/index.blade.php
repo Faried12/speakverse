@@ -370,7 +370,7 @@
                             </a>
 
                             <!-- WRITING -->
-                            <button
+                            <a  href="{{ route('student.writing') }}"
                                 type="button"
                                 class="group w-full text-left cursor-pointer
 
@@ -413,7 +413,7 @@
                                     Organize and write your ideas effectively.
                                 </p>
 
-                            </button>
+                            </a>
 
                             <!-- SPEAKING -->
                             <a href="{{ route('student.speaking') }}"

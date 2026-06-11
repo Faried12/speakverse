@@ -253,6 +253,21 @@
 
     </div>
 
+    <a
+        href="{{ route('missions') }}"
+        class="inline-flex items-center justify-center
+        w-full py-4 rounded-2xl
+
+        bg-gradient-to-r
+        from-cyan-500
+        to-blue-600
+
+        text-white font-semibold">
+
+        Back to Unit 1
+
+    </a>
+
 </section>
 
 <script>

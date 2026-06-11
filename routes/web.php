@@ -14,6 +14,9 @@ use App\Http\Controllers\StudentReadingController;
 use App\Http\Controllers\Admin\SpeakingMaterialController;
 use App\Http\Controllers\StudentSpeakingController;
 use App\Http\Controllers\Admin\SpeakingQuestionController;
+use App\Http\Controllers\Admin\WritingMaterialController;
+use App\Http\Controllers\Admin\WritingQuestionController;
+use App\Http\Controllers\StudentWritingController;
 /*
 |--------------------------------------------------------------------------
 | Landing
@@ -101,6 +104,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/missions/unit1/speaking/quiz',
         [StudentSpeakingController::class, 'quiz']
     )->name('student.speaking.quiz');
+
+    Route::get(
+        '/missions/unit1/writing',
+        [StudentWritingController::class, 'index']
+    )->name('student.writing');
+
+    // Route::post(
+    //     '/missions/unit1/writing/{question}/submit',
+    //     [StudentWritingController::class, 'submit']
+    // )->name('student.writing.submit');
+
+    Route::post(
+        '/missions/unit1/writing/{material}/submit',
+        [StudentWritingController::class, 'submit']
+    )->name('student.writing.submit');
+
+    Route::get(
+        '/missions/unit1/writing/quiz',
+        [StudentWritingController::class, 'quiz']
+    )->name('student.writing.quiz');
+
+    Route::get(
+        '/missions/unit1/writing/result/{submission}',
+        [StudentWritingController::class, 'result']
+    )->name('student.writing.result');
+
+    
+
+    
 
     Route::get('/practice', function () {
 
@@ -421,6 +453,71 @@ Route::middleware(['auth', 'verified', 'admin'])
             '/speaking-question/{question}',
             [SpeakingQuestionController::class, 'destroy']
         )->name('admin.speaking-questions.destroy');
+
+        Route::get(
+        '/writing-materials/{lesson}',
+        [WritingMaterialController::class, 'index']
+        )->name('admin.writing-materials.index');
+
+        Route::get(
+        '/writing-materials/{lesson}/create',
+        [WritingMaterialController::class, 'create']
+        )->name('admin.writing-materials.create');
+
+        Route::post(
+        '/writing-materials/{lesson}',
+        [WritingMaterialController::class, 'store']
+        )->name('admin.writing-materials.store');
+
+        Route::get(
+        '/writing-materials/{material}/edit',
+        [WritingMaterialController::class, 'edit']
+        )->name('admin.writing-materials.edit');
+
+        Route::put(
+        '/writing-materials/{material}',
+        [WritingMaterialController::class, 'update']
+        )->name('admin.writing-materials.update');
+
+        Route::delete(
+        '/writing-materials/{material}',
+        [WritingMaterialController::class, 'destroy']
+        )->name('admin.writing-materials.destroy');
+
+        /*
+        Writing Questions
+        --------------------------------------------------------------------------
+        */
+
+        Route::get(
+        '/writing-questions/{material}',
+        [WritingQuestionController::class, 'index']
+        )->name('admin.writing-questions.index');
+
+        Route::get(
+        '/writing-questions/{material}/create',
+        [WritingQuestionController::class, 'create']
+        )->name('admin.writing-questions.create');
+
+        Route::post(
+        '/writing-questions/{material}',
+        [WritingQuestionController::class, 'store']
+        )->name('admin.writing-questions.store');
+
+        Route::get(
+        '/writing-question/{question}/edit',
+        [WritingQuestionController::class, 'edit']
+        )->name('admin.writing-questions.edit');
+
+        Route::put(
+        '/writing-question/{question}',
+        [WritingQuestionController::class, 'update']
+        )->name('admin.writing-questions.update');
+
+        Route::delete(
+        '/writing-question/{question}',
+        [WritingQuestionController::class, 'destroy']
+        )->name('admin.writing-questions.destroy');
 
     });
 

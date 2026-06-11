@@ -36,4 +36,11 @@ class Lesson extends Model
             SpeakingMaterial::class
         );
     }
+
+    public function writingMaterials()
+    {
+        return $this->hasMany(
+            WritingMaterial::class
+        );
+    }
 }

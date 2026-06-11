@@ -35,111 +35,135 @@
                 </div>
 
                 <!-- Lessons -->
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
-    @foreach ($unit->lessons as $lesson)
+                    @foreach ($unit->lessons as $lesson)
 
-        @php
+                        @php
 
-            $route = '#';
+                            $route = '#';
 
-            if ($lesson->skill_type === 'reading') {
+                            if ($lesson->skill_type === 'reading') {
 
-                $route = route(
-                    'admin.reading-materials.index',
-                    $lesson->id
-                );
+                                $route = route(
+                                    'admin.reading-materials.index',
+                                    $lesson->id
+                                );
 
-            } elseif ($lesson->skill_type === 'speaking') {
+                            } elseif ($lesson->skill_type === 'speaking') {
 
-                $route = route(
-                    'admin.speaking-materials.index',
-                    $lesson->id
-                );
+                                $route = route(
+                                    'admin.speaking-materials.index',
+                                    $lesson->id
+                                );
 
-            }
+                            } elseif ($lesson->skill_type === 'writing') {
 
-        @endphp
+                                $route = route(
+                                    'admin.writing-materials.index',
+                                    $lesson->id
+                                );
 
-        <a href="{{ $route }}"
-            class="group
-                p-5
-                rounded-2xl
-                border border-slate-200 dark:border-slate-700
-                bg-slate-50 dark:bg-slate-900
-                hover:border-blue-500
-                hover:shadow-lg
-                transition-all duration-300">
+                            }
 
-            <div class="flex items-center justify-between">
+                        @endphp
 
-                <h3 class="font-bold text-lg text-slate-900 dark:text-white">
-                    {{ ucfirst($lesson->skill_type) }}
-                </h3>
+                        <a href="{{ $route }}"
+                            class="group
+                                p-5
+                                rounded-2xl
+                                border border-slate-200 dark:border-slate-700
+                                bg-slate-50 dark:bg-slate-900
+                                hover:border-blue-500
+                                hover:shadow-lg
+                                transition-all duration-300">
 
-                <span
-                    class="px-2 py-1 text-xs font-semibold rounded-full
-                    bg-blue-100 text-blue-700
-                    dark:bg-blue-900/40 dark:text-blue-300">
+                            <div class="flex items-center justify-between">
 
-                    {{ strtoupper(substr($lesson->skill_type, 0, 1)) }}
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">
+                                    {{ ucfirst($lesson->skill_type) }}
+                                </h3>
 
-                </span>
+                                <span
+                                    class="px-2 py-1 text-xs font-semibold rounded-full
+                                    bg-blue-100 text-blue-700
+                                    dark:bg-blue-900/40 dark:text-blue-300">
 
-            </div>
+                                    {{ strtoupper(substr($lesson->skill_type, 0, 1)) }}
 
-            {{-- READING --}}
-            @if ($lesson->skill_type === 'reading')
+                                </span>
 
-                <div class="mt-3">
+                            </div>
 
-                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                        Reading Materials
-                    </span>
+                            {{-- READING --}}
+                            @if ($lesson->skill_type === 'reading')
 
-                    <div class="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400">
+                            <div class="mt-3">
 
-                        {{ $lesson->readingMaterial->count() }}
-                        Material
+                                <span class="text-sm text-slate-500 dark:text-slate-400">
+                                    Reading Materials
+                                </span>
 
-                    </div>
+                                <div class="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400">
+
+                                    {{ $lesson->readingMaterial->count() }}
+                                    Material
+
+                                </div>
+
+                            </div>
+
+                            {{-- SPEAKING --}}
+                            @elseif ($lesson->skill_type === 'speaking')
+
+                            <div class="mt-3">
+
+                                <span class="text-sm text-slate-500 dark:text-slate-400">
+                                    Speaking Materials
+                                </span>
+
+                                <div class="mt-1 text-xl font-bold text-purple-600 dark:text-purple-400">
+
+                                    {{ $lesson->speakingMaterials->count() }}
+                                    Material
+
+                                </div>
+
+                            </div>
+
+                            {{-- WRITING --}}
+                            @elseif ($lesson->skill_type === 'writing')
+
+                            <div class="mt-3">
+
+                                <span class="text-sm text-slate-500 dark:text-slate-400">
+                                    Writing Materials
+                                </span>
+
+                                <div class="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
+
+                                    {{ $lesson->writingMaterials->count() }}
+                                    Material
+
+                                </div>
+
+                            </div>
+
+                            {{-- OTHER --}}
+                            @else
+
+                            <div class="mt-3 text-sm text-slate-400">
+
+                                Coming Soon
+
+                            </div>
+
+                            @endif
+                        </a>
+
+                    @endforeach
 
                 </div>
-
-            {{-- SPEAKING --}}
-            @elseif ($lesson->skill_type === 'speaking')
-
-                <div class="mt-3">
-
-                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                        Speaking Materials
-                    </span>
-
-                    <div class="mt-1 text-xl font-bold text-purple-600 dark:text-purple-400">
-
-                        {{ $lesson->speakingMaterials->count() }}
-                        Material
-
-                    </div>
-
-                </div>
-
-            {{-- OTHER --}}
-            @else
-
-                <div class="mt-3 text-sm text-slate-400">
-
-                    Coming Soon
-
-                </div>
-
-            @endif
-
-        </a>
-
-    @endforeach
-
-</div>
 
             </div>
         @endforeach

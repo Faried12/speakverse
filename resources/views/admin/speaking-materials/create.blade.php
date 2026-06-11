@@ -78,14 +78,14 @@
 
                 </div>
                 <label>
-    Passage
-</label>
+                    Passage
+                </label>
 
-<textarea
-    name="passage"
-    rows="10"
->
-</textarea>
+                <textarea
+                    name="passage"
+                    rows="10"
+                >
+                </textarea>
 
                 <!-- IMAGE -->
                 <div>

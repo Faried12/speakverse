@@ -73,129 +73,128 @@
                 <table class="w-full">
 
                     <thead>
-    <tr class="bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300">
+                      <tr class="bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300">
 
-        <th class="text-left px-6 py-4">
-            Image
-        </th>
+                          <th class="text-left px-6 py-4">
+                              Image
+                          </th>
 
-        <th class="text-left px-6 py-4">
-            Title
-        </th>
+                          <th class="text-left px-6 py-4">
+                              Title
+                          </th>
 
-        <th class="text-left px-6 py-4">
-            Passage
-        </th>
+                          <th class="text-left px-6 py-4">
+                              Passage
+                          </th>
 
-        <th class="text-left px-6 py-4">
-            Questions
-        </th>
+                          <th class="text-left px-6 py-4">
+                              Questions
+                          </th>
 
-        <th class="text-left px-6 py-4">
-            Action
-        </th>
+                          <th class="text-left px-6 py-4">
+                              Action
+                          </th>
 
-    </tr>
-</thead>
-
+                      </tr>
+                  </thead>
                     <tbody>
 
-@foreach ($materials as $material)
+                      @foreach ($materials as $material)
 
-<tr
-    class="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
+                      <tr
+                          class="border-t border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
 
-    <td class="px-6 py-5">
+                          <td class="px-6 py-5">
 
-        @if($material->image)
+                              @if($material->image)
 
-            <img
-                src="{{ asset('storage/'.$material->image) }}"
-                class="w-24 h-24 object-cover rounded-xl shadow"
-            >
+                                  <img
+                                      src="{{ asset('storage/'.$material->image) }}"
+                                      class="w-24 h-24 object-cover rounded-xl shadow"
+                                  >
 
-        @else
+                              @else
 
-            <div
-                class="w-24 h-24 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+                                  <div
+                                      class="w-24 h-24 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
 
-                🎤
+                                      🎤
 
-            </div>
+                                  </div>
 
-        @endif
+                              @endif
 
-    </td>
+                          </td>
 
-    <td class="px-6 py-5">
+                          <td class="px-6 py-5">
 
-        <div class="font-semibold text-slate-900 dark:text-white">
-            {{ $material->title }}
-        </div>
+                              <div class="font-semibold text-slate-900 dark:text-white">
+                                  {{ $material->title }}
+                              </div>
 
-    </td>
+                          </td>
 
-    <td class="px-6 py-5">
+                          <td class="px-6 py-5">
 
-        <div
-            class="max-w-md p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300">
+                              <div
+                                  class="max-w-md p-3 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300">
 
-            {{ Str::limit($material->instruction, 120) }}
-        </div>
+                                  {{ Str::limit($material->instruction, 120) }}
+                              </div>
 
-    </td>
+                          </td>
 
-    <td class="px-6 py-5">
+                          <td class="px-6 py-5">
 
-        <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-sm font-medium">
+                              <span
+                                  class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-sm font-medium">
 
-            {{ $material->questions->count() }}
-            Questions
+                                  {{ $material->questions->count() }}
+                                  Questions
 
-        </span>
+                              </span>
 
-    </td>
+                          </td>
 
-    <td class="px-6 py-5">
+                          <td class="px-6 py-5">
 
-        <div class="flex items-center gap-2">
+                              <div class="flex items-center gap-2">
 
-            <a
-                href="{{ route('admin.speaking-questions.index', $material->id) }}"
-                class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white">
+                                  <a
+                                      href="{{ route('admin.speaking-questions.index', $material->id) }}"
+                                      class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white">
 
-                Questions
+                                      Questions
 
-            </a>
+                                  </a>
 
-            <a
-                href="{{ route('admin.speaking-materials.edit', $material->id) }}"
-                class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
+                                  <a
+                                      href="{{ route('admin.speaking-materials.edit', $material->id) }}"
+                                      class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
 
-                Edit
+                                      Edit
 
-            </a>
+                                  </a>
 
-            <button
-                type="button"
-                data-id="{{ $material->id }}"
-                onclick="openDeleteModal(this.dataset.id)"
-                class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white">
+                                  <button
+                                      type="button"
+                                      data-id="{{ $material->id }}"
+                                      onclick="openDeleteModal(this.dataset.id)"
+                                      class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white">
 
-                Delete
+                                      Delete
 
-            </button>
+                                  </button>
 
-        </div>
+                              </div>
 
-    </td>
+                          </td>
 
-</tr>
+                      </tr>
 
-@endforeach
+                      @endforeach
 
-</tbody>
+                      </tbody>
 
                 </table>
 
