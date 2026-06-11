@@ -115,12 +115,14 @@
 
                                         </a>
 
-                                        <button type="button"
-                                            onclick="openDeleteModal(
-                                                '{{ route('admin.reading-questions.destroy', $question->id) }}'
-                                            )"
+                                        <button
+                                            type="button"
+                                            data-url="{{ route('admin.reading-questions.destroy', $question->id) }}"
+                                            onclick="openDeleteModal(this.dataset.url)"
                                             class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition">
+
                                             Delete
+
                                         </button>
 
                                     </div>

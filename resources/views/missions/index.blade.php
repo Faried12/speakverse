@@ -416,7 +416,7 @@
                             </button>
 
                             <!-- SPEAKING -->
-                            <button
+                            <a href="{{ route('student.speaking') }}"
                                 type="button"
                                 class="group w-full text-left cursor-pointer
 
@@ -459,7 +459,7 @@
                                     Practice expressing ideas confidently.
                                 </p>
 
-                            </button>
+                            </a>
 
                         </div>
 

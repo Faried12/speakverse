@@ -11,7 +11,9 @@ use App\Http\Controllers\Admin\LearningContentController;
 use App\Http\Controllers\Admin\ReadingMaterialController;
 use App\Http\Controllers\Admin\ReadingQuestionController;
 use App\Http\Controllers\StudentReadingController;
-
+use App\Http\Controllers\Admin\SpeakingMaterialController;
+use App\Http\Controllers\StudentSpeakingController;
+use App\Http\Controllers\Admin\SpeakingQuestionController;
 /*
 |--------------------------------------------------------------------------
 | Landing
@@ -84,6 +86,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/missions/unit1/reading/quiz',
         [StudentReadingController::class, 'quiz']
     )->name('student.reading.quiz');
+
+    Route::get(
+        '/missions/unit1/speaking',
+        [StudentSpeakingController::class, 'index']
+    )->name('student.speaking');
+
+    Route::post(
+        '/missions/unit1/speaking/{material}/submit',
+        [StudentSpeakingController::class, 'submit']
+    )->name('student.speaking.submit');
+
+    Route::get(
+        '/missions/unit1/speaking/quiz',
+        [StudentSpeakingController::class, 'quiz']
+    )->name('student.speaking.quiz');
 
     Route::get('/practice', function () {
 
@@ -344,6 +361,67 @@ Route::middleware(['auth', 'verified', 'admin'])
             '/reading-questions/{question}',
             [ReadingQuestionController::class, 'destroy']
         )->name('admin.reading-questions.destroy');
+
+        Route::get(
+            '/speaking-materials/{lesson}',
+            [SpeakingMaterialController::class, 'index']
+        )->name('admin.speaking-materials.index');
+
+        Route::get(
+            '/speaking-materials/{lesson}/create',
+            [SpeakingMaterialController::class, 'create']
+        )->name('admin.speaking-materials.create');
+
+        Route::post(
+            '/speaking-materials/{lesson}',
+            [SpeakingMaterialController::class, 'store']
+        )->name('admin.speaking-materials.store');
+
+        Route::get(
+            '/speaking-materials/{material}/edit',
+            [SpeakingMaterialController::class, 'edit']
+        )->name('admin.speaking-materials.edit');
+
+        Route::put(
+            '/speaking-materials/{material}',
+            [SpeakingMaterialController::class, 'update']
+        )->name('admin.speaking-materials.update');
+
+        Route::delete(
+            '/speaking-materials/{material}',
+            [SpeakingMaterialController::class, 'destroy']
+        )->name('admin.speaking-materials.destroy');
+
+        Route::get(
+            '/speaking-questions/{material}',
+            [SpeakingQuestionController::class, 'index']
+        )->name('admin.speaking-questions.index');
+
+        Route::get(
+            '/speaking-questions/{material}/create',
+            [SpeakingQuestionController::class, 'create']
+        )->name('admin.speaking-questions.create');
+
+        Route::post(
+            '/speaking-questions/{material}',
+            [SpeakingQuestionController::class, 'store']
+        )->name('admin.speaking-questions.store');
+
+        Route::get(
+            '/speaking-question/{question}/edit',
+            [SpeakingQuestionController::class, 'edit']
+        )->name('admin.speaking-questions.edit');
+
+        Route::put(
+            '/speaking-question/{question}',
+            [SpeakingQuestionController::class, 'update']
+        )->name('admin.speaking-questions.update');
+
+        Route::delete(
+            '/speaking-question/{question}',
+            [SpeakingQuestionController::class, 'destroy']
+        )->name('admin.speaking-questions.destroy');
+
     });
 
 /*

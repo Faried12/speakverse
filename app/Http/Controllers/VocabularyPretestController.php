@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\VocabularyPretest;
 use App\Models\VocabularyPretestResult;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VocabularyPretestController extends Controller
 {
@@ -38,7 +39,7 @@ class VocabularyPretestController extends Controller
         }
 
         VocabularyPretestResult::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'score' => $score
         ]);
 

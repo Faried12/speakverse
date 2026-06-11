@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Unit;
 use App\Models\ReadingMaterial;
+use App\Models\SpeakingMaterial;
 
 class Lesson extends Model
 {
@@ -26,6 +27,13 @@ class Lesson extends Model
     {
         return $this->hasMany(
             ReadingMaterial::class
+        );
+    }
+
+    public function speakingMaterials()
+    {
+        return $this->hasMany(
+            SpeakingMaterial::class
         );
     }
 }
