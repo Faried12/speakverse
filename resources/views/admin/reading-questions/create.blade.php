@@ -1,6 +1,19 @@
 @extends('layouts.admin')
 
 @section('content')
+    @php
+        $isLessonMode = isset($lesson);
+        $contextTitle = $isLessonMode ? $lesson->unit->title . ' - ' . ucfirst($lesson->skill_type) : $material->title;
+
+        $formAction = $isLessonMode
+            ? route('admin.reading-lesson-questions.store', $lesson->id)
+            : route('admin.reading-questions.store', $material->id);
+
+        $backRoute = $isLessonMode
+            ? route('admin.reading-lesson-questions.index', $lesson->id)
+            : route('admin.reading-questions.index', $material->id);
+    @endphp
+
     <div class="max-w-5xl mx-auto space-y-6">
 
         <div>
@@ -9,23 +22,24 @@
             </h1>
 
             <p class="mt-1 text-slate-500 dark:text-slate-400">
-                Create a new question for this reading material
+                {{ $isLessonMode ? 'Create a new reading question for pre-test/post-test' : 'Create a new question for this reading material' }}
             </p>
         </div>
 
         <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-6">
 
             <h2 class="font-bold text-lg text-slate-900 dark:text-white">
-                {{ $material->title }}
+                {{ $contextTitle }}
             </h2>
 
             <p class="text-slate-500 dark:text-slate-400">
-                Material ID : {{ $material->id }}
+                {{ $isLessonMode ? 'Lesson ID' : 'Material ID' }} :
+                {{ $isLessonMode ? $lesson->id : $material->id }}
             </p>
 
         </div>
 
-        <form action="{{ route('admin.reading-questions.store', $material->id) }}" method="POST"
+        <form action="{{ $formAction }}" method="POST"
             class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-6 space-y-6">
 
             @csrf
@@ -111,11 +125,11 @@
                     <select name="correct_answer"
                         class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
+                        <option value="A" {{ old('correct_answer') === 'A' ? 'selected' : '' }}>A</option>
+                        <option value="B" {{ old('correct_answer') === 'B' ? 'selected' : '' }}>B</option>
+                        <option value="C" {{ old('correct_answer') === 'C' ? 'selected' : '' }}>C</option>
+                        <option value="D" {{ old('correct_answer') === 'D' ? 'selected' : '' }}>D</option>
+                        <option value="E" {{ old('correct_answer') === 'E' ? 'selected' : '' }}>E</option>
 
                     </select>
 
@@ -127,7 +141,7 @@
                         Score
                     </label>
 
-                    <input type="number" name="score" value="10" min="1"
+                    <input type="number" name="score" value="{{ old('score', 10) }}" min="1"
                         class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
                 </div>
@@ -142,7 +156,7 @@
 
                 </button>
 
-                <a href="{{ route('admin.reading-questions.index', $material->id) }}"
+                <a href="{{ $backRoute }}"
                     class="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white">
 
                     Back

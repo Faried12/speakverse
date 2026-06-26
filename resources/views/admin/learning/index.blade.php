@@ -38,39 +38,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
                     @foreach ($unit->lessons as $lesson)
-
                         @php
 
                             $route = '#';
 
                             if ($lesson->skill_type === 'reading') {
-
-                                $route = route(
-                                    'admin.reading-materials.index',
-                                    $lesson->id
-                                );
-
+                                if (in_array($unit->type, ['pretest', 'posttest'])) {
+                                    $route = route('admin.reading-lesson-questions.index', $lesson->id);
+                                } else {
+                                    $route = route('admin.reading-materials.index', $lesson->id);
+                                }
                             } elseif ($lesson->skill_type === 'speaking') {
-
-                                $route = route(
-                                    'admin.speaking-materials.index',
-                                    $lesson->id
-                                );
-
+                                $route = route('admin.speaking-materials.index', $lesson->id);
                             } elseif ($lesson->skill_type === 'writing') {
-
-                                $route = route(
-                                    'admin.writing-materials.index',
-                                    $lesson->id
-                                );
-
+                                $route = route('admin.writing-materials.index', $lesson->id);
                             } elseif ($lesson->skill_type === 'listening') {
-
-                                $route = route(
-                                    'admin.listening-materials.index',
-                                    $lesson->id
-                                );
-
+                                $route = route('admin.listening-materials.index', $lesson->id);
                             }
 
                         @endphp
@@ -104,88 +87,81 @@
 
                             {{-- READING --}}
                             @if ($lesson->skill_type === 'reading')
+                                <div class="mt-3">
 
-                            <div class="mt-3">
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">
+                                        Reading Materials
+                                    </span>
 
-                                <span class="text-sm text-slate-500 dark:text-slate-400">
-                                    Reading Materials
-                                </span>
+                                    <div class="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400">
 
-                                <div class="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400">
+                                        {{ $lesson->readingMaterial->count() }}
+                                        Material
 
-                                    {{ $lesson->readingMaterial->count() }}
-                                    Material
+                                    </div>
 
                                 </div>
 
-                            </div>
-
-                            {{-- SPEAKING --}}
+                                {{-- SPEAKING --}}
                             @elseif ($lesson->skill_type === 'speaking')
+                                <div class="mt-3">
 
-                            <div class="mt-3">
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">
+                                        Speaking Materials
+                                    </span>
 
-                                <span class="text-sm text-slate-500 dark:text-slate-400">
-                                    Speaking Materials
-                                </span>
+                                    <div class="mt-1 text-xl font-bold text-purple-600 dark:text-purple-400">
 
-                                <div class="mt-1 text-xl font-bold text-purple-600 dark:text-purple-400">
+                                        {{ $lesson->speakingMaterials->count() }}
+                                        Material
 
-                                    {{ $lesson->speakingMaterials->count() }}
-                                    Material
+                                    </div>
 
                                 </div>
 
-                            </div>
-
-                            {{-- WRITING --}}
+                                {{-- WRITING --}}
                             @elseif ($lesson->skill_type === 'writing')
+                                <div class="mt-3">
 
-                            <div class="mt-3">
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">
+                                        Writing Materials
+                                    </span>
 
-                                <span class="text-sm text-slate-500 dark:text-slate-400">
-                                    Writing Materials
-                                </span>
+                                    <div class="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
 
-                                <div class="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
+                                        {{ $lesson->writingMaterials->count() }}
+                                        Material
 
-                                    {{ $lesson->writingMaterials->count() }}
-                                    Material
+                                    </div>
 
                                 </div>
 
-                            </div>
-
-                            {{-- LISTENING --}}
+                                {{-- LISTENING --}}
                             @elseif ($lesson->skill_type === 'listening')
+                                <div class="mt-3">
 
-                            <div class="mt-3">
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">
+                                        Listening Materials
+                                    </span>
 
-                                <span class="text-sm text-slate-500 dark:text-slate-400">
-                                    Listening Materials
-                                </span>
+                                    <div class="mt-1 text-xl font-bold text-orange-600 dark:text-orange-400">
 
-                                <div class="mt-1 text-xl font-bold text-orange-600 dark:text-orange-400">
+                                        {{ $lesson->listeningMaterials->count() }}
+                                        Material
 
-                                    {{ $lesson->listeningMaterials->count() }}
-                                    Material
+                                    </div>
 
                                 </div>
 
-                            </div>
-
-                            {{-- OTHER --}}
+                                {{-- OTHER --}}
                             @else
+                                <div class="mt-3 text-sm text-slate-400">
 
-                            <div class="mt-3 text-sm text-slate-400">
+                                    Coming Soon
 
-                                Coming Soon
-
-                            </div>
-
+                                </div>
                             @endif
                         </a>
-
                     @endforeach
 
                 </div>

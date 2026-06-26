@@ -1,6 +1,14 @@
 @extends('layouts.admin')
 
 @section('content')
+    @php
+        $isLessonMode = is_null($question->reading_material_id);
+
+        $backRoute = $isLessonMode
+            ? route('admin.reading-lesson-questions.index', $question->lesson_id)
+            : route('admin.reading-questions.index', $question->reading_material_id);
+    @endphp
+
     <div class="max-w-5xl mx-auto space-y-6">
 
         <div>
@@ -28,83 +36,96 @@
                 </label>
 
                 <textarea name="question" rows="4"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{{ $question->question }}</textarea>
+                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{{ old('question', $question->question) }}</textarea>
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Option A
                 </label>
 
-                <input type="text" name="option_a" value="{{ $question->option_a }}"
+                <input type="text" name="option_a" value="{{ old('option_a', $question->option_a) }}"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Option B
                 </label>
 
-                <input type="text" name="option_b" value="{{ $question->option_b }}"
+                <input type="text" name="option_b" value="{{ old('option_b', $question->option_b) }}"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Option C
                 </label>
 
-                <input type="text" name="option_c" value="{{ $question->option_c }}"
+                <input type="text" name="option_c" value="{{ old('option_c', $question->option_c) }}"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Option D
                 </label>
 
-                <input type="text" name="option_d" value="{{ $question->option_d }}"
+                <input type="text" name="option_d" value="{{ old('option_d', $question->option_d) }}"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Option E
                 </label>
 
-                <input type="text" name="option_e" value="{{ $question->option_e }}"
+                <input type="text" name="option_e" value="{{ old('option_e', $question->option_e) }}"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Correct Answer
                 </label>
 
-                <input type="text" name="correct_answer" value="{{ $question->correct_answer }}"
+                <select name="correct_answer"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
+
+                    <option value="A" {{ old('correct_answer', $question->correct_answer) === 'A' ? 'selected' : '' }}>
+                        A</option>
+                    <option value="B" {{ old('correct_answer', $question->correct_answer) === 'B' ? 'selected' : '' }}>
+                        B</option>
+                    <option value="C" {{ old('correct_answer', $question->correct_answer) === 'C' ? 'selected' : '' }}>
+                        C</option>
+                    <option value="D"
+                        {{ old('correct_answer', $question->correct_answer) === 'D' ? 'selected' : '' }}>D</option>
+                    <option value="E"
+                        {{ old('correct_answer', $question->correct_answer) === 'E' ? 'selected' : '' }}>E</option>
+
+                </select>
 
             </div>
 
             <div>
 
-                <label class="block mb-2 font-semibold">
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Score
                 </label>
 
-                <input type="number" name="score" value="{{ $question->score }}"
+                <input type="number" name="score" value="{{ old('score', $question->score) }}" min="1"
                     class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
 
             </div>
@@ -117,7 +138,7 @@
 
                 </button>
 
-                <a href="{{ route('admin.reading-questions.index', $question->reading_material_id) }}"
+                <a href="{{ $backRoute }}"
                     class="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white">
 
                     Cancel

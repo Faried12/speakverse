@@ -7,6 +7,7 @@ use App\Models\Unit;
 use App\Models\ReadingMaterial;
 use App\Models\SpeakingMaterial;
 use App\Models\ListeningMaterial;
+use App\Models\WritingMaterial;
 
 class Lesson extends Model
 {

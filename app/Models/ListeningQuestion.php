@@ -9,6 +9,7 @@ class ListeningQuestion extends Model
     use HasFactory;
 
     protected $fillable = [
+        'lesson_id',
 
         'listening_material_id',
 
@@ -31,6 +32,14 @@ class ListeningQuestion extends Model
         return $this->belongsTo(
             ListeningMaterial::class,
             'listening_material_id'
+        );
+    }
+
+    public function lesson()
+    {
+        return $this->belongsTo(
+            Lesson::class,
+            'lesson_id'
         );
     }
 }

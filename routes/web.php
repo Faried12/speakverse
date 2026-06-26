@@ -319,6 +319,21 @@ Route::middleware(['auth', 'verified', 'admin'])
         */
 
         Route::get(
+            '/reading-lesson-questions/{lesson}',
+            [ReadingQuestionController::class, 'lessonIndex']
+        )->name('admin.reading-lesson-questions.index');
+
+        Route::get(
+            '/reading-lesson-questions/{lesson}/create',
+            [ReadingQuestionController::class, 'lessonCreate']
+        )->name('admin.reading-lesson-questions.create');
+
+        Route::post(
+            '/reading-lesson-questions/{lesson}',
+            [ReadingQuestionController::class, 'lessonStore']
+        )->name('admin.reading-lesson-questions.store');
+
+        Route::get(
             '/reading-questions/{material}',
             [ReadingQuestionController::class, 'index']
         )->name('admin.reading-questions.index');

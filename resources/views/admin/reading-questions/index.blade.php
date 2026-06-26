@@ -1,6 +1,14 @@
 @extends('layouts.admin')
 
 @section('content')
+    @php
+        $isLessonMode = isset($lesson);
+        $contextTitle = $isLessonMode ? $lesson->unit->title . ' - ' . ucfirst($lesson->skill_type) : $material->title;
+
+        $createRoute = $isLessonMode
+            ? route('admin.reading-lesson-questions.create', $lesson->id)
+            : route('admin.reading-questions.create', $material->id);
+    @endphp
 
     <div class="space-y-6">
 
@@ -14,12 +22,12 @@
                 </h1>
 
                 <p class="mt-1 text-slate-500 dark:text-slate-400">
-                    Manage questions for this reading material
+                    {{ $isLessonMode ? 'Manage reading questions for pre-test/post-test' : 'Manage questions for this reading material' }}
                 </p>
 
             </div>
 
-            <a href="{{ route('admin.reading-questions.create', $material->id) }}"
+            <a href="{{ $createRoute }}"
                 class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
 
                 + Add Question
@@ -28,14 +36,19 @@
 
         </div>
 
-        <!-- MATERIAL INFO -->
+        <!-- INFO -->
         <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-6">
 
             <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-                {{ $material->title }}
+                {{ $contextTitle }}
             </h2>
 
             <p class="mt-2 text-slate-500 dark:text-slate-400">
+                {{ $isLessonMode ? 'Lesson ID' : 'Material ID' }} :
+                {{ $isLessonMode ? $lesson->id : $material->id }}
+            </p>
+
+            <p class="mt-1 text-slate-500 dark:text-slate-400">
                 Total Questions :
                 {{ $questions->count() }}
             </p>
@@ -87,21 +100,15 @@
                             <tr class="border-t border-slate-200 dark:border-slate-700">
 
                                 <td class="px-6 py-4">
-
                                     {{ Str::limit($question->question, 80) }}
-
                                 </td>
 
                                 <td class="px-6 py-4">
-
                                     {{ $question->correct_answer }}
-
                                 </td>
 
                                 <td class="px-6 py-4">
-
                                     {{ $question->score }}
-
                                 </td>
 
                                 <td class="px-6 py-4">
@@ -115,8 +122,7 @@
 
                                         </a>
 
-                                        <button
-                                            type="button"
+                                        <button type="button"
                                             data-url="{{ route('admin.reading-questions.destroy', $question->id) }}"
                                             onclick="openDeleteModal(this.dataset.url)"
                                             class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition">
@@ -143,18 +149,14 @@
                     </div>
 
                     <h3 class="text-xl font-bold text-slate-900 dark:text-white">
-
                         No Questions Yet
-
                     </h3>
 
                     <p class="mt-2 text-slate-500 dark:text-slate-400">
-
                         Create your first reading question.
-
                     </p>
 
-                    <a href="{{ route('admin.reading-questions.create', $material->id) }}"
+                    <a href="{{ $createRoute }}"
                         class="inline-flex mt-6 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">
 
                         Create First Question
@@ -169,12 +171,9 @@
     </div>
 
     <!-- DELETE MODAL -->
-
     <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
 
         <div class="w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden">
-
-            <!-- HEADER -->
 
             <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-700">
 
@@ -183,8 +182,6 @@
                 </h3>
 
             </div>
-
-            <!-- BODY -->
 
             <div class="p-6">
 
@@ -200,13 +197,13 @@
 
             </div>
 
-            <!-- FOOTER -->
-
             <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 flex justify-end gap-3">
 
                 <button type="button" onclick="closeDeleteModal()"
                     class="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-white transition">
+
                     Cancel
+
                 </button>
 
                 <form id="deleteForm" method="POST">
@@ -228,8 +225,7 @@
 
     <script>
         function openDeleteModal(actionUrl) {
-            document.getElementById('deleteForm').action =
-                actionUrl;
+            document.getElementById('deleteForm').action = actionUrl;
 
             document
                 .getElementById('deleteModal')
