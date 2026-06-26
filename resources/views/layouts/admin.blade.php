@@ -153,51 +153,18 @@ document.documentElement.classList.toggle('dark', darkMode)"
 
                     </a>
 
-                    <!-- MISSIONS -->
-                    <a href="{{ route('admin.missions') }}"
-                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
-                        {{ request()->routeIs('admin.missions')
-                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
-                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
-
-                        <span class="text-xl">🎯</span>
-
-                        <span>Missions</span>
-
-                    </a>
-
-                    <!-- PRETEST -->
-                    <a href="{{ route('admin.pretests') }}"
-                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
-                        {{ request()->routeIs('admin.pretests')
-                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
-                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
-
-                        <span class="text-xl">📝</span>
-
-                        <span>Pretest</span>
-
-                    </a>
-
-                    <!-- PRACTICE -->
-                    <a href="{{ route('admin.practices') }}"
-                        class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
-                        {{ request()->routeIs('admin.practices')
-                            ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
-                            : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
-
-                        <span class="text-xl">🎤</span>
-
-                        <span>Practice</span>
-
-                    </a>
-
                     <!-- LEARNING -->
                     <a href="{{ route('admin.learning') }}"
                         class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
                         {{ request()->routeIs('admin.learning') ||
                         request()->routeIs('admin.reading-materials.*') ||
-                        request()->routeIs('admin.reading-questions.*')
+                        request()->routeIs('admin.reading-questions.*') ||
+                        request()->routeIs('admin.listening-materials.*') ||
+                        request()->routeIs('admin.listening-questions.*') ||
+                        request()->routeIs('admin.speaking-materials.*') ||
+                        request()->routeIs('admin.speaking-questions.*') ||
+                        request()->routeIs('admin.writing-materials.*') ||
+                        request()->routeIs('admin.writing-questions.*')
                             ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
                             : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
 

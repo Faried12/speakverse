@@ -6,7 +6,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VocabularyPretestController;
 use App\Http\Controllers\AdminVocabularyPretestController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\MissionController;
 use App\Http\Controllers\Admin\LearningContentController;
 use App\Http\Controllers\Admin\ReadingMaterialController;
 use App\Http\Controllers\Admin\ReadingQuestionController;
@@ -20,6 +19,7 @@ use App\Http\Controllers\StudentWritingController;
 use App\Http\Controllers\Admin\ListeningMaterialController;
 use App\Http\Controllers\Admin\ListeningQuestionController;
 use App\Http\Controllers\StudentListeningController;
+
 /*
 |--------------------------------------------------------------------------
 | Landing
@@ -27,9 +27,7 @@ use App\Http\Controllers\StudentListeningController;
 */
 
 Route::get('/', function () {
-
     return redirect('/login');
-
 });
 
 /*
@@ -47,17 +45,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
 
     Route::get('/dashboard', function () {
-
-        // admin redirect
         if (Auth::user()->role === 'admin') {
-
             return redirect('/admin/dashboard');
-
         }
 
-        // student dashboard
         return view('dashboard');
-
     })->name('dashboard');
 
     /*
@@ -67,21 +59,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
 
     Route::get('/missions', function () {
-
         return view('missions.index');
-
     })->name('missions');
 
     Route::get('/missions/pretest', function () {
-
         return view('missions.pretest');
-
     })->name('missions.pretest');
-
-    // Route::get(
-    //     '/missions/unit1/reading',
-    //     [StudentReadingController::class, 'index']
-    // )->name('student.reading');
 
     Route::get(
         '/missions/unit1/reading',
@@ -92,21 +75,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/missions/unit1/reading/quiz',
         [StudentReadingController::class, 'quiz']
     )->name('student.reading.quiz');
+
     /*
-|--------------------------------------------------------------------------
-| Listening
-|--------------------------------------------------------------------------
-*/
+    |--------------------------------------------------------------------------
+    | Student Listening
+    |--------------------------------------------------------------------------
+    */
 
-Route::get(
-    '/missions/unit1/listening',
-    [StudentListeningController::class, 'listening']
-)->name('student.listening');
+    Route::get(
+        '/missions/unit1/listening',
+        [StudentListeningController::class, 'listening']
+    )->name('student.listening');
 
-Route::get(
-    '/missions/unit1/listening/quiz',
-    [StudentListeningController::class, 'quiz']
-)->name('student.listening.quiz');
+    Route::get(
+        '/missions/unit1/listening/quiz',
+        [StudentListeningController::class, 'quiz']
+    )->name('student.listening.quiz');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Student Speaking
+    |--------------------------------------------------------------------------
+    */
 
     Route::get(
         '/missions/unit1/speaking',
@@ -123,15 +113,16 @@ Route::get(
         [StudentSpeakingController::class, 'quiz']
     )->name('student.speaking.quiz');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Student Writing
+    |--------------------------------------------------------------------------
+    */
+
     Route::get(
         '/missions/unit1/writing',
         [StudentWritingController::class, 'index']
     )->name('student.writing');
-
-    // Route::post(
-    //     '/missions/unit1/writing/{question}/submit',
-    //     [StudentWritingController::class, 'submit']
-    // )->name('student.writing.submit');
 
     Route::post(
         '/missions/unit1/writing/{material}/submit',
@@ -148,22 +139,13 @@ Route::get(
         [StudentWritingController::class, 'result']
     )->name('student.writing.result');
 
-    
-
-    
-
     Route::get('/practice', function () {
-
         return view('practice.index');
-
     })->name('practice');
 
     Route::get('/progress', function () {
-
         return view('progress.index');
-
     })->name('progress');
-
 
     /*
     |--------------------------------------------------------------------------
@@ -172,21 +154,15 @@ Route::get(
     */
 
     Route::get('/speaking-quest', function () {
-
         return view('speaking.quest');
-
     })->name('speaking.quest');
 
     Route::get('/reading-quest', function () {
-
         return view('reading.quest');
-
     })->name('reading.quest');
 
     Route::get('/vocabulary-quest', function () {
-
         return view('vocabulary.quest');
-
     })->name('vocabulary.quest');
 
     /*
@@ -206,19 +182,19 @@ Route::get(
 
     /*
     |--------------------------------------------------------------------------
-    | Vocabullary Pretest
+    | Vocabulary Pretest
     |--------------------------------------------------------------------------
     */
+
     Route::get(
         '/vocabulary/pretest',
-        [VocabularyPretestController::class,'index']
+        [VocabularyPretestController::class, 'index']
     )->name('vocabulary.pretest');
 
     Route::post(
         '/vocabulary/pretest/submit',
-        [VocabularyPretestController::class,'submit']
+        [VocabularyPretestController::class, 'submit']
     )->name('vocabulary.pretest.submit');
-
 
 });
 
@@ -249,8 +225,10 @@ Route::middleware(['auth', 'verified', 'admin'])
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/profile', [ProfileController::class, 'edit'])
-            ->name('admin.profile.edit');
+        Route::get(
+            '/profile',
+            [ProfileController::class, 'edit']
+        )->name('admin.profile.edit');
 
         /*
         |--------------------------------------------------------------------------
@@ -259,76 +237,23 @@ Route::middleware(['auth', 'verified', 'admin'])
         */
 
         Route::get('/users', function () {
-
             $users = \App\Models\User::latest('created_at')->get(['*']);
 
             return view('admin.users.index', [
                 'users' => $users
             ]);
-
         })->name('admin.users');
 
         /*
         |--------------------------------------------------------------------------
-        | Admin Missions
+        | Admin Vocabulary Pretest
         |--------------------------------------------------------------------------
         */
 
-        Route::get(
-            '/missions',
-            [MissionController::class, 'index']
-        )->name('admin.missions');
-
-        Route::post(
-            '/missions',
-            [MissionController::class, 'store']
-        )->name('admin.missions.store');
-
-        Route::get(
-            '/missions/{id}/edit',
-            [MissionController::class, 'edit']
-        )->name('admin.missions.edit');
-
-        Route::put(
-            '/missions/{id}',
-            [MissionController::class, 'update']
-        )->name('admin.missions.update');
-
-        Route::delete(
-            '/missions/{id}',
-            [MissionController::class, 'destroy']
-        )->name('admin.missions.destroy');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Admin Pretests
-        |--------------------------------------------------------------------------
-        */
-        Route::get('/pretests', function () {
-            return view('admin.pretests.index');
-        })->name('admin.pretests');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Admin Mission-Vocabulary
-        |--------------------------------------------------------------------------
-        */
         Route::resource(
             'vocabulary-pretests',
             AdminVocabularyPretestController::class
         )->names('admin.vocabulary-pretests');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Admin Practice
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get('/practices', function () {
-
-            return view('admin.practices.practice');
-
-        })->name('admin.practices');
 
         /*
         |--------------------------------------------------------------------------
@@ -337,20 +262,25 @@ Route::middleware(['auth', 'verified', 'admin'])
         */
 
         Route::get('/analytics', function () {
-
             return view('admin.analytics.analytic');
-
         })->name('admin.analytics');
 
         /*
         |--------------------------------------------------------------------------
-        | Admin learning
+        | Admin Learning
         |--------------------------------------------------------------------------
         */
+
         Route::get(
             '/learning',
             [LearningContentController::class, 'index']
         )->name('admin.learning');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reading Materials
+        |--------------------------------------------------------------------------
+        */
 
         Route::get(
             '/reading-materials/{lesson}',
@@ -381,6 +311,12 @@ Route::middleware(['auth', 'verified', 'admin'])
             '/reading-materials/{material}',
             [ReadingMaterialController::class, 'destroy']
         )->name('admin.reading-materials.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reading Questions
+        |--------------------------------------------------------------------------
+        */
 
         Route::get(
             '/reading-questions/{material}',
@@ -413,40 +349,82 @@ Route::middleware(['auth', 'verified', 'admin'])
         )->name('admin.reading-questions.destroy');
 
         /*
-|--------------------------------------------------------------------------
-| Listening Materials
-|--------------------------------------------------------------------------
-*/
+        |--------------------------------------------------------------------------
+        | Listening Materials
+        |--------------------------------------------------------------------------
+        */
 
-Route::get(
-    '/listening-materials/{lesson}',
-    [ListeningMaterialController::class, 'index']
-)->name('admin.listening-materials.index');
+        Route::get(
+            '/listening-materials/{lesson}',
+            [ListeningMaterialController::class, 'index']
+        )->name('admin.listening-materials.index');
 
-Route::get(
-    '/listening-materials/{lesson}/create',
-    [ListeningMaterialController::class, 'create']
-)->name('admin.listening-materials.create');
+        Route::get(
+            '/listening-materials/{lesson}/create',
+            [ListeningMaterialController::class, 'create']
+        )->name('admin.listening-materials.create');
 
-Route::post(
-    '/listening-materials/{lesson}',
-    [ListeningMaterialController::class, 'store']
-)->name('admin.listening-materials.store');
+        Route::post(
+            '/listening-materials/{lesson}',
+            [ListeningMaterialController::class, 'store']
+        )->name('admin.listening-materials.store');
 
-Route::get(
-    '/listening-materials/{material}/edit',
-    [ListeningMaterialController::class, 'edit']
-)->name('admin.listening-materials.edit');
+        Route::get(
+            '/listening-materials/{material}/edit',
+            [ListeningMaterialController::class, 'edit']
+        )->name('admin.listening-materials.edit');
 
-Route::put(
-    '/listening-materials/{material}',
-    [ListeningMaterialController::class, 'update']
-)->name('admin.listening-materials.update');
+        Route::put(
+            '/listening-materials/{material}',
+            [ListeningMaterialController::class, 'update']
+        )->name('admin.listening-materials.update');
 
-Route::delete(
-    '/listening-materials/{material}',
-    [ListeningMaterialController::class, 'destroy']
-)->name('admin.listening-materials.destroy');
+        Route::delete(
+            '/listening-materials/{material}',
+            [ListeningMaterialController::class, 'destroy']
+        )->name('admin.listening-materials.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Listening Questions
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/listening-questions/{material}',
+            [ListeningQuestionController::class, 'index']
+        )->name('admin.listening-questions.index');
+
+        Route::get(
+            '/listening-questions/{material}/create',
+            [ListeningQuestionController::class, 'create']
+        )->name('admin.listening-questions.create');
+
+        Route::post(
+            '/listening-questions/{material}',
+            [ListeningQuestionController::class, 'store']
+        )->name('admin.listening-questions.store');
+
+        Route::get(
+            '/listening-questions/{question}/edit',
+            [ListeningQuestionController::class, 'edit']
+        )->name('admin.listening-questions.edit');
+
+        Route::put(
+            '/listening-questions/{question}',
+            [ListeningQuestionController::class, 'update']
+        )->name('admin.listening-questions.update');
+
+        Route::delete(
+            '/listening-questions/{question}',
+            [ListeningQuestionController::class, 'destroy']
+        )->name('admin.listening-questions.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Speaking Materials
+        |--------------------------------------------------------------------------
+        */
 
         Route::get(
             '/speaking-materials/{lesson}',
@@ -478,6 +456,12 @@ Route::delete(
             [SpeakingMaterialController::class, 'destroy']
         )->name('admin.speaking-materials.destroy');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Speaking Questions
+        |--------------------------------------------------------------------------
+        */
+
         Route::get(
             '/speaking-questions/{material}',
             [SpeakingQuestionController::class, 'index']
@@ -508,106 +492,77 @@ Route::delete(
             [SpeakingQuestionController::class, 'destroy']
         )->name('admin.speaking-questions.destroy');
 
-        Route::get(
-        '/writing-materials/{lesson}',
-        [WritingMaterialController::class, 'index']
-        )->name('admin.writing-materials.index');
-
-        Route::get(
-        '/writing-materials/{lesson}/create',
-        [WritingMaterialController::class, 'create']
-        )->name('admin.writing-materials.create');
-
-        Route::post(
-        '/writing-materials/{lesson}',
-        [WritingMaterialController::class, 'store']
-        )->name('admin.writing-materials.store');
-
-        Route::get(
-        '/writing-materials/{material}/edit',
-        [WritingMaterialController::class, 'edit']
-        )->name('admin.writing-materials.edit');
-
-        Route::put(
-        '/writing-materials/{material}',
-        [WritingMaterialController::class, 'update']
-        )->name('admin.writing-materials.update');
-
-        Route::delete(
-        '/writing-materials/{material}',
-        [WritingMaterialController::class, 'destroy']
-        )->name('admin.writing-materials.destroy');
-
         /*
-        Writing Questions
-        --------------------------------------------------------------------------
+        |--------------------------------------------------------------------------
+        | Writing Materials
+        |--------------------------------------------------------------------------
         */
 
         Route::get(
-        '/writing-questions/{material}',
-        [WritingQuestionController::class, 'index']
+            '/writing-materials/{lesson}',
+            [WritingMaterialController::class, 'index']
+        )->name('admin.writing-materials.index');
+
+        Route::get(
+            '/writing-materials/{lesson}/create',
+            [WritingMaterialController::class, 'create']
+        )->name('admin.writing-materials.create');
+
+        Route::post(
+            '/writing-materials/{lesson}',
+            [WritingMaterialController::class, 'store']
+        )->name('admin.writing-materials.store');
+
+        Route::get(
+            '/writing-materials/{material}/edit',
+            [WritingMaterialController::class, 'edit']
+        )->name('admin.writing-materials.edit');
+
+        Route::put(
+            '/writing-materials/{material}',
+            [WritingMaterialController::class, 'update']
+        )->name('admin.writing-materials.update');
+
+        Route::delete(
+            '/writing-materials/{material}',
+            [WritingMaterialController::class, 'destroy']
+        )->name('admin.writing-materials.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Writing Questions
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/writing-questions/{material}',
+            [WritingQuestionController::class, 'index']
         )->name('admin.writing-questions.index');
 
         Route::get(
-        '/writing-questions/{material}/create',
-        [WritingQuestionController::class, 'create']
+            '/writing-questions/{material}/create',
+            [WritingQuestionController::class, 'create']
         )->name('admin.writing-questions.create');
 
         Route::post(
-        '/writing-questions/{material}',
-        [WritingQuestionController::class, 'store']
+            '/writing-questions/{material}',
+            [WritingQuestionController::class, 'store']
         )->name('admin.writing-questions.store');
 
         Route::get(
-        '/writing-question/{question}/edit',
-        [WritingQuestionController::class, 'edit']
+            '/writing-question/{question}/edit',
+            [WritingQuestionController::class, 'edit']
         )->name('admin.writing-questions.edit');
 
         Route::put(
-        '/writing-question/{question}',
-        [WritingQuestionController::class, 'update']
+            '/writing-question/{question}',
+            [WritingQuestionController::class, 'update']
         )->name('admin.writing-questions.update');
 
         Route::delete(
-        '/writing-question/{question}',
-        [WritingQuestionController::class, 'destroy']
+            '/writing-question/{question}',
+            [WritingQuestionController::class, 'destroy']
         )->name('admin.writing-questions.destroy');
-
-        /*
-|--------------------------------------------------------------------------
-| Listening Questions
-|--------------------------------------------------------------------------
-*/
-
-Route::get(
-    '/listening-questions/{material}',
-    [ListeningQuestionController::class, 'index']
-)->name('admin.listening-questions.index');
-
-Route::get(
-    '/listening-questions/{material}/create',
-    [ListeningQuestionController::class, 'create']
-)->name('admin.listening-questions.create');
-
-Route::post(
-    '/listening-questions/{material}',
-    [ListeningQuestionController::class, 'store']
-)->name('admin.listening-questions.store');
-
-Route::get(
-    '/listening-questions/{question}/edit',
-    [ListeningQuestionController::class, 'edit']
-)->name('admin.listening-questions.edit');
-
-Route::put(
-    '/listening-questions/{question}',
-    [ListeningQuestionController::class, 'update']
-)->name('admin.listening-questions.update');
-
-Route::delete(
-    '/listening-questions/{question}',
-    [ListeningQuestionController::class, 'destroy']
-)->name('admin.listening-questions.destroy');
 
     });
 
