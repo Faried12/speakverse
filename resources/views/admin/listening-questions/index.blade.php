@@ -1,285 +1,266 @@
 @extends('layouts.admin')
 
 @section('content')
+    @php
+        $isLessonMode = isset($lesson);
 
-<div class="space-y-6">
+        $contextTitle = $isLessonMode ? $lesson->unit->title . ' - ' . ucfirst($lesson->skill_type) : $material->title;
 
-    <!-- HEADER -->
-    <div class="flex items-center justify-between">
+        $createRoute = $isLessonMode
+            ? route('admin.listening-lesson-questions.create', $lesson->id)
+            : route('admin.listening-questions.create', $material->id);
+    @endphp
 
-        <div>
+    <div class="space-y-6">
 
-            <h1 class="text-3xl font-black text-slate-900 dark:text-white">
-                Listening Questions
-            </h1>
+        <!-- HEADER -->
+        <div class="flex items-center justify-between">
 
-            <p class="mt-1 text-slate-500 dark:text-slate-400">
-                Manage questions for this listening material
-            </p>
+            <div>
 
-        </div>
+                <h1 class="text-3xl font-black text-slate-900 dark:text-white">
+                    Listening Questions
+                </h1>
 
-        <a href="{{ route('admin.listening-questions.create', $material->id) }}"
-            class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
-
-            + Add Question
-
-        </a>
-
-    </div>
-
-    <!-- MATERIAL INFO -->
-    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-6">
-
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white">
-            {{ $material->title }}
-        </h2>
-
-        <p class="mt-2 text-slate-500 dark:text-slate-400">
-            Total Questions :
-            {{ $questions->count() }}
-        </p>
-
-        @if($material->audio_file)
-
-            <div class="mt-4">
-
-                <audio controls class="w-full">
-
-                    <source
-                        src="{{ asset('storage/'.$material->audio_file) }}"
-                        type="audio/mpeg">
-
-                </audio>
+                <p class="mt-1 text-slate-500 dark:text-slate-400">
+                    {{ $isLessonMode ? 'Manage listening questions for pre-test/post-test' : 'Manage questions for this listening material' }}
+                </p>
 
             </div>
 
-        @endif
+            <a href="{{ $createRoute }}"
+                class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
 
-    </div>
+                + Add Question
 
-    <!-- QUESTION LIST -->
-    <div
-        class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm overflow-hidden">
-
-        <div class="p-6 border-b border-slate-200 dark:border-slate-700">
-
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">
-                Question List
-            </h3>
+            </a>
 
         </div>
 
-        @if ($questions->count())
+        <!-- INFO -->
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-6">
 
-            <table class="w-full">
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">
+                {{ $contextTitle }}
+            </h2>
 
-                <thead>
+            <p class="mt-2 text-slate-500 dark:text-slate-400">
+                {{ $isLessonMode ? 'Lesson ID' : 'Material ID' }} :
+                {{ $isLessonMode ? $lesson->id : $material->id }}
+            </p>
 
-                    <tr class="bg-slate-100 dark:bg-slate-900">
+            <p class="mt-1 text-slate-500 dark:text-slate-400">
+                Total Questions :
+                {{ $questions->count() }}
+            </p>
 
-                        <th class="text-left px-6 py-4">
-                            Question
-                        </th>
+            @if (!$isLessonMode && $material->audio_file)
+                <div class="mt-4">
 
-                        <th class="text-left px-6 py-4">
-                            Correct
-                        </th>
+                    <audio controls class="w-full">
 
-                        <th class="text-left px-6 py-4">
-                            Score
-                        </th>
+                        <source src="{{ asset('storage/' . $material->audio_file) }}" type="audio/mpeg">
 
-                        <th class="text-left px-6 py-4">
-                            Action
-                        </th>
+                    </audio>
 
-                    </tr>
+                </div>
+            @endif
 
-                </thead>
+        </div>
 
-                <tbody>
+        <!-- QUESTION LIST -->
+        <div
+            class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm overflow-hidden">
 
-                    @foreach ($questions as $question)
+            <div class="p-6 border-b border-slate-200 dark:border-slate-700">
 
-                        <tr class="border-t border-slate-200 dark:border-slate-700">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+                    Question List
+                </h3>
 
-                            <td class="px-6 py-4">
+            </div>
 
-                                {{ Str::limit($question->question, 80) }}
+            @if ($questions->count())
+                <table class="w-full">
 
-                            </td>
+                    <thead>
 
-                            <td class="px-6 py-4">
+                        <tr class="bg-slate-100 dark:bg-slate-900">
 
-                                {{ $question->correct_answer }}
+                            <th class="text-left px-6 py-4">
+                                Question
+                            </th>
 
-                            </td>
+                            <th class="text-left px-6 py-4">
+                                Correct
+                            </th>
 
-                            <td class="px-6 py-4">
+                            <th class="text-left px-6 py-4">
+                                Score
+                            </th>
 
-                                {{ $question->score }}
-
-                            </td>
-
-                            <td class="px-6 py-4">
-
-                                <div class="flex gap-2">
-
-                                    <a href="{{ route('admin.listening-questions.edit', $question->id) }}"
-                                        class="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
-
-                                        Edit
-
-                                    </a>
-
-                                    <button
-                                        type="button"
-                                        data-url="{{ route('admin.listening-questions.destroy', $question->id) }}"
-                                        onclick="openDeleteModal(this.dataset.url)"
-                                        class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition">
-
-                                        Delete
-
-                                    </button>
-
-                                </div>
-
-                            </td>
+                            <th class="text-left px-6 py-4">
+                                Action
+                            </th>
 
                         </tr>
 
-                    @endforeach
+                    </thead>
 
-                </tbody>
+                    <tbody>
 
-            </table>
+                        @foreach ($questions as $question)
+                            <tr class="border-t border-slate-200 dark:border-slate-700">
 
-        @else
+                                <td class="px-6 py-4">
+                                    {{ Str::limit($question->question, 80) }}
+                                </td>
 
-            <div class="p-12 text-center">
+                                <td class="px-6 py-4">
+                                    {{ $question->correct_answer }}
+                                </td>
 
-                <div class="text-6xl mb-4">
-                    🎧
+                                <td class="px-6 py-4">
+                                    {{ $question->score }}
+                                </td>
+
+                                <td class="px-6 py-4">
+
+                                    <div class="flex gap-2">
+
+                                        <a href="{{ route('admin.listening-questions.edit', $question->id) }}"
+                                            class="px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white">
+
+                                            Edit
+
+                                        </a>
+
+                                        <button type="button"
+                                            data-url="{{ route('admin.listening-questions.destroy', $question->id) }}"
+                                            onclick="openDeleteModal(this.dataset.url)"
+                                            class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+
+                </table>
+            @else
+                <div class="p-12 text-center">
+
+                    <div class="text-6xl mb-4">
+                        🎧
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">
+                        No Questions Yet
+                    </h3>
+
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">
+                        Create your first listening question.
+                    </p>
+
+                    <a href="{{ $createRoute }}"
+                        class="inline-flex mt-6 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+
+                        Create First Question
+
+                    </a>
+
                 </div>
+            @endif
+
+        </div>
+
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div id="deleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
+
+        <div class="w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+
+            <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-700">
 
                 <h3 class="text-xl font-bold text-slate-900 dark:text-white">
-
-                    No Questions Yet
-
+                    Delete Question
                 </h3>
-
-                <p class="mt-2 text-slate-500 dark:text-slate-400">
-
-                    Create your first listening question.
-
-                </p>
-
-                <a href="{{ route('admin.listening-questions.create', $material->id) }}"
-                    class="inline-flex mt-6 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">
-
-                    Create First Question
-
-                </a>
 
             </div>
 
-        @endif
+            <div class="p-6">
 
-    </div>
+                <p class="text-slate-600 dark:text-slate-300">
+                    Are you sure you want to delete this question?
 
-</div>
+                    <br><br>
 
-<!-- DELETE MODAL -->
+                    This action cannot be undone.
+                </p>
 
-<div id="deleteModal"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
+            </div>
 
-    <div class="w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 flex justify-end gap-3">
 
-        <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-700">
+                <button type="button" onclick="closeDeleteModal()"
+                    class="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-white transition">
 
-            <h3 class="text-xl font-bold text-slate-900 dark:text-white">
-                Delete Question
-            </h3>
-
-        </div>
-
-        <div class="p-6">
-
-            <p class="text-slate-600 dark:text-slate-300">
-
-                Are you sure you want to delete this question?
-
-                <br><br>
-
-                This action cannot be undone.
-
-            </p>
-
-        </div>
-
-        <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 flex justify-end gap-3">
-
-            <button
-                type="button"
-                onclick="closeDeleteModal()"
-                class="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-white transition">
-
-                Cancel
-
-            </button>
-
-            <form id="deleteForm" method="POST">
-
-                @csrf
-                @method('DELETE')
-
-                <button
-                    type="submit"
-                    class="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white transition">
-
-                    Delete
+                    Cancel
 
                 </button>
 
-            </form>
+                <form id="deleteForm" method="POST">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white transition">
+
+                        Delete
+
+                    </button>
+
+                </form>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <script>
+        function openDeleteModal(actionUrl) {
+            document.getElementById('deleteForm').action = actionUrl;
 
-<script>
-    function openDeleteModal(actionUrl) {
+            document
+                .getElementById('deleteModal')
+                .classList
+                .remove('hidden');
 
-        document.getElementById(
-            'deleteForm'
-        ).action = actionUrl;
+            document
+                .getElementById('deleteModal')
+                .classList
+                .add('flex');
+        }
 
-        document
-            .getElementById('deleteModal')
-            .classList
-            .remove('hidden');
+        function closeDeleteModal() {
+            document
+                .getElementById('deleteModal')
+                .classList
+                .remove('flex');
 
-        document
-            .getElementById('deleteModal')
-            .classList
-            .add('flex');
-    }
-
-    function closeDeleteModal() {
-
-        document
-            .getElementById('deleteModal')
-            .classList
-            .remove('flex');
-
-        document
-            .getElementById('deleteModal')
-            .classList
-            .add('hidden');
-    }
-</script>
+            document
+                .getElementById('deleteModal')
+                .classList
+                .add('hidden');
+        }
+    </script>
 @endsection

@@ -405,6 +405,22 @@ Route::middleware(['auth', 'verified', 'admin'])
         |--------------------------------------------------------------------------
         */
 
+  
+        Route::get(
+            '/listening-lesson-questions/{lesson}',
+            [ListeningQuestionController::class, 'lessonIndex']
+        )->name('admin.listening-lesson-questions.index');
+
+        Route::get(
+            '/listening-lesson-questions/{lesson}/create',
+            [ListeningQuestionController::class, 'lessonCreate']
+        )->name('admin.listening-lesson-questions.create');
+
+        Route::post(
+            '/listening-lesson-questions/{lesson}',
+            [ListeningQuestionController::class, 'lessonStore']
+        )->name('admin.listening-lesson-questions.store');
+
         Route::get(
             '/listening-questions/{material}',
             [ListeningQuestionController::class, 'index']

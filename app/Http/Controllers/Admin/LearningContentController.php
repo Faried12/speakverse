@@ -9,9 +9,17 @@ class LearningContentController extends Controller
 {
     public function index()
     {
-        $units = Unit::with(
-            'lessons.readingMaterial'
-        )
+        $units = Unit::with([
+            'lessons.readingMaterial',
+            'lessons.listeningMaterials',
+            'lessons.speakingMaterials',
+            'lessons.writingMaterials',
+
+            'lessons.readingQuestions',
+            'lessons.listeningQuestions',
+            'lessons.speakingQuestions',
+            'lessons.writingQuestions',
+        ])
             ->orderBy('order_number')
             ->get();
 

@@ -10,7 +10,7 @@
             </h1>
 
             <p class="mt-2 text-slate-500 dark:text-slate-400">
-                Manage Units, Lessons, and Learning Materials
+                Manage Units, Lessons, Learning Materials, and Test Questions
             </p>
         </div>
 
@@ -39,23 +39,64 @@
 
                     @foreach ($unit->lessons as $lesson)
                         @php
+                            $isTest = in_array($unit->type, ['pretest', 'posttest']);
 
                             $route = '#';
+                            $label = 'Materials';
+                            $count = 0;
+                            $colorClass = 'text-blue-600 dark:text-blue-400';
 
                             if ($lesson->skill_type === 'reading') {
-                                if (in_array($unit->type, ['pretest', 'posttest'])) {
+                                if ($isTest) {
                                     $route = route('admin.reading-lesson-questions.index', $lesson->id);
+                                    $label = 'Reading Questions';
+                                    $count = $lesson->readingQuestions->count();
                                 } else {
                                     $route = route('admin.reading-materials.index', $lesson->id);
+                                    $label = 'Reading Materials';
+                                    $count = $lesson->readingMaterial->count();
                                 }
-                            } elseif ($lesson->skill_type === 'speaking') {
-                                $route = route('admin.speaking-materials.index', $lesson->id);
-                            } elseif ($lesson->skill_type === 'writing') {
-                                $route = route('admin.writing-materials.index', $lesson->id);
+
+                                $colorClass = 'text-blue-600 dark:text-blue-400';
                             } elseif ($lesson->skill_type === 'listening') {
-                                $route = route('admin.listening-materials.index', $lesson->id);
+                                if ($isTest) {
+                                    $route = route('admin.listening-lesson-questions.index', $lesson->id);
+                                    $label = 'Listening Questions';
+                                    $count = $lesson->listeningQuestions->count();
+                                } else {
+                                    $route = route('admin.listening-materials.index', $lesson->id);
+                                    $label = 'Listening Materials';
+                                    $count = $lesson->listeningMaterials->count();
+                                }
+
+                                $colorClass = 'text-orange-600 dark:text-orange-400';
+                            } elseif ($lesson->skill_type === 'writing') {
+                                if ($isTest) {
+                                    $route = '#';
+                                    $label = 'Writing Questions';
+                                    $count = $lesson->writingQuestions->count();
+                                } else {
+                                    $route = route('admin.writing-materials.index', $lesson->id);
+                                    $label = 'Writing Materials';
+                                    $count = $lesson->writingMaterials->count();
+                                }
+
+                                $colorClass = 'text-green-600 dark:text-green-400';
+                            } elseif ($lesson->skill_type === 'speaking') {
+                                if ($isTest) {
+                                    $route = '#';
+                                    $label = 'Speaking Questions';
+                                    $count = $lesson->speakingQuestions->count();
+                                } else {
+                                    $route = route('admin.speaking-materials.index', $lesson->id);
+                                    $label = 'Speaking Materials';
+                                    $count = $lesson->speakingMaterials->count();
+                                }
+
+                                $colorClass = 'text-purple-600 dark:text-purple-400';
                             }
 
+                            $itemText = $isTest ? 'Question' : 'Material';
                         @endphp
 
                         <a href="{{ $route }}"
@@ -85,82 +126,19 @@
 
                             </div>
 
-                            {{-- READING --}}
-                            @if ($lesson->skill_type === 'reading')
-                                <div class="mt-3">
+                            <div class="mt-3">
 
-                                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                                        Reading Materials
-                                    </span>
+                                <span class="text-sm text-slate-500 dark:text-slate-400">
+                                    {{ $label }}
+                                </span>
 
-                                    <div class="mt-1 text-xl font-bold text-blue-600 dark:text-blue-400">
-
-                                        {{ $lesson->readingMaterial->count() }}
-                                        Material
-
-                                    </div>
-
+                                <div class="mt-1 text-xl font-bold {{ $colorClass }}">
+                                    {{ $count }}
+                                    {{ $itemText }}
                                 </div>
 
-                                {{-- SPEAKING --}}
-                            @elseif ($lesson->skill_type === 'speaking')
-                                <div class="mt-3">
+                            </div>
 
-                                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                                        Speaking Materials
-                                    </span>
-
-                                    <div class="mt-1 text-xl font-bold text-purple-600 dark:text-purple-400">
-
-                                        {{ $lesson->speakingMaterials->count() }}
-                                        Material
-
-                                    </div>
-
-                                </div>
-
-                                {{-- WRITING --}}
-                            @elseif ($lesson->skill_type === 'writing')
-                                <div class="mt-3">
-
-                                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                                        Writing Materials
-                                    </span>
-
-                                    <div class="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
-
-                                        {{ $lesson->writingMaterials->count() }}
-                                        Material
-
-                                    </div>
-
-                                </div>
-
-                                {{-- LISTENING --}}
-                            @elseif ($lesson->skill_type === 'listening')
-                                <div class="mt-3">
-
-                                    <span class="text-sm text-slate-500 dark:text-slate-400">
-                                        Listening Materials
-                                    </span>
-
-                                    <div class="mt-1 text-xl font-bold text-orange-600 dark:text-orange-400">
-
-                                        {{ $lesson->listeningMaterials->count() }}
-                                        Material
-
-                                    </div>
-
-                                </div>
-
-                                {{-- OTHER --}}
-                            @else
-                                <div class="mt-3 text-sm text-slate-400">
-
-                                    Coming Soon
-
-                                </div>
-                            @endif
                         </a>
                     @endforeach
 
