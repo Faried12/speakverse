@@ -17,6 +17,9 @@ use App\Http\Controllers\Admin\SpeakingQuestionController;
 use App\Http\Controllers\Admin\WritingMaterialController;
 use App\Http\Controllers\Admin\WritingQuestionController;
 use App\Http\Controllers\StudentWritingController;
+use App\Http\Controllers\Admin\ListeningMaterialController;
+use App\Http\Controllers\Admin\ListeningQuestionController;
+use App\Http\Controllers\StudentListeningController;
 /*
 |--------------------------------------------------------------------------
 | Landing
@@ -89,6 +92,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         '/missions/unit1/reading/quiz',
         [StudentReadingController::class, 'quiz']
     )->name('student.reading.quiz');
+    /*
+|--------------------------------------------------------------------------
+| Listening
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/missions/unit1/listening',
+    [StudentListeningController::class, 'listening']
+)->name('student.listening');
+
+Route::get(
+    '/missions/unit1/listening/quiz',
+    [StudentListeningController::class, 'quiz']
+)->name('student.listening.quiz');
 
     Route::get(
         '/missions/unit1/speaking',
@@ -394,6 +412,42 @@ Route::middleware(['auth', 'verified', 'admin'])
             [ReadingQuestionController::class, 'destroy']
         )->name('admin.reading-questions.destroy');
 
+        /*
+|--------------------------------------------------------------------------
+| Listening Materials
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/listening-materials/{lesson}',
+    [ListeningMaterialController::class, 'index']
+)->name('admin.listening-materials.index');
+
+Route::get(
+    '/listening-materials/{lesson}/create',
+    [ListeningMaterialController::class, 'create']
+)->name('admin.listening-materials.create');
+
+Route::post(
+    '/listening-materials/{lesson}',
+    [ListeningMaterialController::class, 'store']
+)->name('admin.listening-materials.store');
+
+Route::get(
+    '/listening-materials/{material}/edit',
+    [ListeningMaterialController::class, 'edit']
+)->name('admin.listening-materials.edit');
+
+Route::put(
+    '/listening-materials/{material}',
+    [ListeningMaterialController::class, 'update']
+)->name('admin.listening-materials.update');
+
+Route::delete(
+    '/listening-materials/{material}',
+    [ListeningMaterialController::class, 'destroy']
+)->name('admin.listening-materials.destroy');
+
         Route::get(
             '/speaking-materials/{lesson}',
             [SpeakingMaterialController::class, 'index']
@@ -518,6 +572,42 @@ Route::middleware(['auth', 'verified', 'admin'])
         '/writing-question/{question}',
         [WritingQuestionController::class, 'destroy']
         )->name('admin.writing-questions.destroy');
+
+        /*
+|--------------------------------------------------------------------------
+| Listening Questions
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/listening-questions/{material}',
+    [ListeningQuestionController::class, 'index']
+)->name('admin.listening-questions.index');
+
+Route::get(
+    '/listening-questions/{material}/create',
+    [ListeningQuestionController::class, 'create']
+)->name('admin.listening-questions.create');
+
+Route::post(
+    '/listening-questions/{material}',
+    [ListeningQuestionController::class, 'store']
+)->name('admin.listening-questions.store');
+
+Route::get(
+    '/listening-questions/{question}/edit',
+    [ListeningQuestionController::class, 'edit']
+)->name('admin.listening-questions.edit');
+
+Route::put(
+    '/listening-questions/{question}',
+    [ListeningQuestionController::class, 'update']
+)->name('admin.listening-questions.update');
+
+Route::delete(
+    '/listening-questions/{question}',
+    [ListeningQuestionController::class, 'destroy']
+)->name('admin.listening-questions.destroy');
 
     });
 

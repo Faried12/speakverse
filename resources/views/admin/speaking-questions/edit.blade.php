@@ -35,8 +35,9 @@
 
                 <textarea
                     name="question"
-                    rows="5"
-                    class="w-full rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{{ old('question', $question->question) }}</textarea>
+                    rows="4"
+                    placeholder="Enter speaking question..."
+                    class="w-full p-4 min-h-[150px] rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y">{{ old('question', $question->question) }}</textarea>
 
                 @error('question')
                     <p class="text-red-500 text-sm mt-1">

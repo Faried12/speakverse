@@ -64,6 +64,13 @@
                                     $lesson->id
                                 );
 
+                            } elseif ($lesson->skill_type === 'listening') {
+
+                                $route = route(
+                                    'admin.listening-materials.index',
+                                    $lesson->id
+                                );
+
                             }
 
                         @endphp
@@ -143,6 +150,24 @@
                                 <div class="mt-1 text-xl font-bold text-green-600 dark:text-green-400">
 
                                     {{ $lesson->writingMaterials->count() }}
+                                    Material
+
+                                </div>
+
+                            </div>
+
+                            {{-- LISTENING --}}
+                            @elseif ($lesson->skill_type === 'listening')
+
+                            <div class="mt-3">
+
+                                <span class="text-sm text-slate-500 dark:text-slate-400">
+                                    Listening Materials
+                                </span>
+
+                                <div class="mt-1 text-xl font-bold text-orange-600 dark:text-orange-400">
+
+                                    {{ $lesson->listeningMaterials->count() }}
                                     Material
 
                                 </div>

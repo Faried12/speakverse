@@ -65,6 +65,26 @@
 
             </div>
 
+            <!-- PASSAGE -->
+            <div>
+
+                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
+                    Passage
+                </label>
+
+                <textarea
+                    name="passage"
+                    rows="12"
+                    class="w-full rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{{ old('passage', $material->passage) }}</textarea>
+
+                @error('passage')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                @enderror
+
+            </div>
+
             <!-- CURRENT IMAGE -->
             <div>
 
@@ -88,12 +108,6 @@
                 @endif
 
             </div>
-            <textarea
-    name="passage"
-    rows="10"
->
-{{ old('passage', $material->passage) }}
-</textarea>
 
             <!-- NEW IMAGE -->
             <div>

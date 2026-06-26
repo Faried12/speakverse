@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Unit;
 use App\Models\ReadingMaterial;
 use App\Models\SpeakingMaterial;
+use App\Models\ListeningMaterial;
 
 class Lesson extends Model
 {
@@ -41,6 +42,12 @@ class Lesson extends Model
     {
         return $this->hasMany(
             WritingMaterial::class
+        );
+    }
+    public function listeningMaterials()
+    {
+        return $this->hasMany(
+            ListeningMaterial::class
         );
     }
 }

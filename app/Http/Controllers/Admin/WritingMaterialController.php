@@ -116,6 +116,7 @@ class WritingMaterialController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'instruction' => 'nullable',
+            'passage' => 'nullable',
             'image' => 'nullable|image|max:2048',
         ]);
 
@@ -134,6 +135,7 @@ class WritingMaterialController extends Controller
         $material->update([
             'title' => $validated['title'],
             'instruction' => $validated['instruction'] ?? null,
+            'passage' => $validated['passage'] ?? null,
             'image' => $imagePath,
         ]);
 

@@ -53,6 +53,7 @@ class SpeakingMaterialController extends Controller
             'passage' => 'nullable',
             'image' => 'nullable|image|max:2048',
         ]);
+        
 
         $imagePath = null;
 
@@ -116,6 +117,7 @@ class SpeakingMaterialController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'instruction' => 'nullable',
+            'passage' => 'nullable',
             'image' => 'nullable|image|max:2048',
         ]);
 
@@ -134,10 +136,10 @@ class SpeakingMaterialController extends Controller
         $material->update([
             'title' => $validated['title'],
             'instruction' => $validated['instruction'] ?? null,
+            'passage' => $validated['passage'] ?? null,
             'image' => $imagePath,
         ]);
-
-        return redirect()
+                return redirect()
             ->route(
                 'admin.speaking-materials.index',
                 $material->lesson_id

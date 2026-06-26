@@ -237,7 +237,6 @@
 <div id="deleteModal"
     class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
 
-```
 <div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden">
 
     <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-700">

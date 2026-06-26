@@ -77,15 +77,27 @@
                     @enderror
 
                 </div>
-                <label>
-                    Passage
-                </label>
+                
+                <!-- PASSAGE -->
+                <div>
 
-                <textarea
-                    name="passage"
-                    rows="10"
-                >
-                </textarea>
+                    <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
+                        Passage
+                    </label>
+
+                    <textarea
+                        name="passage"
+                        rows="12"
+                        placeholder="Enter passage..."
+                        class="w-full p-4 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{{ old('passage') }}</textarea>
+
+                    @error('passage')
+                        <p class="text-red-500 text-sm mt-1">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
 
                 <!-- IMAGE -->
                 <div>

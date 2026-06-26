@@ -279,7 +279,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
                             <!-- LISTENING -->
-                            <button
+                            <a href="{{ route('student.listening') }}"
                                 type="button"
                                 class="group w-full text-left cursor-pointer
 
@@ -322,7 +322,7 @@
                                     Listen carefully and identify important information.
                                 </p>
 
-                            </button>
+                            </a>
 
                             <!-- READING -->
                             <a href="{{ route('student.reading') }}"

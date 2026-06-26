@@ -4,7 +4,6 @@
 
 <div class="max-w-5xl mx-auto space-y-6">
 
-```
 <div>
 
     <h1 class="text-3xl font-black text-slate-900 dark:text-white">
