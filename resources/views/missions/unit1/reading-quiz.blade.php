@@ -99,7 +99,7 @@
                             name="question_{{ $question->id }}"
                             value="A">
 
-                        A. {{ $question->option_a }}
+                        {{ $question->option_a }}
                     </label>
 
                     <label class="block p-4 rounded-2xl border cursor-pointer">
@@ -108,7 +108,7 @@
                             name="question_{{ $question->id }}"
                             value="B">
 
-                        B. {{ $question->option_b }}
+                        {{ $question->option_b }}
                     </label>
 
                     <label class="block p-4 rounded-2xl border cursor-pointer">
@@ -117,7 +117,7 @@
                             name="question_{{ $question->id }}"
                             value="C">
 
-                        C. {{ $question->option_c }}
+                        {{ $question->option_c }}
                     </label>
 
                     <label class="block p-4 rounded-2xl border cursor-pointer">
@@ -126,7 +126,7 @@
                             name="question_{{ $question->id }}"
                             value="D">
 
-                        D. {{ $question->option_d }}
+                        {{ $question->option_d }}
                     </label>
 
                     <label class="block p-4 rounded-2xl border cursor-pointer">
@@ -135,7 +135,7 @@
                             name="question_{{ $question->id }}"
                             value="E">
 
-                        E. {{ $question->option_e }}
+                        {{ $question->option_e }}
                     </label>
 
                 </div>
