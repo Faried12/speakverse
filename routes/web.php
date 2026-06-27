@@ -494,6 +494,21 @@ Route::middleware(['auth', 'verified', 'admin'])
         */
 
         Route::get(
+            '/speaking-lesson-questions/{lesson}',
+            [SpeakingQuestionController::class, 'lessonIndex']
+        )->name('admin.speaking-lesson-questions.index');
+
+        Route::get(
+            '/speaking-lesson-questions/{lesson}/create',
+            [SpeakingQuestionController::class, 'lessonCreate']
+        )->name('admin.speaking-lesson-questions.create');
+
+        Route::post(
+            '/speaking-lesson-questions/{lesson}',
+            [SpeakingQuestionController::class, 'lessonStore']
+        )->name('admin.speaking-lesson-questions.store');
+
+        Route::get(
             '/speaking-questions/{material}',
             [SpeakingQuestionController::class, 'index']
         )->name('admin.speaking-questions.index');
@@ -564,6 +579,21 @@ Route::middleware(['auth', 'verified', 'admin'])
         | Writing Questions
         |--------------------------------------------------------------------------
         */
+
+        Route::get(
+            '/writing-lesson-questions/{lesson}',
+            [WritingQuestionController::class, 'lessonIndex']
+        )->name('admin.writing-lesson-questions.index');
+
+        Route::get(
+            '/writing-lesson-questions/{lesson}/create',
+            [WritingQuestionController::class, 'lessonCreate']
+        )->name('admin.writing-lesson-questions.create');
+
+        Route::post(
+            '/writing-lesson-questions/{lesson}',
+            [WritingQuestionController::class, 'lessonStore']
+        )->name('admin.writing-lesson-questions.store');
 
         Route::get(
             '/writing-questions/{material}',

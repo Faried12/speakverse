@@ -72,7 +72,7 @@
                                 $colorClass = 'text-orange-600 dark:text-orange-400';
                             } elseif ($lesson->skill_type === 'writing') {
                                 if ($isTest) {
-                                    $route = '#';
+                                    $route = route('admin.writing-lesson-questions.index', $lesson->id);
                                     $label = 'Writing Questions';
                                     $count = $lesson->writingQuestions->count();
                                 } else {
@@ -84,7 +84,7 @@
                                 $colorClass = 'text-green-600 dark:text-green-400';
                             } elseif ($lesson->skill_type === 'speaking') {
                                 if ($isTest) {
-                                    $route = '#';
+                                    $route = route('admin.speaking-lesson-questions.index', $lesson->id);
                                     $label = 'Speaking Questions';
                                     $count = $lesson->speakingQuestions->count();
                                 } else {
