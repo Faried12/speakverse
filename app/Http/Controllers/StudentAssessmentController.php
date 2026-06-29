@@ -19,13 +19,7 @@ class StudentAssessmentController extends Controller
 {
     public function show($type, $skill)
     {
-        if (!in_array($type, ['pretest', 'posttest'])) {
-            abort(404);
-        }
-
-        if (!in_array($skill, ['listening', 'reading', 'writing', 'speaking'])) {
-            abort(404);
-        }
+        $this->validateTypeAndSkill($type, $skill);
 
         $unit = Unit::where('type', $type)
             ->where('status', 'active')
@@ -49,13 +43,7 @@ class StudentAssessmentController extends Controller
 
     public function submit(Request $request, $type, $skill)
     {
-        if (!in_array($type, ['pretest', 'posttest'])) {
-            abort(404);
-        }
-
-        if (!in_array($skill, ['listening', 'reading', 'writing', 'speaking'])) {
-            abort(404);
-        }
+        $this->validateTypeAndSkill($type, $skill);
 
         $unit = Unit::where('type', $type)
             ->where('status', 'active')
@@ -100,13 +88,24 @@ class StudentAssessmentController extends Controller
         $submission->load([
             'unit',
             'lesson',
-            'answers'
+            'answers',
         ]);
 
         return view(
             'missions.assessment.result',
             compact('submission')
         );
+    }
+
+    private function validateTypeAndSkill(string $type, string $skill): void
+    {
+        if (!in_array($type, ['pretest', 'posttest'])) {
+            abort(404);
+        }
+
+        if (!in_array($skill, ['listening', 'reading', 'writing', 'speaking'])) {
+            abort(404);
+        }
     }
 
     private function getQuestions(string $skill, int $lessonId)
@@ -153,18 +152,13 @@ class StudentAssessmentController extends Controller
                 ->whereIn('id', $questionIds)
                 ->get();
 
-        $totalScore = 0;
-        $maxScore = $questions->sum('score');
-
         return DB::transaction(function () use (
             $type,
             $skill,
             $unit,
             $lesson,
             $answers,
-            $questions,
-            $maxScore,
-            &$totalScore
+            $questions
         ) {
             $submission = AssessmentSubmission::create([
                 'user_id' => Auth::id(),
@@ -178,12 +172,17 @@ class StudentAssessmentController extends Controller
                 'submitted_at' => now(),
             ]);
 
+            $totalScore = 0;
+            $maxScore = 0;
+
             foreach ($questions as $question) {
                 $selectedOption = $answers[$question->id] ?? null;
                 $isCorrect = $selectedOption === $question->correct_answer;
-                $score = $isCorrect ? $question->score : 0;
+                $questionScore = (int) $question->score;
+                $score = $isCorrect ? $questionScore : 0;
 
                 $totalScore += $score;
+                $maxScore += $questionScore;
 
                 AssessmentAnswer::create([
                     'assessment_submission_id' => $submission->id,
@@ -193,7 +192,7 @@ class StudentAssessmentController extends Controller
                     'selected_option' => $selectedOption,
                     'is_correct' => $isCorrect,
                     'score' => $score,
-                    'max_score' => $question->score,
+                    'max_score' => $questionScore,
                     'feedback' => null,
                 ]);
             }
@@ -232,66 +231,74 @@ class StudentAssessmentController extends Controller
                 ->whereIn('id', $questionIds)
                 ->get();
 
-        $submission = AssessmentSubmission::create([
-            'user_id' => Auth::id(),
-            'unit_id' => $unit->id,
-            'lesson_id' => $lesson->id,
-            'type' => $type,
-            'skill' => $skill,
-            'final_score' => null,
-            'status' => 'pending',
-            'feedback' => 'Jawaban berhasil disimpan. Penilaian AI sedang diproses.',
-            'submitted_at' => now(),
-        ]);
-
-        $totalScore = 0;
-        $totalMaxScore = 0;
-        $combinedFeedback = [];
-
-        foreach ($questions as $question) {
-            $studentAnswer = $answers[$question->id] ?? '';
-
-            $aiResult = $this->scoreWithAi(
-                $skill,
-                $question->question,
-                $studentAnswer
-            );
-
-            $score = (int) ($aiResult['score'] ?? 0);
-            $feedback = $aiResult['feedback'] ?? 'Tidak ada feedback.';
-
-            $totalScore += $score;
-            $totalMaxScore += 100;
-
-            $combinedFeedback[] =
-                'Soal ' . $question->id . ': ' . $feedback;
-
-            AssessmentAnswer::create([
-                'assessment_submission_id' => $submission->id,
-                'question_type' => $skill,
-                'question_id' => $question->id,
-                'answer' => $studentAnswer,
-                'selected_option' => null,
-                'is_correct' => null,
-                'score' => $score,
-                'max_score' => 100,
-                'feedback' => $feedback,
+        return DB::transaction(function () use (
+            $type,
+            $skill,
+            $unit,
+            $lesson,
+            $answers,
+            $questions
+        ) {
+            $submission = AssessmentSubmission::create([
+                'user_id' => Auth::id(),
+                'unit_id' => $unit->id,
+                'lesson_id' => $lesson->id,
+                'type' => $type,
+                'skill' => $skill,
+                'final_score' => null,
+                'status' => 'pending',
+                'feedback' => 'Jawaban berhasil disimpan. Penilaian AI sedang diproses.',
+                'submitted_at' => now(),
             ]);
-        }
 
-        $finalScore = $totalMaxScore > 0
-            ? round(($totalScore / $totalMaxScore) * 100)
-            : 0;
+            $totalScore = 0;
+            $totalMaxScore = 0;
+            $combinedFeedback = [];
 
-        $submission->update([
-            'final_score' => $finalScore,
-            'status' => 'completed',
-            'feedback' => implode("\n", $combinedFeedback),
-        ]);
+            foreach ($questions as $question) {
+                $studentAnswer = $answers[$question->id] ?? '';
 
-        return redirect()
-            ->route('student.assessment.result', $submission->id)
-            ->with('success', 'Jawaban berhasil dikirim.');
+                $aiResult = $this->scoreWithAi(
+                    $skill,
+                    $question->question,
+                    $studentAnswer
+                );
+
+                $score = (int) ($aiResult['score'] ?? 0);
+                $feedback = $aiResult['feedback'] ?? 'Tidak ada feedback.';
+
+                $totalScore += $score;
+                $totalMaxScore += 100;
+
+                $combinedFeedback[] = 'Question ' . $question->id . ': ' . $feedback;
+
+                AssessmentAnswer::create([
+                    'assessment_submission_id' => $submission->id,
+                    'question_type' => $skill,
+                    'question_id' => $question->id,
+                    'answer' => $studentAnswer,
+                    'selected_option' => null,
+                    'is_correct' => null,
+                    'score' => $score,
+                    'max_score' => 100,
+                    'feedback' => $feedback,
+                ]);
+            }
+
+            $finalScore = $totalMaxScore > 0
+                ? round(($totalScore / $totalMaxScore) * 100)
+                : 0;
+
+            $submission->update([
+                'final_score' => $finalScore,
+                'status' => 'completed',
+                'feedback' => implode("\n", $combinedFeedback),
+            ]);
+
+            return redirect()
+                ->route('student.assessment.result', $submission->id)
+                ->with('success', 'Jawaban berhasil dikirim.');
+        });
     }
 
     private function scoreWithAi(
@@ -321,7 +328,7 @@ class StudentAssessmentController extends Controller
         if (!$response->successful()) {
             return [
                 'score' => 0,
-                'feedback' => 'Penilaian AI gagal diproses.',
+                'feedback' => 'Penilaian AI gagal diproses. Silakan coba lagi.',
             ];
         }
 

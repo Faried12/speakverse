@@ -2,7 +2,6 @@
 
     <div class="max-w-7xl mx-auto space-y-8">
 
-        <!-- HERO -->
         <section
             class="relative overflow-hidden rounded-[40px]
             border border-slate-200 dark:border-white/10
@@ -52,7 +51,6 @@
 
         </section>
 
-        <!-- STATS -->
         <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
             <div class="rounded-[30px] border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 p-6">
@@ -77,7 +75,6 @@
 
         </section>
 
-        <!-- SKILL PROGRESS -->
         <section
             class="rounded-[36px] border border-slate-200 dark:border-white/10
             bg-white/80 dark:bg-white/5 p-8">
@@ -112,7 +109,6 @@
 
         </section>
 
-        <!-- HISTORY -->
         <section>
 
             <h2 class="text-2xl font-black mb-5">
@@ -170,7 +166,8 @@
                                 </p>
 
                                 <p
-                                    class="text-4xl font-black {{ $score >= 80 ? 'text-green-400' : ($score >= 60 ? 'text-blue-400' : 'text-cyan-400') }}">
+                                    class="text-4xl font-black
+                                    {{ $score >= 80 ? 'text-green-400' : ($score >= 60 ? 'text-blue-400' : 'text-cyan-400') }}">
                                     {{ $score ?? '-' }}
                                 </p>
                             </div>
