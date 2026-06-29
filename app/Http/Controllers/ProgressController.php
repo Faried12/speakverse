@@ -21,9 +21,6 @@ class ProgressController extends Controller
         $averageScore = round($completed->avg('final_score') ?? 0);
         $totalCompleted = $completed->count();
 
-        $latestSubmission = $completed->first();
-        $latestScore = $latestSubmission?->final_score ?? 0;
-
         $pretestAverage = round(
             $completed->where('type', 'pretest')->avg('final_score') ?? 0
         );
@@ -40,18 +37,18 @@ class ProgressController extends Controller
         ];
 
         $bestSubmission = $completed->sortByDesc('final_score')->first();
+        $latestSubmission = $completed->first();
 
         return view('progress.index', compact(
             'submissions',
             'completed',
             'averageScore',
             'totalCompleted',
-            'latestScore',
-            'latestSubmission',
             'pretestAverage',
             'posttestAverage',
             'skillAverages',
-            'bestSubmission'
+            'bestSubmission',
+            'latestSubmission'
         ));
     }
 }
