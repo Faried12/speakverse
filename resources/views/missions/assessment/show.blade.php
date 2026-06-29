@@ -94,15 +94,14 @@
                             <textarea name="answers[{{ $question->id }}]" rows="8" required placeholder="Write your answer here..."
                                 class="w-full rounded-2xl border-slate-300 dark:border-white/10 dark:bg-white/5 dark:text-white"></textarea>
                         @elseif ($skill === 'speaking')
-                            <div
-                                class="p-4 rounded-2xl
-                            bg-yellow-100 text-yellow-800
-                            dark:bg-yellow-500/10 dark:text-yellow-300">
+                            <textarea name="answers[{{ $question->id }}]" rows="6" required
+                                placeholder="Type your speaking response here temporarily..."
+                                class="w-full rounded-2xl border-slate-300 dark:border-white/10 dark:bg-white/5 dark:text-white"></textarea>
 
-                                Speaking recorder belum dibuat pada tahap ini. Untuk sementara soal sudah berhasil
-                                tampil dari database.
-
-                            </div>
+                            <p class="text-sm text-slate-500">
+                                Sementara jawaban speaking diketik dulu. Nanti bagian ini bisa diganti menjadi recorder
+                                audio.
+                            </p>
                         @endif
 
                     </div>

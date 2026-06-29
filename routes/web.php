@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\ListeningMaterialController;
 use App\Http\Controllers\Admin\ListeningQuestionController;
 use App\Http\Controllers\StudentListeningController;
 use App\Http\Controllers\StudentAssessmentController;
+use App\Http\Controllers\ProgressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -148,6 +149,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
 
     Route::get(
+        '/missions/assessment/result/{submission}',
+        [StudentAssessmentController::class, 'result']
+    )->name('student.assessment.result');
+
+    Route::get(
         '/missions/{type}/{skill}',
         [StudentAssessmentController::class, 'show']
     )->name('student.assessment.show');
@@ -161,9 +167,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('practice.index');
     })->name('practice');
 
-    Route::get('/progress', function () {
-        return view('progress.index');
-    })->name('progress');
+    Route::get(
+        '/progress',
+        [ProgressController::class, 'index']
+    )->name('progress');
 
     /*
     |--------------------------------------------------------------------------
