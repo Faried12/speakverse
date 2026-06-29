@@ -14,13 +14,15 @@ class ProgressController extends Controller
             ->latest('submitted_at')
             ->get();
 
-        $completed = $submissions->where('status', 'completed');
+        $completed = $submissions
+            ->where('status', 'completed')
+            ->whereNotNull('final_score');
 
         $averageScore = round($completed->avg('final_score') ?? 0);
-
         $totalCompleted = $completed->count();
 
-        $latestScore = $completed->first()?->final_score ?? 0;
+        $latestSubmission = $completed->first();
+        $latestScore = $latestSubmission?->final_score ?? 0;
 
         $pretestAverage = round(
             $completed->where('type', 'pretest')->avg('final_score') ?? 0
@@ -37,14 +39,19 @@ class ProgressController extends Controller
             'speaking' => round($completed->where('skill', 'speaking')->avg('final_score') ?? 0),
         ];
 
+        $bestSubmission = $completed->sortByDesc('final_score')->first();
+
         return view('progress.index', compact(
             'submissions',
+            'completed',
             'averageScore',
             'totalCompleted',
             'latestScore',
+            'latestSubmission',
             'pretestAverage',
             'posttestAverage',
-            'skillAverages'
+            'skillAverages',
+            'bestSubmission'
         ));
     }
 }

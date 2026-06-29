@@ -18,6 +18,10 @@ class AssessmentSubmission extends Model
         'submitted_at',
     ];
 
+    protected $casts = [
+        'submitted_at' => 'datetime',
+    ];
+
     public function answers()
     {
         return $this->hasMany(AssessmentAnswer::class);
