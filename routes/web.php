@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ListeningQuestionController;
 use App\Http\Controllers\StudentListeningController;
 use App\Http\Controllers\StudentAssessmentController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\MissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +55,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/missions', function () {
-        return view('missions.index');
-    })->name('missions');
+    Route::get(
+        '/missions',
+        [MissionController::class, 'index']
+    )->name('missions');
 
     Route::get('/missions/pretest', function () {
         return view('missions.pretest');

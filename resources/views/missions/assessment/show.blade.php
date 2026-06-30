@@ -1,39 +1,62 @@
 <x-app-layout>
 
-    <div class="max-w-5xl mx-auto space-y-8">
+    <div class="max-w-6xl mx-auto space-y-8">
 
-        <div>
-            <h1 class="text-3xl md:text-4xl font-black">
-                {{ strtoupper($type) }} - {{ ucfirst($skill) }}
-            </h1>
+        <!-- HEADER -->
+        <section
+            class="relative overflow-hidden rounded-[40px]
+            border border-slate-200 dark:border-white/10
+            bg-white/80 dark:bg-white/5
+            backdrop-blur-2xl p-8 lg:p-10">
 
-            <p class="mt-2 text-slate-500">
-                {{ $lesson->title }} Assessment
-            </p>
-        </div>
+            <div class="absolute -top-24 -right-24 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10">
+
+                <p class="text-cyan-500 font-black mb-3">
+                    {{ strtoupper($type) }} Assessment
+                </p>
+
+                <h1 class="text-4xl lg:text-5xl font-black">
+                    {{ ucfirst($skill) }} Test
+                </h1>
+
+                <p class="mt-3 text-slate-500">
+                    {{ $lesson->title }} Assessment
+                </p>
+
+            </div>
+
+        </section>
 
         @if (session('success'))
-            <div class="p-4 rounded-2xl bg-green-100 text-green-700 font-semibold">
+            <div class="p-4 rounded-2xl bg-green-100 text-green-700 font-bold">
                 {{ session('success') }}
             </div>
         @endif
 
-        <div
-            class="rounded-[28px]
-        border border-slate-200 dark:border-white/10
-        bg-white/70 dark:bg-white/5
-        backdrop-blur-xl
-        p-6">
+        @if (session('error'))
+            <div class="p-4 rounded-2xl bg-red-100 text-red-700 font-bold">
+                {{ session('error') }}
+            </div>
+        @endif
 
-            <h2 class="text-xl font-bold">
+        <!-- INFO -->
+        <section
+            class="rounded-[30px]
+            border border-slate-200 dark:border-white/10
+            bg-white/80 dark:bg-white/5
+            p-6">
+
+            <h2 class="text-xl font-black">
                 Total Questions: {{ $questions->count() }}
             </h2>
 
             <p class="mt-2 text-slate-500">
-                Answer all questions below.
+                Answer all questions below, then submit your assessment.
             </p>
 
-        </div>
+        </section>
 
         @if ($questions->count())
 
@@ -43,22 +66,43 @@
                 @csrf
 
                 @foreach ($questions as $index => $question)
-                    <div
-                        class="rounded-[28px]
-                    border border-slate-200 dark:border-white/10
-                    bg-white/70 dark:bg-white/5
-                    backdrop-blur-xl
-                    p-6 space-y-5">
+                    <section
+                        class="rounded-[32px]
+                        border border-slate-200 dark:border-white/10
+                        bg-white/80 dark:bg-white/5
+                        p-6 lg:p-8 space-y-6">
 
-                        <div>
-                            <p class="font-bold text-lg">
-                                {{ $index + 1 }}. {{ $question->question }}
-                            </p>
+                        <div class="flex items-start gap-4">
+
+                            <div
+                                class="w-10 h-10 shrink-0 rounded-2xl
+                                bg-cyan-500/10 text-cyan-500
+                                flex items-center justify-center
+                                font-black">
+                                {{ $index + 1 }}
+                            </div>
+
+                            <div>
+                                <p class="text-lg lg:text-xl font-black leading-relaxed">
+                                    {{ $question->question }}
+                                </p>
+
+                                <p class="mt-2 text-sm text-slate-500">
+                                    Question {{ $index + 1 }} of {{ $questions->count() }}
+                                </p>
+                            </div>
+
                         </div>
 
                         @if (!empty($question->image))
                             <img src="{{ asset('storage/' . $question->image) }}"
-                                class="w-full max-w-md rounded-2xl border border-slate-200 dark:border-white/10">
+                                class="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
+                        @endif
+
+                        @if (!empty($question->audio_file))
+                            <audio controls class="w-full">
+                                <source src="{{ asset('storage/' . $question->audio_file) }}">
+                            </audio>
                         @endif
 
                         @if ($skill === 'reading' || $skill === 'listening')
@@ -71,17 +115,19 @@
 
                                     @if (!empty($question->$field))
                                         <label
-                                            class="flex items-start gap-3
-                                        p-4 rounded-2xl
-                                        border border-slate-200 dark:border-white/10
-                                        bg-slate-50 dark:bg-white/5
-                                        cursor-pointer">
+                                            class="group flex items-start gap-4
+                                            p-4 rounded-2xl
+                                            border border-slate-200 dark:border-white/10
+                                            bg-slate-50 dark:bg-white/5
+                                            hover:border-cyan-400
+                                            hover:bg-cyan-500/5
+                                            cursor-pointer transition">
 
                                             <input type="radio" name="answers[{{ $question->id }}]"
-                                                value="{{ $option }}" required class="mt-1">
+                                                value="{{ $option }}" required
+                                                class="mt-1 text-cyan-500 focus:ring-cyan-500">
 
                                             <span>
-                                                <strong>{{ $option }}.</strong>
                                                 {{ $question->$field }}
                                             </span>
 
@@ -91,37 +137,75 @@
 
                             </div>
                         @elseif ($skill === 'writing')
-                            <textarea name="answers[{{ $question->id }}]" rows="8" required placeholder="Write your answer here..."
-                                class="w-full rounded-2xl border-slate-300 dark:border-white/10 dark:bg-white/5 dark:text-white"></textarea>
-                        @elseif ($skill === 'speaking')
-                            <textarea name="answers[{{ $question->id }}]" rows="6" required
-                                placeholder="Type your speaking response here temporarily..."
-                                class="w-full rounded-2xl border-slate-300 dark:border-white/10 dark:bg-white/5 dark:text-white"></textarea>
+                            <div class="space-y-3">
 
-                            <p class="text-sm text-slate-500">
-                                Sementara jawaban speaking diketik dulu. Nanti bagian ini bisa diganti menjadi recorder
-                                audio.
-                            </p>
+                                <label class="font-black">
+                                    Your Writing Answer
+                                </label>
+
+                                <textarea name="answers[{{ $question->id }}]" rows="9" required placeholder="Write your answer here..."
+                                    class="w-full rounded-3xl
+                                    border border-slate-300 dark:border-white/10
+                                    bg-white dark:bg-white/5
+                                    text-slate-900 dark:text-white
+                                    p-5 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"></textarea>
+
+                                <p class="text-sm text-slate-500">
+                                    Your answer will be assessed using AI based on content, organization, grammar,
+                                    vocabulary, and mechanics.
+                                </p>
+
+                            </div>
+                        @elseif ($skill === 'speaking')
+                            <div class="space-y-3">
+
+                                <label class="font-black">
+                                    Your Speaking Response
+                                </label>
+
+                                <textarea name="answers[{{ $question->id }}]" rows="7" required
+                                    placeholder="Type your speaking response here temporarily..."
+                                    class="w-full rounded-3xl
+                                    border border-slate-300 dark:border-white/10
+                                    bg-white dark:bg-white/5
+                                    text-slate-900 dark:text-white
+                                    p-5 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"></textarea>
+
+                                <div
+                                    class="p-4 rounded-2xl
+                                    bg-yellow-100 text-yellow-800
+                                    dark:bg-yellow-500/10 dark:text-yellow-300
+                                    text-sm font-semibold">
+
+                                    Saat ini jawaban speaking masih diketik sebagai transcript sementara.
+                                    Nanti bagian ini bisa diganti menjadi fitur recorder audio.
+
+                                </div>
+
+                            </div>
                         @endif
 
-                    </div>
+                    </section>
                 @endforeach
 
-                <div class="flex gap-3">
+                <!-- ACTION -->
+                <div class="flex flex-col sm:flex-row gap-3">
 
                     <button type="submit"
-                        class="px-6 py-3 rounded-2xl
-                    bg-gradient-to-r from-cyan-500 to-blue-600
-                    text-white font-bold">
+                        class="px-7 py-4 rounded-2xl
+                        bg-gradient-to-r from-cyan-500 to-blue-600
+                        text-white font-black
+                        hover:scale-[1.02] transition">
 
                         Submit Assessment
 
                     </button>
 
                     <a href="{{ route('missions.pretest') }}"
-                        class="px-6 py-3 rounded-2xl
-                    bg-slate-200 dark:bg-white/10
-                    text-slate-900 dark:text-white font-bold">
+                        class="px-7 py-4 rounded-2xl
+                        bg-slate-200 dark:bg-white/10
+                        text-slate-900 dark:text-white
+                        font-black text-center">
 
                         Back
 
@@ -131,24 +215,33 @@
 
             </form>
         @else
-            <div
-                class="p-12 text-center rounded-[28px]
-            border border-slate-200 dark:border-white/10
-            bg-white/70 dark:bg-white/5">
+            <section
+                class="p-14 text-center rounded-[32px]
+                border border-slate-200 dark:border-white/10
+                bg-white/80 dark:bg-white/5">
 
-                <div class="text-6xl mb-4">
+                <div class="text-7xl mb-5">
                     ❓
                 </div>
 
-                <h3 class="text-xl font-black">
+                <h3 class="text-2xl font-black">
                     No Questions Yet
                 </h3>
 
-                <p class="mt-2 text-slate-500">
+                <p class="mt-3 text-slate-500">
                     Admin belum menambahkan soal untuk bagian ini.
                 </p>
 
-            </div>
+                <a href="{{ route('missions.pretest') }}"
+                    class="inline-flex mt-6 px-6 py-3 rounded-2xl
+                    bg-gradient-to-r from-cyan-500 to-blue-600
+                    text-white font-black">
+
+                    Back to Pretest
+
+                </a>
+
+            </section>
 
         @endif
 

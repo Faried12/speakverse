@@ -44,16 +44,6 @@ document.documentElement.classList.toggle('dark', darkMode)"
         <div class="absolute bottom-[-200px] right-[-200px] w-[450px] h-[450px] bg-purple-500/10 rounded-full blur-3xl">
         </div>
 
-        <!-- GRID -->
-        <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-            style="
-                background-image:
-                linear-gradient(to right, white 1px, transparent 1px),
-                linear-gradient(to bottom, white 1px, transparent 1px);
-                background-size: 60px 60px;
-            ">
-        </div>
-
     </div>
 
     <!-- APP -->

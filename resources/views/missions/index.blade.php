@@ -1,121 +1,116 @@
 <x-app-layout>
 
-    <div class="space-y-8">
+    @php
+        $stageIcons = [
+            'pretest' => 'clipboard',
+            'posttest' => 'clipboard',
+            'unit' => 'book',
+        ];
+
+        $stageGradients = [
+            'pretest' => 'from-orange-500 to-red-500',
+            'posttest' => 'from-orange-500 to-red-500',
+            'unit' => 'from-cyan-400 to-blue-600',
+        ];
+
+        $skillIcons = [
+            'listening' => '🎧',
+            'reading' => '📖',
+            'writing' => '✍️',
+            'speaking' => '🎙️',
+        ];
+
+        $skillDescriptions = [
+            'listening' => 'Listen carefully and identify important information.',
+            'reading' => 'Read the text and understand the main ideas.',
+            'writing' => 'Organize and write your ideas effectively.',
+            'speaking' => 'Practice expressing ideas confidently.',
+        ];
+
+        function missionSkillRoute($unit, $skill)
+        {
+            if ($unit->type === 'pretest') {
+                return route('student.assessment.show', [
+                    'type' => 'pretest',
+                    'skill' => $skill,
+                ]);
+            }
+
+            if ($unit->type === 'posttest') {
+                return route('student.assessment.show', [
+                    'type' => 'posttest',
+                    'skill' => $skill,
+                ]);
+            }
+
+            if ((int) $unit->order_number === 2) {
+                return match ($skill) {
+                    'listening' => route('student.listening'),
+                    'reading' => route('student.reading'),
+                    'writing' => route('student.writing'),
+                    'speaking' => route('student.speaking'),
+                    default => '#',
+                };
+            }
+
+            return '#';
+        }
+    @endphp
+
+    <div class="space-y-10">
 
         <!-- HEADER -->
         <section
-            class="relative overflow-hidden rounded-[32px]
+            class="relative overflow-hidden rounded-[40px]
             border border-slate-200 dark:border-white/10
-            bg-white/70 dark:bg-white/5
+            bg-white/80 dark:bg-white/5
             backdrop-blur-2xl
-            p-8 lg:p-10">
+            p-8 lg:p-12">
 
-            <!-- GLOW -->
-            <div
-                class="absolute top-[-100px] right-[-100px]
-                w-[250px] h-[250px]
-                bg-cyan-400/10 rounded-full blur-3xl">
-            </div>
+            <div class="absolute -top-28 -right-28 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-28 -left-28 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
 
-            <div class="relative z-10">
+            <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
-                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-
-                    <!-- LEFT -->
-                    <div>
-
-                        <div
-                            class="inline-flex items-center gap-2
-                            px-4 py-2 rounded-full
-                            bg-cyan-500/10 border border-cyan-400/20
-                            text-cyan-400 text-sm font-medium mb-5">
-
-                            🎯 Daily Missions
-
-                        </div>
-
-                        <h1 class="text-4xl lg:text-5xl font-black leading-tight">
-
-                            Complete Missions
-                            <br>
-                            Earn XP & Level Up 🚀
-
-                        </h1>
-
-                        <p
-                            class="mt-5 text-slate-600 dark:text-slate-400
-                            text-lg max-w-2xl leading-relaxed">
-
-                            Improve your English skills through interactive
-                            daily challenges, listening exercises, reading comprehension, writing prompts, and speaking practice with AI-powered exercises.
-
-                        </p>
-
+                <div>
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full
+                        bg-cyan-500/10 text-cyan-500 font-bold text-sm mb-5">
+                        🎯 Learning Path
                     </div>
 
-                    <!-- RIGHT STATS -->
-                    <div class="grid grid-cols-2 gap-5 min-w-[320px]">
+                    <h1 class="text-4xl lg:text-6xl font-black leading-tight">
+                        Complete Missions
+                        <br>
+                        Unlock Your Journey 🚀
+                    </h1>
 
-                        <!-- TOTAL -->
-                        <div
-                            class="rounded-3xl border border-slate-200 dark:border-white/10
-                            bg-slate-50 dark:bg-white/5 p-6">
+                    <p class="mt-5 text-slate-500 max-w-2xl text-base lg:text-lg leading-relaxed">
+                        Complete each stage step by step. Finish all Pre-Test skills first to unlock Unit 1, then
+                        continue until the Post-Test.
+                    </p>
+                </div>
 
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                                Completed
-                            </p>
+                <div
+                    class="rounded-[32px] bg-slate-100 dark:bg-white/5
+                    border border-slate-200 dark:border-white/10 p-6 min-w-[260px]">
 
-                            <h3 class="text-4xl font-black text-green-400">
-                                8
-                            </h3>
+                    <p class="text-sm text-slate-500">
+                        Overall Progress
+                    </p>
 
+                    <h2 class="mt-2 text-6xl font-black text-cyan-400">
+                        {{ $overallProgress }}%
+                    </h2>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        {{ $completedTotal }} of {{ $totalStages }} stages completed
+                    </p>
+
+                    <div class="mt-5 w-full h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                        <div class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-600"
+                            style="width: {{ $overallProgress }}%">
                         </div>
-
-                        <!-- XP -->
-                        <div
-                            class="rounded-3xl border border-slate-200 dark:border-white/10
-                            bg-slate-50 dark:bg-white/5 p-6">
-
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                                XP Earned
-                            </p>
-
-                            <h3 class="text-4xl font-black text-cyan-400">
-                                1,250
-                            </h3>
-
-                        </div>
-
-                        <!-- STREAK -->
-                        <div
-                            class="rounded-3xl border border-slate-200 dark:border-white/10
-                            bg-slate-50 dark:bg-white/5 p-6">
-
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                                Daily Streak
-                            </p>
-
-                            <h3 class="text-4xl font-black text-orange-400">
-                                12🔥
-                            </h3>
-
-                        </div>
-
-                        <!-- LEVEL -->
-                        <div
-                            class="rounded-3xl border border-slate-200 dark:border-white/10
-                            bg-slate-50 dark:bg-white/5 p-6">
-
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">
-                                Current Rank
-                            </p>
-
-                            <h3 class="text-3xl font-black">
-                                Silver
-                            </h3>
-
-                        </div>
-
                     </div>
 
                 </div>
@@ -124,1096 +119,338 @@
 
         </section>
 
-        <!-- MISSIONS LIST -->
+        <!-- TIMELINE -->
         <section>
 
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-8">
+                <h2 class="text-2xl font-black">
+                    Mission Roadmap
+                </h2>
 
-                <div>
+                <p class="mt-1 text-slate-500">
+                    Unlock every mission by completing the previous stage.
+                </p>
+            </div>
 
-                    <h2 class="text-2xl font-bold">
-                        Today's Missions
-                    </h2>
+            <div class="relative">
 
-                    <p class="text-slate-500 dark:text-slate-400 mt-1">
-                        Complete all missions to maximize your daily XP.
-                    </p>
-
+                <div
+                    class="absolute left-7 lg:left-8 top-8 bottom-8 w-[4px]
+                    bg-slate-300 dark:bg-white/10 rounded-full">
                 </div>
 
-            </div>
+                <div class="space-y-14">
 
-        <!-- TIMELINE -->
-        <div class="relative">
+                    @foreach ($units as $unit)
+                        @php
+                            $isUnlocked = $unlockMap[$unit->id] ?? false;
+                            $progress = $completedMap[$unit->id] ?? [
+                                'completed_skills' => [],
+                                'completed_count' => 0,
+                                'is_completed' => false,
+                            ];
 
-            <!-- LINE -->
-            <div
-                class="absolute left-7 lg:left-8
-                top-8
-                bottom-[250px]
-                w-[4px]
-                bg-slate-500 dark:bg-slate-700">
-            </div>
-            <div class="space-y-14">
+                            $completedSkills = $progress['completed_skills'];
+                            $isStageCompleted = $progress['is_completed'];
+                            $completedCount = $progress['completed_count'];
 
-                <!-- PRETEST -->
-                <div class="relative flex gap-6">
+                            $stageTitle =
+                                $unit->type === 'unit'
+                                    ? $unit->title
+                                    : strtoupper(str_replace('test', '-TEST', $unit->type));
 
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white text-3xl">
+                            $gradient = $stageGradients[$unit->type] ?? 'from-cyan-400 to-blue-600';
 
-                        <x-heroicon-o-clipboard-document-check
-                        class="w-9 h-9 text-white" />
+                            $stageProgress = count($skills) > 0 ? round(($completedCount / count($skills)) * 100) : 0;
+                        @endphp
 
-                    </div>
+                        <div class="relative flex gap-6">
 
-                    <div class="flex-1 min-w-0">
-
-                        <h2 class="text-2xl lg:text-3xl font-black">
-                            PRE-TEST
-                        </h2>
-
-                        <p class="text-slate-500 mb-5">
-                            Baseline Assessment
-                        </p>
-
-                        <a href="{{ route('missions.pretest') }}"
-                            class="group block w-full lg:max-w-md text-left
-
-                            rounded-[28px]
-                            border border-slate-200 dark:border-white/10
-                            bg-white/70 dark:bg-white/5
-                            backdrop-blur-xl p-6
-
-                            hover:-translate-y-1
-                            hover:shadow-xl
-                            hover:shadow-cyan-500/10
-                            hover:border-cyan-400/30
-
-                            active:scale-[0.98]
-
-                            transition-all duration-300">
-
-                            <!-- ICON -->
+                            <!-- STAGE ICON -->
                             <div
-                                class="w-12 h-12 rounded-2xl
-                                bg-cyan-500/10
-                                border border-cyan-500/20
-                                flex items-center justify-center
-                                mb-5
+                                class="relative z-10 w-16 h-16 shrink-0 rounded-2xl
+                                bg-gradient-to-r {{ $isUnlocked ? $gradient : 'from-slate-500 to-slate-700' }}
+                                flex items-center justify-center text-white text-3xl
+                                shadow-lg {{ $isUnlocked ? 'shadow-cyan-500/20' : '' }}">
 
-                                group-hover:bg-cyan-500/20
-                                transition-all duration-300">
-
-                                <x-heroicon-o-play
-                                    class="w-6 h-6 text-cyan-400
-                                    group-hover:scale-110
-                                    transition-all duration-300" />
-
-                            </div>
-
-                            <!-- TITLE -->
-                            <h3
-                                class="text-xl lg:text-2xl font-bold
-                                transition-colors duration-300">
-
-                                Start Pre-Test
-
-                            </h3>
-
-                            <!-- DESCRIPTION -->
-                            <!-- <p class="text-slate-500 mt-2">
-                                TASK: SPEAKING • +50 XP
-                            </p> -->
-
-                            <!-- FOOTER -->
-                            <div class="flex items-center justify-between mt-5">
-
-                                <span
-                                    class="inline-flex items-center gap-2
-                                    px-3 py-1 rounded-full
-                                    bg-cyan-500/10
-                                    text-cyan-400 text-xs font-medium">
-
-                                    Ready to Start
-
-                                </span>
-
-                                <x-heroicon-o-arrow-right
-                                    class="w-5 h-5 text-slate-400
-
-                                    group-hover:text-cyan-400
-                                    group-hover:translate-x-1
-
-                                    transition-all duration-300" />
+                                @if ($isStageCompleted)
+                                    ✅
+                                @elseif (!$isUnlocked)
+                                    🔒
+                                @elseif ($unit->type === 'pretest' || $unit->type === 'posttest')
+                                    📋
+                                @else
+                                    📘
+                                @endif
 
                             </div>
 
-                        </a>
+                            <div class="flex-1 min-w-0">
 
-                    </div>
+                                <!-- STAGE HEADER -->
+                                <div class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
 
-                </div>
+                                    <div>
+                                        <div class="flex flex-wrap items-center gap-3 mb-2">
+                                            <h3 class="text-3xl font-black">
+                                                {{ $stageTitle }}
+                                            </h3>
 
-                <!-- UNIT 1 -->
-                <div class="relative flex gap-6">
+                                            @if ($isStageCompleted)
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-black
+                                                    bg-green-500/10 text-green-500">
+                                                    Completed
+                                                </span>
+                                            @elseif ($isUnlocked)
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-black
+                                                    bg-cyan-500/10 text-cyan-400">
+                                                    Available
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-black
+                                                    bg-slate-500/10 text-slate-400">
+                                                    Locked
+                                                </span>
+                                            @endif
+                                        </div>
 
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-yellow-400 to-green-500 flex items-center justify-center text-white text-3xl">
+                                        <p class="text-slate-500">
+                                            {{ $unit->subtitle }}
+                                        </p>
+                                    </div>
 
-                        <x-heroicon-o-book-open
-                        class="w-9 h-9 text-white" />
+                                    <div class="w-full lg:w-64">
+                                        <div class="flex justify-between mb-2 text-sm">
+                                            <span class="text-slate-500">
+                                                Progress
+                                            </span>
 
-                    </div>
+                                            <span class="font-black text-cyan-400">
+                                                {{ $completedCount }}/{{ count($skills) }}
+                                            </span>
+                                        </div>
 
-                    <div class="flex-1">
-
-                        <h2 class="text-3xl font-black">
-                            UNIT 1
-                        </h2>
-
-                        <p class="text-slate-500 mb-6">
-                            Are We Connected to Nature?
-                        </p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-                            <!-- LISTENING -->
-                            <a href="{{ route('student.listening') }}"
-                                type="button"
-                                class="group w-full text-left cursor-pointer
-
-                                rounded-[28px]
-                                border border-slate-200 dark:border-white/10
-                                bg-white/70 dark:bg-white/5
-                                backdrop-blur-xl p-6
-
-                                hover:-translate-y-1
-                                hover:shadow-xl
-                                hover:shadow-cyan-500/10
-                                hover:border-cyan-400/30
-
-                                active:scale-[0.98]
-                                transition-all duration-300">
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-cyan-500/10
-                                    border border-cyan-500/20
-                                    flex items-center justify-center
-                                    mb-5
-
-                                    group-hover:bg-cyan-500/20
-                                    transition-all duration-300">
-
-                                    <x-heroicon-o-musical-note
-                                        class="w-6 h-6 text-cyan-400
-                                        group-hover:scale-110
-                                        transition-all duration-300" />
+                                        <div
+                                            class="w-full h-3 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden">
+                                            <div class="h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-600"
+                                                style="width: {{ $stageProgress }}%">
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 
-                                <h3 class="text-2xl font-bold">
-                                    Listening
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Listen carefully and identify important information.
-                                </p>
-
-                            </a>
-
-                            <!-- READING -->
-                            <a href="{{ route('student.reading') }}"
-                                class="group w-full text-left cursor-pointer
-
-                                rounded-[28px]
-                                border border-slate-200 dark:border-white/10
-                                bg-white/70 dark:bg-white/5
-                                backdrop-blur-xl p-6
-
-                                hover:-translate-y-1
-                                hover:shadow-xl
-                                hover:shadow-cyan-500/10
-                                hover:border-cyan-400/30
-
-                                active:scale-[0.98]
-                                transition-all duration-300">
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-cyan-500/10
-                                    border border-cyan-500/20
-                                    flex items-center justify-center
-                                    mb-5
-
-                                    group-hover:bg-cyan-500/20
-                                    transition-all duration-300">
-
-                                    <x-heroicon-o-book-open
-                                        class="w-6 h-6 text-cyan-400
-                                        group-hover:scale-110
-                                        transition-all duration-300" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold">
-                                    Reading
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Learn key vocabulary and understand the topic.
-                                </p>
-
-                            </a>
-
-                            <!-- WRITING -->
-                            <a  href="{{ route('student.writing') }}"
-                                type="button"
-                                class="group w-full text-left cursor-pointer
-
-                                rounded-[28px]
-                                border border-slate-200 dark:border-white/10
-                                bg-white/70 dark:bg-white/5
-                                backdrop-blur-xl p-6
-
-                                hover:-translate-y-1
-                                hover:shadow-xl
-                                hover:shadow-cyan-500/10
-                                hover:border-cyan-400/30
-
-                                active:scale-[0.98]
-                                transition-all duration-300">
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-cyan-500/10
-                                    border border-cyan-500/20
-                                    flex items-center justify-center
-                                    mb-5
-
-                                    group-hover:bg-cyan-500/20
-                                    transition-all duration-300">
-
-                                    <x-heroicon-o-pencil-square
-                                        class="w-6 h-6 text-cyan-400
-                                        group-hover:scale-110
-                                        transition-all duration-300" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold">
-                                    Writing
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Organize and write your ideas effectively.
-                                </p>
-
-                            </a>
-
-                            <!-- SPEAKING -->
-                            <a href="{{ route('student.speaking') }}"
-                                type="button"
-                                class="group w-full text-left cursor-pointer
-
-                                rounded-[28px]
-                                border border-slate-200 dark:border-white/10
-                                bg-white/70 dark:bg-white/5
-                                backdrop-blur-xl p-6
-
-                                hover:-translate-y-1
-                                hover:shadow-xl
-                                hover:shadow-cyan-500/10
-                                hover:border-cyan-400/30
-
-                                active:scale-[0.98]
-                                transition-all duration-300">
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-cyan-500/10
-                                    border border-cyan-500/20
-                                    flex items-center justify-center
-                                    mb-5
-
-                                    group-hover:bg-cyan-500/20
-                                    transition-all duration-300">
-
-                                    <x-heroicon-o-microphone
-                                        class="w-6 h-6 text-cyan-400
-                                        group-hover:scale-110
-                                        transition-all duration-300" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold">
-                                    Speaking
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Practice expressing ideas confidently.
-                                </p>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- UNIT 2 -->
-                <div class="relative flex gap-6">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-green-400 to-cyan-500 flex items-center justify-center text-white text-3xl">
-
-                        <x-heroicon-o-user
-                            class="w-9 h-9 text-white" />
-
-                    </div>
-
-                    <div class="flex-1">
-
-                        <h2 class="text-3xl font-black">
-                            UNIT 2
-                        </h2>
-
-                        <p class="text-slate-500 mb-6">
-                            Discovering Ourselves
-                        </p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-                            <!-- LISTENING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-musical-note
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Listening
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- READING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-book-open
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Reading
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- WRITING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-pencil-square
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Writing
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- SPEAKING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-microphone
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Speaking
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- UNIT 3 -->
-                <div class="relative flex gap-6">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white text-3xl">
-
-                        <x-heroicon-o-chat-bubble-left-right
-                                class="w-9 h-9 text-white" />
-
-                    </div>
-
-                    <div class="flex-1">
-
-                        <h2 class="text-3xl font-black">
-                            UNIT 3
-                        </h2>
-
-                        <p class="text-slate-500 mb-6">
-                            Why is Water Important?
-                        </p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-                            <!-- LISTENING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-musical-note
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Listening
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- READING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-book-open
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Reading
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- WRITING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-pencil-square
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Writing
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- SPEAKING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-microphone
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Speaking
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- UNIT 4 -->
-                <div class="relative flex gap-6">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-3xl">
-
-                        <x-heroicon-o-shield-check
-                            class="w-9 h-9 text-white" />
-
-                    </div>
-
-                    <div class="flex-1">
-
-                        <h2 class="text-3xl font-black">
-                            UNIT 4
-                        </h2>
-
-                        <p class="text-slate-500 mb-6">
-                            Why Should We Live a Healthy Life?
-                        </p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-                            <!-- LISTENING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-musical-note
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Listening
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- READING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-book-open
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Reading
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- WRITING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-pencil-square
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Writing
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                            <!-- SPEAKING -->
-                            <button
-                                type="button"
-                                disabled
-                                class="w-full text-left
-
-                                rounded-[28px]
-                                border border-slate-700
-                                bg-black/30
-                                backdrop-blur-xl
-                                p-6
-
-                                opacity-60
-                                cursor-not-allowed
-
-                                relative">
-
-                                <!-- LOCK -->
-                                <div class="absolute top-5 right-5">
-
-                                    <x-heroicon-o-lock-closed
-                                        class="w-5 h-5 text-slate-400" />
-
-                                </div>
-
-                                <!-- ICON -->
-                                <div
-                                    class="w-12 h-12 rounded-2xl
-                                    bg-slate-700/50
-                                    border border-slate-600
-                                    flex items-center justify-center
-                                    mb-5">
-
-                                    <x-heroicon-o-microphone
-                                        class="w-6 h-6 text-slate-400" />
-
-                                </div>
-
-                                <h3 class="text-2xl font-bold text-slate-300">
-                                    Speaking
-                                </h3>
-
-                                <p class="mt-2 text-slate-500">
-                                    Complete Unit 1 to unlock this activity.
-                                </p>
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- POSTTEST -->
-                <div class="relative flex gap-6">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white text-3xl">
-
-                        <x-heroicon-o-clipboard-document-check
-                        class="w-9 h-9 text-white" />
-
-                    </div>
-
-                    <div class="flex-1">
-
-                        <h2 class="text-3xl font-black">
-                            POST-TEST
-                        </h2>
-
-                        <p class="text-slate-500 mb-5">
-                            Final Assessment
-                        </p>
-
-                        <button
-                            type="button"
-                            disabled
-                            class="max-w-md w-full text-left
-
-                            rounded-[28px]
-                            border border-slate-700/50
-                            bg-slate-900/40
-                            backdrop-blur-xl
-                            p-6
-
-                            opacity-75
-                            cursor-not-allowed
-
-                            relative">
-
-                            <!-- LOCK -->
-                            <div class="absolute top-5 right-5">
-
-                                <x-heroicon-o-lock-closed
-                                    class="w-5 h-5 text-slate-400" />
+                                <!-- PRETEST / POSTTEST -->
+                                @if ($unit->type === 'pretest' || $unit->type === 'posttest')
+                                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                                        @foreach ($skills as $skill)
+                                            @php
+                                                $skillCompleted = in_array($skill, $completedSkills);
+                                                $href = missionSkillRoute($unit, $skill);
+                                            @endphp
+
+                                            @if ($isUnlocked)
+                                                <a href="{{ $href }}"
+                                                    class="group relative block rounded-[28px]
+                                                    border border-slate-200 dark:border-white/10
+                                                    bg-white/80 dark:bg-white/5
+                                                    backdrop-blur-xl p-6
+                                                    hover:-translate-y-1 hover:border-cyan-400/40
+                                                    hover:shadow-xl hover:shadow-cyan-500/10
+                                                    active:scale-[0.98]
+                                                    transition-all duration-300">
+
+                                                    <div
+                                                        class="w-12 h-12 rounded-2xl
+                                                        bg-cyan-500/10 border border-cyan-500/20
+                                                        flex items-center justify-center text-2xl mb-5">
+                                                        {{ $skillIcons[$skill] }}
+                                                    </div>
+
+                                                    <h4 class="text-2xl font-black capitalize">
+                                                        {{ $skill }}
+                                                    </h4>
+
+                                                    <p class="mt-2 text-slate-500">
+                                                        {{ ucfirst($skill) }} assessment.
+                                                    </p>
+
+                                                    <div class="mt-5 flex items-center justify-between">
+
+                                                        @if ($skillCompleted)
+                                                            <span
+                                                                class="px-3 py-1 rounded-full text-xs font-black
+                                                                bg-green-500/10 text-green-500">
+                                                                Completed
+                                                            </span>
+                                                        @else
+                                                            <span
+                                                                class="px-3 py-1 rounded-full text-xs font-black
+                                                                bg-cyan-500/10 text-cyan-400">
+                                                                Start
+                                                            </span>
+                                                        @endif
+
+                                                        <span
+                                                            class="text-slate-400 group-hover:text-cyan-400 transition">
+                                                            →
+                                                        </span>
+
+                                                    </div>
+
+                                                </a>
+                                            @else
+                                                <div
+                                                    class="relative rounded-[28px]
+                                                    border border-slate-200 dark:border-white/10
+                                                    bg-slate-100/80 dark:bg-white/[0.03]
+                                                    backdrop-blur-xl p-6 opacity-70">
+
+                                                    <div class="absolute top-5 right-5 text-slate-400">
+                                                        🔒
+                                                    </div>
+
+                                                    <div
+                                                        class="w-12 h-12 rounded-2xl
+                                                        bg-slate-500/10 border border-slate-500/20
+                                                        flex items-center justify-center text-2xl mb-5 grayscale">
+                                                        {{ $skillIcons[$skill] }}
+                                                    </div>
+
+                                                    <h4 class="text-2xl font-black capitalize text-slate-500">
+                                                        {{ $skill }}
+                                                    </h4>
+
+                                                    <p class="mt-2 text-slate-500">
+                                                        Complete previous stage to unlock.
+                                                    </p>
+
+                                                    <span
+                                                        class="inline-flex mt-5 px-3 py-1 rounded-full text-xs font-black
+                                                        bg-slate-500/10 text-slate-400">
+                                                        Locked
+                                                    </span>
+
+                                                </div>
+                                            @endif
+                                        @endforeach
+
+                                    </div>
+
+                                    <!-- UNIT -->
+                                @else
+                                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                                        @foreach ($skills as $skill)
+                                            @php
+                                                $skillCompleted = in_array($skill, $completedSkills);
+                                                $href = missionSkillRoute($unit, $skill);
+                                                $hasRoute = $href !== '#';
+                                            @endphp
+
+                                            @if ($isUnlocked && $hasRoute)
+                                                <a href="{{ $href }}"
+                                                    class="group relative block rounded-[28px]
+                                                    border border-slate-200 dark:border-white/10
+                                                    bg-white/80 dark:bg-white/5
+                                                    backdrop-blur-xl p-6
+                                                    hover:-translate-y-1 hover:border-cyan-400/40
+                                                    hover:shadow-xl hover:shadow-cyan-500/10
+                                                    active:scale-[0.98]
+                                                    transition-all duration-300">
+
+                                                    <div
+                                                        class="w-12 h-12 rounded-2xl
+                                                        bg-cyan-500/10 border border-cyan-500/20
+                                                        flex items-center justify-center text-2xl mb-5">
+                                                        {{ $skillIcons[$skill] }}
+                                                    </div>
+
+                                                    <h4 class="text-2xl font-black capitalize">
+                                                        {{ $skill }}
+                                                    </h4>
+
+                                                    <p class="mt-2 text-slate-500">
+                                                        {{ $skillDescriptions[$skill] }}
+                                                    </p>
+
+                                                    <div class="mt-5 flex items-center justify-between">
+                                                        @if ($skillCompleted)
+                                                            <span
+                                                                class="px-3 py-1 rounded-full text-xs font-black
+                                                                bg-green-500/10 text-green-500">
+                                                                Completed
+                                                            </span>
+                                                        @else
+                                                            <span
+                                                                class="px-3 py-1 rounded-full text-xs font-black
+                                                                bg-cyan-500/10 text-cyan-400">
+                                                                Open
+                                                            </span>
+                                                        @endif
+
+                                                        <span
+                                                            class="text-slate-400 group-hover:text-cyan-400 transition">
+                                                            →
+                                                        </span>
+                                                    </div>
+
+                                                </a>
+                                            @else
+                                                <div
+                                                    class="relative rounded-[28px]
+                                                    border border-slate-200 dark:border-white/10
+                                                    bg-slate-100/80 dark:bg-white/[0.03]
+                                                    backdrop-blur-xl p-6 opacity-70">
+
+                                                    <div class="absolute top-5 right-5 text-slate-400">
+                                                        🔒
+                                                    </div>
+
+                                                    <div
+                                                        class="w-12 h-12 rounded-2xl
+                                                        bg-slate-500/10 border border-slate-500/20
+                                                        flex items-center justify-center text-2xl mb-5 grayscale">
+                                                        {{ $skillIcons[$skill] }}
+                                                    </div>
+
+                                                    <h4 class="text-2xl font-black capitalize text-slate-500">
+                                                        {{ $skill }}
+                                                    </h4>
+
+                                                    <p class="mt-2 text-slate-500">
+                                                        @if (!$isUnlocked)
+                                                            Complete previous stage to unlock this activity.
+                                                        @else
+                                                            This unit activity route has not been connected yet.
+                                                        @endif
+                                                    </p>
+
+                                                    <span
+                                                        class="inline-flex mt-5 px-3 py-1 rounded-full text-xs font-black
+                                                        bg-slate-500/10 text-slate-400">
+                                                        Locked
+                                                    </span>
+
+                                                </div>
+                                            @endif
+                                        @endforeach
+
+                                    </div>
+                                @endif
 
                             </div>
 
-                            <!-- ICON -->
-                            <div
-                                class="w-12 h-12 rounded-2xl
-                                bg-slate-700/50
-                                border border-slate-600
-                                flex items-center justify-center
-                                mb-5">
-
-                                <x-heroicon-o-play
-                                    class="w-6 h-6 text-slate-400" />
-
-                            </div>
-
-                            <h3 class="text-2xl font-bold text-slate-300">
-                                Start Post-Test
-                            </h3>
-
-                            <p class="mt-2 text-slate-500">
-                                Complete all units to unlock the final assessment.
-                            </p>
-
-                            <span
-                                class="inline-flex items-center gap-2
-                                mt-5 px-3 py-1 rounded-full
-                                bg-slate-700/50
-                                text-slate-400 text-xs">
-
-                                🔒 Locked
-
-                            </span>
-
-                        </button>
-
-                    </div>
+                        </div>
+                    @endforeach
 
                 </div>
 
             </div>
-
-        </div>
 
         </section>
 
