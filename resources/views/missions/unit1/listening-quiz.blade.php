@@ -2,7 +2,7 @@
 
 <div class="space-y-8">
 
-```
+
 <!-- HEADER -->
 <section
     class="relative overflow-hidden rounded-[32px]
@@ -336,7 +336,7 @@
     </a>
 
 </section>
-```
+
 
 </div>
 
@@ -437,7 +437,7 @@ submitBtn.addEventListener('click', () => {
             );
 
         if(selected &&
-           selected.value === correct)
+            selected.value === correct)
         {
             totalScore += score;
         }

@@ -38,6 +38,7 @@ class ListeningQuestionController extends Controller
         ListeningQuestion::create([
             'lesson_id' => $material->lesson_id,
             'listening_material_id' => $material->id,
+            'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -81,6 +82,7 @@ class ListeningQuestionController extends Controller
         ListeningQuestion::create([
             'lesson_id' => $lesson->id,
             'listening_material_id' => null,
+            'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -109,6 +111,7 @@ class ListeningQuestionController extends Controller
         $validated = $this->validateQuestion($request);
 
         $question->update([
+            'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -135,6 +138,7 @@ class ListeningQuestionController extends Controller
     private function validateQuestion(Request $request): array
     {
         return $request->validate([
+            'instruction' => 'nullable|string',
             'question' => 'required',
             'option_a' => 'required',
             'option_b' => 'required',

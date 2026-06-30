@@ -13,8 +13,9 @@ class ListeningQuestion extends Model
 
         'listening_material_id',
 
+        'instruction',
+
         'question',
-        'audio_file',
 
         'option_a',
         'option_b',

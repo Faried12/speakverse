@@ -88,6 +88,10 @@
                         <tr class="bg-slate-100 dark:bg-slate-900">
 
                             <th class="text-left px-6 py-4">
+                                Instruction
+                            </th>
+
+                            <th class="text-left px-6 py-4">
                                 Question
                             </th>
 
@@ -111,6 +115,9 @@
 
                         @foreach ($questions as $question)
                             <tr class="border-t border-slate-200 dark:border-slate-700">
+                                <td class="px-6 py-4">
+                                    {{ Str::limit($question->instruction, 60) }}
+                                </td>
 
                                 <td class="px-6 py-4">
                                     {{ Str::limit($question->question, 80) }}

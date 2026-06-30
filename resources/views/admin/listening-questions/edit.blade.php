@@ -31,6 +31,20 @@
 
             <div>
 
+                <label class="block mb-2 font-semibold">
+                    Instruction
+                </label>
+
+                <textarea
+                    name="instruction"
+                    rows="2"
+                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                >{{ old('instruction', $question->instruction) }}</textarea>
+
+            </div>
+
+            <div>
+
                 <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
                     Question
                 </label>

@@ -83,13 +83,71 @@
                             </div>
 
                             <div>
-                                <p class="text-lg lg:text-xl font-black leading-relaxed">
-                                    {{ $question->question }}
-                                </p>
 
+                                @if(!empty($question->instruction))
+
+                                    <p class="text-lg lg:text-xl font-black leading-relaxed mb-2">
+                                        {{ $question->instruction }}
+                                    </p>
+
+                                @endif
+
+                                <div class="mt-5 flex items-center gap-5">
+
+                                    <!-- BUTTON -->
+
+                                    <button
+                                        type="button"
+                                        class="tts-btn
+                                        flex items-center
+                                        justify-center
+                                        gap-4
+                                        w-72
+                                        py-3
+                                        px-6
+                                        rounded-2xl
+                                        transition-all duration-300
+                                        bg-cyan-500/10"
+                                        data-question="{{ $question->question }}">
+
+                                        <span
+                                            class="tts-icon
+                                            text-cyan-500
+                                            text-2xl">
+
+                                            ▶
+
+                                        </span>
+
+                                        <span
+                                            class="tts-label
+                                            text-xl
+                                            font-bold">
+
+                                            Play
+
+                                        </span>
+
+                                    </button>
+
+                                    <!-- TEXT -->
+
+                                    <div>
+
+                                        <p class="text-sm text-slate-500">
+
+                                            Tap to hear the AI voice!
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                                
                                 <p class="mt-2 text-sm text-slate-500">
                                     Question {{ $index + 1 }} of {{ $questions->count() }}
                                 </p>
+
                             </div>
 
                         </div>
@@ -99,11 +157,6 @@
                                 class="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
                         @endif
 
-                        @if (!empty($question->audio_file))
-                            <audio controls class="w-full">
-                                <source src="{{ asset('storage/' . $question->audio_file) }}">
-                            </audio>
-                        @endif
 
                         @if ($skill === 'reading' || $skill === 'listening')
                             <div class="space-y-3">
@@ -246,5 +299,152 @@
         @endif
 
     </div>
+
+    <script>
+        document.querySelectorAll(".tts-btn").forEach(button => {
+
+            const icon = button.querySelector(".tts-icon");
+            const label = button.querySelector(".tts-label");
+
+            let utterance = null;
+            let state = "play";
+
+            function setPlay() {
+
+                state = "play";
+
+                icon.innerHTML = "▶";
+                label.innerHTML = "Play";
+
+                button.classList.remove(
+                    "bg-red-500/10",
+                    "bg-green-500/10",
+                    "bg-yellow-500/10"
+                );
+                button.classList.add("bg-cyan-500/10");
+
+                icon.classList.remove(
+                    "text-red-500",
+                    "text-green-500",
+                    "text-yellow-500"
+                );
+                icon.classList.add("text-cyan-500");
+
+            }
+
+            function setStop() {
+
+                state = "stop";
+
+                icon.innerHTML = "■";
+                label.innerHTML = "Stop";
+
+                button.classList.remove(
+                    "bg-cyan-500/10",
+                    "bg-green-500/10",
+                    "bg-yellow-500/10"
+                );
+                button.classList.add("bg-red-500/10");
+
+                icon.classList.remove(
+                    "text-cyan-500",
+                    "text-green-500",
+                    "text-yellow-500"
+                );
+                icon.classList.add("text-red-500");
+
+            }
+
+            function setContinue() {
+
+                state = "pause";
+
+                icon.innerHTML = "▶";
+                label.innerHTML = "Continue";
+
+                button.classList.remove(
+                    "bg-cyan-500/10",
+                    "bg-red-500/10",
+                    "bg-green-500/10"
+                );
+                button.classList.add("bg-yellow-500/10");
+
+                icon.classList.remove(
+                    "text-cyan-500",
+                    "text-red-500",
+                    "text-green-500"
+                );
+                icon.classList.add("text-yellow-500");
+
+            }
+
+            function setReplay() {
+
+                state = "replay";
+
+                icon.innerHTML = "↻";
+                label.innerHTML = "Replay";
+
+                button.classList.remove(
+                    "bg-cyan-500/10",
+                    "bg-red-500/10",
+                    "bg-yellow-500/10"
+                );
+                button.classList.add("bg-green-500/10");
+
+                icon.classList.remove(
+                    "text-cyan-500",
+                    "text-red-500",
+                    "text-yellow-500"
+                );
+                icon.classList.add("text-green-500");
+
+            }
+
+            button.addEventListener("click", () => {
+
+                // PLAY atau REPLAY
+                if (state === "play" || state === "replay") {
+
+                    speechSynthesis.cancel();
+
+                    utterance = new SpeechSynthesisUtterance(
+                        button.dataset.question
+                    );
+
+                    utterance.lang = "en-US";
+                    utterance.rate = 0.9;
+
+                    utterance.onend = () => {
+                        setReplay();
+                    };
+
+                    speechSynthesis.speak(utterance);
+
+                    setStop();
+                }
+
+                // STOP -> PAUSE
+                else if (state === "stop") {
+
+                    speechSynthesis.pause();
+
+                    setContinue();
+
+                }
+
+                // CONTINUE -> RESUME
+                else if (state === "pause") {
+
+                    speechSynthesis.resume();
+
+                    setStop();
+
+                }
+
+            });
+
+        });
+    </script>
 
 </x-app-layout>
