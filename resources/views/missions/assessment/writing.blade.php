@@ -1,5 +1,7 @@
 <x-app-layout>
 
+  @if(isset($submission))
+
     @php
         $score = $submission->final_score ?? 0;
 
@@ -186,7 +188,39 @@
                                 dark:bg-white/5 dark:text-slate-300">
 
                                 <p class="mb-1 text-sm font-black text-cyan-500">
-                                    AI Feedback
+                                    Details Scoring Criteria :
+                                </p>
+
+                                <table class="w-full">
+                                  <tr>
+                                    <td>Orientation</td>
+                                    <td>{{ $answer->orientation_score }}/4</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>Complication</td>
+                                    <td>{{ $answer->complication_score }}/4</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>Resolution</td>
+                                    <td>{{ $answer->resolution_score }}/4</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>Organization</td>
+                                    <td>{{ $answer->organization_score }}/4</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td>Mechanics</td>
+                                    <td>{{ $answer->mechanics_score }}/4</td>
+                                  </tr>
+
+                                </table>
+
+                                <p class="mb-1 text-sm font-black text-cyan-500">
+                                    AI Feedback :
                                 </p>
 
                                 <p>
@@ -249,5 +283,194 @@
         </div>
 
     </div>
+
+    @else
+    <div class="max-w-6xl mx-auto space-y-8">
+
+        <!-- HEADER -->
+        <section
+            class="relative overflow-hidden rounded-[40px]
+            border border-slate-200 dark:border-white/10
+            bg-white/80 dark:bg-white/5
+            backdrop-blur-2xl p-8 lg:p-10">
+
+            <div class="absolute -top-24 -right-24 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10">
+
+                <p class="text-cyan-500 font-black mb-3">
+                    {{ strtoupper($type) }} Assessment
+                </p>
+
+                <h1 class="text-4xl lg:text-5xl font-black">
+                    {{ ucfirst($skill) }} Writing Test
+                </h1>
+
+                <p class="mt-3 text-slate-500">
+                    {{ $lesson->title }} Assessment
+                </p>
+
+            </div>
+
+        </section>
+
+        @if (session('success'))
+            <div class="p-4 rounded-2xl bg-green-100 text-green-700 font-bold">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="p-4 rounded-2xl bg-red-100 text-red-700 font-bold">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <!-- INFO -->
+        <section
+            class="rounded-[30px]
+            border border-slate-200 dark:border-white/10
+            bg-white/80 dark:bg-white/5
+            p-6">
+
+            <h2 class="text-xl font-black">
+                Total Questions: {{ $questions->count() }}
+            </h2>
+
+            <p class="mt-2 text-slate-500">
+                Answer all questions below, then submit your assessment.
+            </p>
+
+        </section>
+
+        @if ($questions->count())
+
+            <form action="{{ route('student.assessment.submit', ['type' => $type, 'skill' => $skill]) }}" method="POST"
+                class="space-y-6">
+
+                @csrf
+
+                @foreach ($questions as $index => $question)
+                    <section
+                        class="rounded-[32px]
+                        border border-slate-200 dark:border-white/10
+                        bg-white/80 dark:bg-white/5
+                        p-6 lg:p-8 space-y-6">
+
+                        <div class="flex items-start gap-4">
+
+                            <div
+                                class="w-10 h-10 shrink-0 rounded-2xl
+                                bg-cyan-500/10 text-cyan-500
+                                flex items-center justify-center
+                                font-black">
+                                {{ $index + 1 }}
+                            </div>
+
+                            <div>
+                                <p class="text-lg lg:text-xl font-black leading-relaxed">
+                                    {{ $question->question }}
+                                </p>
+
+                                <p class="mt-2 text-sm text-slate-500">
+                                    Question {{ $index + 1 }} of {{ $questions->count() }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        @if (!empty($question->image))
+                            <img src="{{ asset('storage/' . $question->image) }}"
+                                class="w-full max-w-xl rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
+                        @endif
+
+                            <div class="space-y-4">
+
+                              <label class="block text-lg font-bold">
+                                  Your Writing Answer
+                              </label>
+
+                              <textarea
+                                  name="answers[{{ $question->id }}]"
+                                  rows="10"
+                                  required
+                                  placeholder="Write your answer here..."
+                                  class="w-full
+                                        rounded-3xl
+                                        border border-slate-300 dark:border-white/10
+                                        bg-white dark:bg-white/5
+                                        text-slate-900 dark:text-white
+                                        p-5
+                                        resize-none
+                                        focus:ring-2
+                                        focus:ring-cyan-500
+                                        focus:border-cyan-500"></textarea>
+
+                          </div>
+
+                    </section>
+                @endforeach
+
+                <!-- ACTION -->
+                <div class="flex flex-col sm:flex-row gap-3">
+
+                    <button type="submit"
+                        class="px-7 py-4 rounded-2xl
+                        bg-gradient-to-r from-cyan-500 to-blue-600
+                        text-white font-black
+                        hover:scale-[1.02] transition">
+
+                        Submit Assessment
+
+                    </button>
+
+                    <a href="{{ route('missions.pretest') }}"
+                        class="px-7 py-4 rounded-2xl
+                        bg-slate-200 dark:bg-white/10
+                        text-slate-900 dark:text-white
+                        font-black text-center">
+
+                        Back
+
+                    </a>
+
+                </div>
+
+            </form>
+        @else
+            <section
+                class="p-14 text-center rounded-[32px]
+                border border-slate-200 dark:border-white/10
+                bg-white/80 dark:bg-white/5">
+
+                <div class="text-7xl mb-5">
+                    ❓
+                </div>
+
+                <h3 class="text-2xl font-black">
+                    No Questions Yet
+                </h3>
+
+                <p class="mt-3 text-slate-500">
+                    Admin belum menambahkan soal untuk bagian ini.
+                </p>
+
+                <a href="{{ route('missions.pretest') }}"
+                    class="inline-flex mt-6 px-6 py-3 rounded-2xl
+                    bg-gradient-to-r from-cyan-500 to-blue-600
+                    text-white font-black">
+
+                    Back to Pretest
+
+                </a>
+
+            </section>
+
+        @endif
+
+    </div>
+
+  @endif
 
 </x-app-layout>
