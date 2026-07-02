@@ -71,12 +71,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     */
 
     Route::get(
-        '/missions/unit1/listening',
+        '/missions/unit/{lesson}/listening',
         [StudentListeningController::class, 'listening']
     )->name('student.listening');
 
     Route::get(
-        '/missions/unit1/listening/quiz',
+        '/missions/unit/{lesson}/listening/quiz',
         [StudentListeningController::class, 'quiz']
     )->name('student.listening.quiz');
 

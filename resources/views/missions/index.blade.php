@@ -29,6 +29,7 @@
 
         function missionSkillRoute($unit, $skill)
         {
+            // Pretest
             if ($unit->type === 'pretest') {
                 return route('student.assessment.show', [
                     'type' => 'pretest',
@@ -36,6 +37,7 @@
                 ]);
             }
 
+            // Posttest
             if ($unit->type === 'posttest') {
                 return route('student.assessment.show', [
                     'type' => 'posttest',
@@ -43,18 +45,36 @@
                 ]);
             }
 
-            if ((int) $unit->order_number === 2) {
-                return match ($skill) {
-                    'listening' => route('student.listening'),
-                    'reading' => route('student.reading'),
-                    'writing' => route('student.writing'),
-                    'speaking' => route('student.speaking'),
-                    default => '#',
-                };
+            // Cari lesson sesuai skill pada unit
+            $lesson = $unit->lessons
+                ->firstWhere('skill_type', $skill);
+
+            if (!$lesson) {
+                return '#';
             }
 
-            return '#';
+            return match ($skill) {
+
+                'listening' => route('student.listening', [
+                    'lesson' => $lesson
+                ]),
+
+                'reading' => route('student.reading', [
+                    'lesson' => $lesson
+                ]),
+
+                'writing' => route('student.writing', [
+                    'lesson' => $lesson
+                ]),
+
+                'speaking' => route('student.speaking', [
+                    'lesson' => $lesson
+                ]),
+
+                default => '#',
+            };
         }
+        
     @endphp
 
     <div class="space-y-10">

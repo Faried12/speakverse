@@ -2,32 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lesson;
 use App\Models\ListeningMaterial;
 
 class StudentListeningController extends Controller
 {
-    public function listening()
+    public function listening(Lesson $lesson)
     {
-        $material = ListeningMaterial::with('questions')
-            ->first();
-
-        return view(
-            'missions.unit1.listening',
-            compact('material')
-        );
-    }
-
-    public function quiz()
-    {
-        $material = ListeningMaterial::with('questions')
+        $material = ListeningMaterial::where(
+                'lesson_id',
+                $lesson->id
+            )
             ->firstOrFail();
 
         return view(
-            'missions.unit1.listening-quiz',
+            'missions.listening.index',
+
             [
-                'material' => $material,
-                'questions' => $material->questions
+                'lesson' => $lesson,
+                'material' => $material
             ]
         );
+    }
+    public function quiz(Lesson $lesson)
+    {
+        $material = ListeningMaterial::where(
+            'lesson_id',
+            $lesson->id
+        )
+        ->with('questions')
+        ->firstOrFail();
+
+        return view(
+        'missions.listening.quiz',
+        [
+            'lesson' => $lesson,
+            'material' => $material,
+            'questions' => $material->questions
+        ]
+    );
     }
 }

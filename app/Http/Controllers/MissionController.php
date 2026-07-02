@@ -19,9 +19,11 @@ class MissionController extends Controller
             'speaking',
         ];
 
-        $units = Unit::where('status', 'active')
+        $units = Unit::with('lessons')
+            ->where('status', 'active')
             ->orderBy('order_number')
             ->get();
+            
 
         $completedMap = [];
 
