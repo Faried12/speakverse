@@ -55,10 +55,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get(
-        '/missions',
-        [MissionController::class, 'index']
-    )->name('missions');
+    Route::get('/missions', [MissionController::class, 'index'])
+        ->name('missions');
 
     Route::get('/missions/pretest', function () {
         return view('missions.pretest');
@@ -66,113 +64,67 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Student Listening
+    | Student Unit Missions
     |--------------------------------------------------------------------------
     */
 
-    Route::get(
-        '/missions/unit/{lesson}/listening',
-        [StudentListeningController::class, 'listening']
-    )->name('student.listening');
+    Route::get('/missions/unit/{lesson}/listening', [StudentListeningController::class, 'listening'])
+        ->name('student.listening');
 
-    Route::get(
-        '/missions/unit/{lesson}/listening/quiz',
-        [StudentListeningController::class, 'quiz']
-    )->name('student.listening.quiz');
+    Route::get('/missions/unit/{lesson}/listening/quiz', [StudentListeningController::class, 'quiz'])
+        ->name('student.listening.quiz');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Student Reading
-    |--------------------------------------------------------------------------
-    */
+    Route::get('/missions/unit/{lesson}/reading', [StudentReadingController::class, 'reading'])
+        ->name('student.reading');
 
-    Route::get(
-        '/missions/unit1/reading',
-        [StudentReadingController::class, 'reading']
-    )->name('student.reading');
+    Route::get('/missions/unit/{lesson}/reading/quiz', [StudentReadingController::class, 'quiz'])
+        ->name('student.reading.quiz');
 
-    Route::get(
-        '/missions/unit1/reading/quiz',
-        [StudentReadingController::class, 'quiz']
-    )->name('student.reading.quiz');
+    Route::get('/missions/unit/{lesson}/writing', [StudentWritingController::class, 'index'])
+        ->name('student.writing');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Student Speaking
-    |--------------------------------------------------------------------------
-    */
+    Route::get('/missions/unit/{lesson}/writing/quiz', [StudentWritingController::class, 'quiz'])
+        ->name('student.writing.quiz');
 
-    Route::get(
-        '/missions/unit1/speaking',
-        [StudentSpeakingController::class, 'index']
-    )->name('student.speaking');
+    Route::post('/missions/unit/{lesson}/writing/{material}/submit', [StudentWritingController::class, 'submit'])
+        ->name('student.writing.submit');
 
-    Route::get(
-        '/missions/unit1/speaking/quiz',
-        [StudentSpeakingController::class, 'quiz']
-    )->name('student.speaking.quiz');
+    Route::get('/missions/unit/{lesson}/speaking', [StudentSpeakingController::class, 'index'])
+        ->name('student.speaking');
 
-    Route::post(
-        '/missions/unit1/speaking/{material}/submit',
-        [StudentSpeakingController::class, 'submit']
-    )->name('student.speaking.submit');
+    Route::get('/missions/unit/{lesson}/speaking/quiz', [StudentSpeakingController::class, 'quiz'])
+        ->name('student.speaking.quiz');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Student Writing
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        '/missions/unit1/writing',
-        [StudentWritingController::class, 'index']
-    )->name('student.writing');
-
-    Route::get(
-        '/missions/unit1/writing/quiz',
-        [StudentWritingController::class, 'quiz']
-    )->name('student.writing.quiz');
-
-    Route::post(
-        '/missions/unit1/writing/{material}/submit',
-        [StudentWritingController::class, 'submit']
-    )->name('student.writing.submit');
-
-    Route::get(
-        '/missions/unit1/writing/result/{submission}',
-        [StudentWritingController::class, 'result']
-    )->name('student.writing.result');
+    Route::post('/missions/unit/{lesson}/speaking/{material}/submit', [StudentSpeakingController::class, 'submit'])
+        ->name('student.speaking.submit');
 
     /*
     |--------------------------------------------------------------------------
     | Generic Assessment Route
     |--------------------------------------------------------------------------
-    | Jangan taruh route ini di atas /missions/unit1/listening.
     */
 
-    Route::get(
-        '/missions/assessment/result/{submission}',
-        [StudentAssessmentController::class, 'result']
-    )->name('student.assessment.result');
+    Route::get('/missions/assessment/result/{submission}', [StudentAssessmentController::class, 'result'])
+        ->name('student.assessment.result');
 
-    Route::get(
-        '/missions/{type}/{skill}',
-        [StudentAssessmentController::class, 'show']
-    )->name('student.assessment.show');
+    Route::get('/missions/{type}/{skill}', [StudentAssessmentController::class, 'show'])
+        ->name('student.assessment.show');
 
-    Route::post(
-        '/missions/{type}/{skill}/submit',
-        [StudentAssessmentController::class, 'submit']
-    )->name('student.assessment.submit');
+    Route::post('/missions/{type}/{skill}/submit', [StudentAssessmentController::class, 'submit'])
+        ->name('student.assessment.submit');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Practice & Progress
+    |--------------------------------------------------------------------------
+    */
 
     Route::get('/practice', function () {
         return view('practice.index');
     })->name('practice');
 
-    Route::get(
-        '/progress',
-        [ProgressController::class, 'index']
-    )->name('progress');
+    Route::get('/progress', [ProgressController::class, 'index'])
+        ->name('progress');
 
     /*
     |--------------------------------------------------------------------------
@@ -213,16 +165,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get(
-        '/vocabulary/pretest',
-        [VocabularyPretestController::class, 'index']
-    )->name('vocabulary.pretest');
+    Route::get('/vocabulary/pretest', [VocabularyPretestController::class, 'index'])
+        ->name('vocabulary.pretest');
 
-    Route::post(
-        '/vocabulary/pretest/submit',
-        [VocabularyPretestController::class, 'submit']
-    )->name('vocabulary.pretest.submit');
-
+    Route::post('/vocabulary/pretest/submit', [VocabularyPretestController::class, 'submit'])
+        ->name('vocabulary.pretest.submit');
 });
 
 /*
@@ -235,15 +182,11 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->group(function () {
 
-        Route::get(
-            '/dashboard',
-            [DashboardController::class, 'index']
-        )->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('admin.dashboard');
 
-        Route::get(
-            '/profile',
-            [ProfileController::class, 'edit']
-        )->name('admin.profile.edit');
+        Route::get('/profile', [ProfileController::class, 'edit'])
+            ->name('admin.profile.edit');
 
         Route::get('/users', function () {
             $users = \App\Models\User::latest('created_at')->get(['*']);
@@ -253,19 +196,15 @@ Route::middleware(['auth', 'verified', 'admin'])
             ]);
         })->name('admin.users');
 
-        Route::resource(
-            'vocabulary-pretests',
-            AdminVocabularyPretestController::class
-        )->names('admin.vocabulary-pretests');
+        Route::resource('vocabulary-pretests', AdminVocabularyPretestController::class)
+            ->names('admin.vocabulary-pretests');
 
         Route::get('/analytics', function () {
             return view('admin.analytics.analytic');
         })->name('admin.analytics');
 
-        Route::get(
-            '/learning',
-            [LearningContentController::class, 'index']
-        )->name('admin.learning');
+        Route::get('/learning', [LearningContentController::class, 'index'])
+            ->name('admin.learning');
 
         /*
         |--------------------------------------------------------------------------
@@ -494,7 +433,6 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         Route::delete('/writing-question/{question}', [WritingQuestionController::class, 'destroy'])
             ->name('admin.writing-questions.destroy');
-
     });
 
 /*
