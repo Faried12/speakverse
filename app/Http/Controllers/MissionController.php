@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AssessmentSubmission;
 use App\Models\Unit;
+use App\Models\UserLessonProgress;
 use Illuminate\Support\Facades\Auth;
 
 class MissionController extends Controller
@@ -23,20 +24,29 @@ class MissionController extends Controller
             ->where('status', 'active')
             ->orderBy('order_number')
             ->get();
-            
 
         $completedMap = [];
 
         foreach ($units as $unit) {
-            $completedSkills = AssessmentSubmission::where('user_id', $userId)
-                ->where('unit_id', $unit->id)
-                ->where('type', $unit->type)
-                ->where('status', 'completed')
-                ->whereNotNull('final_score')
-                ->pluck('skill')
-                ->unique()
-                ->values()
-                ->toArray();
+            if ($unit->type === 'unit') {
+                $completedSkills = UserLessonProgress::where('user_id', $userId)
+                    ->where('unit_id', $unit->id)
+                    ->where('status', 'completed')
+                    ->pluck('skill_type')
+                    ->unique()
+                    ->values()
+                    ->toArray();
+            } else {
+                $completedSkills = AssessmentSubmission::where('user_id', $userId)
+                    ->where('unit_id', $unit->id)
+                    ->where('type', $unit->type)
+                    ->where('status', 'completed')
+                    ->whereNotNull('final_score')
+                    ->pluck('skill')
+                    ->unique()
+                    ->values()
+                    ->toArray();
+            }
 
             $completedMap[$unit->id] = [
                 'completed_skills' => $completedSkills,

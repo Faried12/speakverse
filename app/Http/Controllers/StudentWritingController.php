@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\Lesson;
+use App\Models\UserLessonProgress;
 use App\Models\WritingMaterial;
 use App\Models\WritingSubmission;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentWritingController extends Controller
 {
@@ -39,8 +39,7 @@ class StudentWritingController extends Controller
         Request $request,
         Lesson $lesson,
         WritingMaterial $material
-    )
-    {
+    ) {
         $request->validate([
             'answer' => [
                 'required',
@@ -55,12 +54,6 @@ class StudentWritingController extends Controller
             'answer' => $request->answer,
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Dummy Result
-        |--------------------------------------------------------------------------
-        */
-
         $result = [
             'orientation_score' => 1,
             'complication_score' => 1,
@@ -74,7 +67,6 @@ class StudentWritingController extends Controller
         $totalScore = 10;
 
         $submission->update([
-
             'orientation_score' => $result['orientation_score'],
             'complication_score' => $result['complication_score'],
             'resolution_score' => $result['resolution_score'],
@@ -82,13 +74,25 @@ class StudentWritingController extends Controller
             'mechanics_score' => $result['mechanics_score'],
             'final_score' => $totalScore,
             'feedback' => $result['feedback'],
-
         ]);
 
         $submission->refresh();
 
-        return response()->json([
+        UserLessonProgress::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'lesson_id' => $lesson->id,
+                'skill_type' => 'writing',
+            ],
+            [
+                'unit_id' => $lesson->unit_id,
+                'status' => 'completed',
+                'score' => $submission->final_score,
+                'completed_at' => now(),
+            ]
+        );
 
+        return response()->json([
             'orientation_score' => $submission->orientation_score,
             'complication_score' => $submission->complication_score,
             'resolution_score' => $submission->resolution_score,
@@ -96,7 +100,6 @@ class StudentWritingController extends Controller
             'mechanics_score' => $submission->mechanics_score,
             'total_score' => $submission->final_score,
             'feedback' => $submission->feedback,
-
         ]);
     }
 }

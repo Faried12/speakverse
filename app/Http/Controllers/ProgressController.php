@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\AssessmentSubmission;
+use App\Models\UserLessonProgress;
+use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 
 class ProgressController extends Controller
 {
     public function index()
     {
+        $userId = Auth::id();
+
         $submissions = AssessmentSubmission::with(['unit', 'lesson'])
-            ->where('user_id', Auth::id())
+            ->where('user_id', $userId)
             ->latest('submitted_at')
             ->get();
 
@@ -18,8 +22,14 @@ class ProgressController extends Controller
             ->where('status', 'completed')
             ->whereNotNull('final_score');
 
+        $lessonProgress = UserLessonProgress::where('user_id', $userId)
+            ->where('status', 'completed')
+            ->latest('completed_at')
+            ->get();
+
         $averageScore = round($completed->avg('final_score') ?? 0);
-        $totalCompleted = $completed->count();
+
+        $totalCompleted = $completed->count() + $lessonProgress->count();
 
         $pretestAverage = round(
             $completed->where('type', 'pretest')->avg('final_score') ?? 0
@@ -29,12 +39,29 @@ class ProgressController extends Controller
             $completed->where('type', 'posttest')->avg('final_score') ?? 0
         );
 
-        $skillAverages = [
-            'listening' => round($completed->where('skill', 'listening')->avg('final_score') ?? 0),
-            'reading' => round($completed->where('skill', 'reading')->avg('final_score') ?? 0),
-            'writing' => round($completed->where('skill', 'writing')->avg('final_score') ?? 0),
-            'speaking' => round($completed->where('skill', 'speaking')->avg('final_score') ?? 0),
+        $skills = [
+            'listening',
+            'reading',
+            'writing',
+            'speaking',
         ];
+
+        $skillAverages = [];
+
+        foreach ($skills as $skill) {
+            $totalLessons = Lesson::where('skill_type', $skill)
+                ->where('status', 'active')
+                ->count();
+
+            $completedLessons = UserLessonProgress::where('user_id', $userId)
+                ->where('skill_type', $skill)
+                ->where('status', 'completed')
+                ->count();
+
+            $skillAverages[$skill] = $totalLessons > 0
+                ? round(($completedLessons / $totalLessons) * 100)
+                : 0;
+        }
 
         $bestSubmission = $completed->sortByDesc('final_score')->first();
         $latestSubmission = $completed->first();
@@ -42,6 +69,7 @@ class ProgressController extends Controller
         return view('progress.index', compact(
             'submissions',
             'completed',
+            'lessonProgress',
             'averageScore',
             'totalCompleted',
             'pretestAverage',
