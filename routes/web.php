@@ -98,6 +98,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/missions/unit/{lesson}/speaking/{material}/submit', [StudentSpeakingController::class, 'submit'])
         ->name('student.speaking.submit');
 
+    Route::post('/missions/unit/{lesson}/reading/complete', [StudentReadingController::class, 'complete'])
+    ->name('student.reading.complete');
+
+    Route::post('/missions/unit/{lesson}/listening/complete', [StudentListeningController::class, 'complete'])
+        ->name('student.listening.complete');
+
     /*
     |--------------------------------------------------------------------------
     | Generic Assessment Route
