@@ -261,21 +261,28 @@
         if (submitBtn) {
             submitBtn.addEventListener('click', async () => {
                 let totalScore = 0;
+                let answers = {};
 
-                slides.forEach(slide => {
+                for (const slide of slides) {
                     const correct = slide.dataset.correct;
                     const score = Number(slide.dataset.score);
                     const selected = slide.querySelector('input[type="radio"]:checked');
 
-                    if (selected && selected.value === correct) {
+                    if (!selected) {
+                        alert('Please answer all questions before submitting.');
+                        return;
+                    }
+
+                    const questionId = selected.name.replace('question_', '');
+                    answers[questionId] = selected.value;
+
+                    if (selected.value === correct) {
                         totalScore += score;
                     }
-                });
-
-                document.getElementById('finalScore').innerText = totalScore;
+                }
 
                 try {
-                    await fetch(completeUrl, {
+                    const response = await fetch(completeUrl, {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': csrfToken,
@@ -283,11 +290,17 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            score: totalScore
+                            score: totalScore,
+                            answers: answers
                         })
                     });
+
+                    const result = await response.json();
+
+                    document.getElementById('finalScore').innerText = result.score ?? totalScore;
                 } catch (error) {
                     console.error(error);
+                    document.getElementById('finalScore').innerText = totalScore;
                 }
 
                 document.getElementById('quizCard').classList.add('hidden');
