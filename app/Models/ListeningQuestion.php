@@ -10,21 +10,16 @@ class ListeningQuestion extends Model
 
     protected $fillable = [
         'lesson_id',
-
         'listening_material_id',
-
+        'category',
         'instruction',
-
         'question',
-
         'option_a',
         'option_b',
         'option_c',
         'option_d',
         'option_e',
-
         'correct_answer',
-
         'score',
     ];
 

@@ -31,13 +31,16 @@ class ListeningQuestionController extends Controller
         );
     }
 
-    public function store(Request $request, ListeningMaterial $material)
-    {
+    public function store(
+        Request $request,
+        ListeningMaterial $material
+    ) {
         $validated = $this->validateQuestion($request);
 
         ListeningQuestion::create([
             'lesson_id' => $material->lesson_id,
             'listening_material_id' => $material->id,
+            'category' => $validated['category'],
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
@@ -50,13 +53,22 @@ class ListeningQuestionController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.listening-questions.index', $material->id)
-            ->with('success', 'Question berhasil ditambahkan.');
+            ->route(
+                'admin.listening-questions.index',
+                $material->id
+            )
+            ->with(
+                'success',
+                'Question berhasil ditambahkan.'
+            );
     }
 
     public function lessonIndex(Lesson $lesson)
     {
-        $questions = ListeningQuestion::where('lesson_id', $lesson->id)
+        $questions = ListeningQuestion::where(
+                'lesson_id',
+                $lesson->id
+            )
             ->whereNull('listening_material_id')
             ->latest()
             ->get();
@@ -75,13 +87,16 @@ class ListeningQuestionController extends Controller
         );
     }
 
-    public function lessonStore(Request $request, Lesson $lesson)
-    {
+    public function lessonStore(
+        Request $request,
+        Lesson $lesson
+    ) {
         $validated = $this->validateQuestion($request);
 
         ListeningQuestion::create([
             'lesson_id' => $lesson->id,
             'listening_material_id' => null,
+            'category' => $validated['category'],
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
@@ -94,8 +109,14 @@ class ListeningQuestionController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.listening-lesson-questions.index', $lesson->id)
-            ->with('success', 'Pre/Post-test listening question berhasil ditambahkan.');
+            ->route(
+                'admin.listening-lesson-questions.index',
+                $lesson->id
+            )
+            ->with(
+                'success',
+                'Pre/Post-test listening question berhasil ditambahkan.'
+            );
     }
 
     public function edit(ListeningQuestion $question)
@@ -106,11 +127,14 @@ class ListeningQuestionController extends Controller
         );
     }
 
-    public function update(Request $request, ListeningQuestion $question)
-    {
+    public function update(
+        Request $request,
+        ListeningQuestion $question
+    ) {
         $validated = $this->validateQuestion($request);
 
         $question->update([
+            'category' => $validated['category'],
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
@@ -122,8 +146,12 @@ class ListeningQuestionController extends Controller
             'score' => $validated['score'],
         ]);
 
-        return $this->redirectAfterAction($question)
-            ->with('success', 'Question berhasil diperbarui.');
+        return $this
+            ->redirectAfterAction($question)
+            ->with(
+                'success',
+                'Question berhasil diperbarui.'
+            );
     }
 
     public function destroy(ListeningQuestion $question)
@@ -132,26 +160,64 @@ class ListeningQuestionController extends Controller
 
         $question->delete();
 
-        return $redirect->with('success', 'Question berhasil dihapus.');
+        return $redirect->with(
+            'success',
+            'Question berhasil dihapus.'
+        );
     }
 
-    private function validateQuestion(Request $request): array
-    {
+    private function validateQuestion(
+        Request $request
+    ): array {
         return $request->validate([
-            'instruction' => 'nullable|string',
-            'question' => 'required',
-            'option_a' => 'required',
-            'option_b' => 'required',
-            'option_c' => 'required',
-            'option_d' => 'required',
-            'option_e' => 'nullable',
-            'correct_answer' => 'required|in:A,B,C,D,E',
-            'score' => 'required|integer|min:1',
+            'category' => [
+                'required',
+                'in:main_idea,detail,interpretation,vocabulary',
+            ],
+            'instruction' => [
+                'nullable',
+                'string',
+            ],
+            'question' => [
+                'required',
+                'string',
+            ],
+            'option_a' => [
+                'required',
+                'string',
+            ],
+            'option_b' => [
+                'required',
+                'string',
+            ],
+            'option_c' => [
+                'required',
+                'string',
+            ],
+            'option_d' => [
+                'required',
+                'string',
+            ],
+            'option_e' => [
+                'nullable',
+                'string',
+            ],
+            'correct_answer' => [
+                'required',
+                'in:A,B,C,D,E',
+            ],
+            'score' => [
+                'required',
+                'integer',
+                'min:1',
+                'max:100',
+            ],
         ]);
     }
 
-    private function redirectAfterAction(ListeningQuestion $question)
-    {
+    private function redirectAfterAction(
+        ListeningQuestion $question
+    ) {
         if ($question->listening_material_id) {
             return redirect()->route(
                 'admin.listening-questions.index',

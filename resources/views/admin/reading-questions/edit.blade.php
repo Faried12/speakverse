@@ -11,140 +11,228 @@
 
     <div class="max-w-5xl mx-auto space-y-6">
 
+        {{-- HEADER --}}
         <div>
-
             <h1 class="text-3xl font-black text-slate-900 dark:text-white">
                 Edit Reading Question
             </h1>
 
             <p class="mt-1 text-slate-500 dark:text-slate-400">
-                Update question information
+                Update the reading question information.
             </p>
-
         </div>
 
+        {{-- VALIDATION ERROR SUMMARY --}}
+        @if ($errors->any())
+            <div
+                class="rounded-2xl border border-red-300
+                bg-red-50 dark:bg-red-500/10
+                p-5 text-red-700 dark:text-red-300">
+
+                <p class="font-bold mb-2">
+                    Please correct the following errors:
+                </p>
+
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        {{-- FORM --}}
         <form action="{{ route('admin.reading-questions.update', $question->id) }}" method="POST"
-            class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm p-6 space-y-6">
+            class="bg-white dark:bg-slate-800
+            border border-slate-200 dark:border-slate-700
+            rounded-2xl shadow-sm p-6 space-y-6">
 
             @csrf
             @method('PUT')
 
+            {{-- CATEGORY --}}
             <div>
+                <label for="category" class="block mb-2 font-semibold text-slate-900 dark:text-white">
 
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Question
+                    Question Category
+                    <span class="text-red-500">*</span>
                 </label>
 
-                <textarea name="question" rows="4"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">{{ old('question', $question->question) }}</textarea>
+                <select id="category" name="category" required
+                    class="w-full rounded-xl
+                    border-slate-300 dark:border-slate-600
+                    dark:bg-slate-900 dark:text-white
+                    focus:border-blue-500 focus:ring-blue-500
+                    @error('category') border-red-500 @enderror">
 
-            </div>
+                    <option value="">
+                        Select question category
+                    </option>
 
-            <div>
+                    <option value="main_idea" {{ old('category', $question->category) === 'main_idea' ? 'selected' : '' }}>
+                        Main Idea
+                    </option>
 
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Option A
-                </label>
+                    <option value="detail" {{ old('category', $question->category) === 'detail' ? 'selected' : '' }}>
+                        Specific Detail
+                    </option>
 
-                <input type="text" name="option_a" value="{{ old('option_a', $question->option_a) }}"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
+                    <option value="inference" {{ old('category', $question->category) === 'inference' ? 'selected' : '' }}>
+                        Inference
+                    </option>
 
-            </div>
-
-            <div>
-
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Option B
-                </label>
-
-                <input type="text" name="option_b" value="{{ old('option_b', $question->option_b) }}"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
-
-            </div>
-
-            <div>
-
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Option C
-                </label>
-
-                <input type="text" name="option_c" value="{{ old('option_c', $question->option_c) }}"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
-
-            </div>
-
-            <div>
-
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Option D
-                </label>
-
-                <input type="text" name="option_d" value="{{ old('option_d', $question->option_d) }}"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
-
-            </div>
-
-            <div>
-
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Option E
-                </label>
-
-                <input type="text" name="option_e" value="{{ old('option_e', $question->option_e) }}"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
-
-            </div>
-
-            <div>
-
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Correct Answer
-                </label>
-
-                <select name="correct_answer"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
-
-                    <option value="A" {{ old('correct_answer', $question->correct_answer) === 'A' ? 'selected' : '' }}>
-                        A</option>
-                    <option value="B" {{ old('correct_answer', $question->correct_answer) === 'B' ? 'selected' : '' }}>
-                        B</option>
-                    <option value="C" {{ old('correct_answer', $question->correct_answer) === 'C' ? 'selected' : '' }}>
-                        C</option>
-                    <option value="D"
-                        {{ old('correct_answer', $question->correct_answer) === 'D' ? 'selected' : '' }}>D</option>
-                    <option value="E"
-                        {{ old('correct_answer', $question->correct_answer) === 'E' ? 'selected' : '' }}>E</option>
-
+                    <option value="vocabulary"
+                        {{ old('category', $question->category) === 'vocabulary' ? 'selected' : '' }}>
+                        Vocabulary
+                    </option>
                 </select>
 
+                @error('category')
+                    <p class="mt-2 text-sm font-semibold text-red-500">
+                        {{ $message }}
+                    </p>
+                @enderror
             </div>
 
+            {{-- QUESTION --}}
             <div>
+                <label for="question" class="block mb-2 font-semibold text-slate-900 dark:text-white">
 
-                <label class="block mb-2 font-semibold text-slate-900 dark:text-white">
-                    Score
+                    Question
+                    <span class="text-red-500">*</span>
                 </label>
 
-                <input type="number" name="score" value="{{ old('score', $question->score) }}" min="1"
-                    class="w-full rounded-xl border-slate-300 dark:border-slate-600 dark:bg-slate-900 dark:text-white">
+                <textarea id="question" name="question" rows="5" required
+                    class="w-full rounded-xl
+                    border-slate-300 dark:border-slate-600
+                    dark:bg-slate-900 dark:text-white
+                    focus:border-blue-500 focus:ring-blue-500
+                    @error('question') border-red-500 @enderror">{{ old('question', $question->question) }}</textarea>
+
+                @error('question')
+                    <p class="mt-2 text-sm font-semibold text-red-500">
+                        {{ $message }}
+                    </p>
+                @enderror
+            </div>
+
+            {{-- OPTIONS --}}
+            @foreach (['a', 'b', 'c', 'd', 'e'] as $option)
+                @php
+                    $field = 'option_' . $option;
+                    $label = strtoupper($option);
+                    $isOptional = $option === 'e';
+                @endphp
+
+                <div>
+                    <label for="{{ $field }}" class="block mb-2 font-semibold text-slate-900 dark:text-white">
+
+                        Option {{ $label }}
+
+                        @if ($isOptional)
+                            <span class="text-sm font-normal text-slate-500">
+                                (Optional)
+                            </span>
+                        @else
+                            <span class="text-red-500">*</span>
+                        @endif
+                    </label>
+
+                    <input id="{{ $field }}" type="text" name="{{ $field }}"
+                        value="{{ old($field, $question->$field) }}" {{ $isOptional ? '' : 'required' }}
+                        class="w-full rounded-xl
+                        border-slate-300 dark:border-slate-600
+                        dark:bg-slate-900 dark:text-white
+                        focus:border-blue-500 focus:ring-blue-500
+                        @error($field) border-red-500 @enderror">
+
+                    @error($field)
+                        <p class="mt-2 text-sm font-semibold text-red-500">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+            @endforeach
+
+            {{-- ANSWER AND SCORE --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div>
+                    <label for="correct_answer" class="block mb-2 font-semibold text-slate-900 dark:text-white">
+
+                        Correct Answer
+                        <span class="text-red-500">*</span>
+                    </label>
+
+                    <select id="correct_answer" name="correct_answer" required
+                        class="w-full rounded-xl
+                        border-slate-300 dark:border-slate-600
+                        dark:bg-slate-900 dark:text-white
+                        focus:border-blue-500 focus:ring-blue-500
+                        @error('correct_answer') border-red-500 @enderror">
+
+                        @foreach (['A', 'B', 'C', 'D', 'E'] as $option)
+                            <option value="{{ $option }}"
+                                {{ old('correct_answer', $question->correct_answer) === $option ? 'selected' : '' }}>
+
+                                {{ $option }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('correct_answer')
+                        <p class="mt-2 text-sm font-semibold text-red-500">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="score" class="block mb-2 font-semibold text-slate-900 dark:text-white">
+
+                        Score
+                        <span class="text-red-500">*</span>
+                    </label>
+
+                    <input id="score" type="number" name="score" value="{{ old('score', $question->score) }}"
+                        min="1" max="100" required
+                        class="w-full rounded-xl
+                        border-slate-300 dark:border-slate-600
+                        dark:bg-slate-900 dark:text-white
+                        focus:border-blue-500 focus:ring-blue-500
+                        @error('score') border-red-500 @enderror">
+
+                    @error('score')
+                        <p class="mt-2 text-sm font-semibold text-red-500">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
 
             </div>
 
-            <div class="flex gap-3">
-
-                <button type="submit" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold">
-
-                    Save Changes
-
-                </button>
+            {{-- ACTION --}}
+            <div
+                class="flex flex-col-reverse sm:flex-row gap-3
+                pt-6 border-t border-slate-200 dark:border-slate-700">
 
                 <a href="{{ $backRoute }}"
-                    class="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white">
+                    class="px-6 py-3 rounded-xl
+                    bg-slate-200 hover:bg-slate-300
+                    dark:bg-slate-700 dark:hover:bg-slate-600
+                    text-slate-900 dark:text-white
+                    font-semibold text-center transition">
 
                     Cancel
-
                 </a>
 
+                <button type="submit"
+                    class="px-6 py-3 rounded-xl
+                    bg-blue-600 hover:bg-blue-700
+                    text-white font-semibold transition">
+
+                    Save Changes
+                </button>
             </div>
 
         </form>

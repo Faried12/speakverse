@@ -38,6 +38,7 @@ class ReadingQuestionController extends Controller
         ReadingQuestion::create([
             'lesson_id' => $material->lesson_id,
             'reading_material_id' => $material->id,
+            'category' => $validated['category'],
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -49,13 +50,22 @@ class ReadingQuestionController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.reading-questions.index', $material->id)
-            ->with('success', 'Question berhasil ditambahkan.');
+            ->route(
+                'admin.reading-questions.index',
+                $material->id
+            )
+            ->with(
+                'success',
+                'Question berhasil ditambahkan.'
+            );
     }
 
     public function lessonIndex(Lesson $lesson)
     {
-        $questions = ReadingQuestion::where('lesson_id', $lesson->id)
+        $questions = ReadingQuestion::where(
+                'lesson_id',
+                $lesson->id
+            )
             ->whereNull('reading_material_id')
             ->latest()
             ->get();
@@ -74,13 +84,16 @@ class ReadingQuestionController extends Controller
         );
     }
 
-    public function lessonStore(Request $request, Lesson $lesson)
-    {
+    public function lessonStore(
+        Request $request,
+        Lesson $lesson
+    ) {
         $validated = $this->validateQuestion($request);
 
         ReadingQuestion::create([
             'lesson_id' => $lesson->id,
             'reading_material_id' => null,
+            'category' => $validated['category'],
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -92,8 +105,14 @@ class ReadingQuestionController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.reading-lesson-questions.index', $lesson->id)
-            ->with('success', 'Pre/Post-test reading question berhasil ditambahkan.');
+            ->route(
+                'admin.reading-lesson-questions.index',
+                $lesson->id
+            )
+            ->with(
+                'success',
+                'Pre/Post-test reading question berhasil ditambahkan.'
+            );
     }
 
     public function edit(ReadingQuestion $question)
@@ -104,11 +123,14 @@ class ReadingQuestionController extends Controller
         );
     }
 
-    public function update(Request $request, ReadingQuestion $question)
-    {
+    public function update(
+        Request $request,
+        ReadingQuestion $question
+    ) {
         $validated = $this->validateQuestion($request);
 
         $question->update([
+            'category' => $validated['category'],
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -119,8 +141,12 @@ class ReadingQuestionController extends Controller
             'score' => $validated['score'],
         ]);
 
-        return $this->redirectAfterAction($question)
-            ->with('success', 'Question berhasil diperbarui.');
+        return $this
+            ->redirectAfterAction($question)
+            ->with(
+                'success',
+                'Question berhasil diperbarui.'
+            );
     }
 
     public function destroy(ReadingQuestion $question)
@@ -129,25 +155,60 @@ class ReadingQuestionController extends Controller
 
         $question->delete();
 
-        return $redirect->with('success', 'Question berhasil dihapus.');
+        return $redirect->with(
+            'success',
+            'Question berhasil dihapus.'
+        );
     }
 
-    private function validateQuestion(Request $request): array
-    {
+    private function validateQuestion(
+        Request $request
+    ): array {
         return $request->validate([
-            'question' => 'required',
-            'option_a' => 'required',
-            'option_b' => 'required',
-            'option_c' => 'required',
-            'option_d' => 'required',
-            'option_e' => 'nullable',
-            'correct_answer' => 'required|in:A,B,C,D,E',
-            'score' => 'required|integer|min:1',
+            'category' => [
+                'required',
+                'in:main_idea,detail,inference,vocabulary',
+            ],
+            'question' => [
+                'required',
+                'string',
+            ],
+            'option_a' => [
+                'required',
+                'string',
+            ],
+            'option_b' => [
+                'required',
+                'string',
+            ],
+            'option_c' => [
+                'required',
+                'string',
+            ],
+            'option_d' => [
+                'required',
+                'string',
+            ],
+            'option_e' => [
+                'nullable',
+                'string',
+            ],
+            'correct_answer' => [
+                'required',
+                'in:A,B,C,D,E',
+            ],
+            'score' => [
+                'required',
+                'integer',
+                'min:1',
+                'max:100',
+            ],
         ]);
     }
 
-    private function redirectAfterAction(ReadingQuestion $question)
-    {
+    private function redirectAfterAction(
+        ReadingQuestion $question
+    ) {
         if ($question->reading_material_id) {
             return redirect()->route(
                 'admin.reading-questions.index',

@@ -148,12 +148,24 @@
                             </div>
 
                             <h3 class="text-xl font-black">
-                                {{ strtoupper($submission->type) }} - {{ ucfirst($submission->skill) }}
+                                @if ($submission->type === 'unit')
+                                    {{ $submission->unit->title ?? 'UNIT' }} - {{ ucfirst($submission->skill) }}
+                                @else
+                                    {{ strtoupper(str_replace('test', '-TEST', $submission->type)) }}
+                                    -
+                                    {{ ucfirst($submission->skill) }}
+                                @endif
                             </h3>
 
                             <p class="mt-1 text-slate-500">
-                                {{ $submission->lesson->title ?? '-' }}
+                                @if ($submission->type === 'unit')
+                                    {{ $submission->unit->subtitle ?? ($submission->lesson->title ?? '-') }}
+                                @else
+                                    {{ $submission->lesson->title ?? '-' }}
+                                @endif
+
                                 •
+
                                 {{ $submission->submitted_at?->format('d M Y, H:i') ?? $submission->created_at->format('d M Y, H:i') }}
                             </p>
                         </div>

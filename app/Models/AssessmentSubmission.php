@@ -13,6 +13,7 @@ class AssessmentSubmission extends Model
         'type',
         'skill',
         'final_score',
+        'criteria_scores',
         'status',
         'feedback',
         'submitted_at',
@@ -20,6 +21,7 @@ class AssessmentSubmission extends Model
 
     protected $casts = [
         'submitted_at' => 'datetime',
+        'criteria_scores' => 'array',
     ];
 
     public function answers()
