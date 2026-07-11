@@ -10,7 +10,6 @@ class ReadingQuestion extends Model
     protected $fillable = [
         'lesson_id',
         'reading_material_id',
-        'category',
         'question',
         'option_a',
         'option_b',

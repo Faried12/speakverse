@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class ListeningQuestion extends Model
 {
     use HasFactory;
@@ -11,7 +12,6 @@ class ListeningQuestion extends Model
     protected $fillable = [
         'lesson_id',
         'listening_material_id',
-        'category',
         'instruction',
         'question',
         'option_a',

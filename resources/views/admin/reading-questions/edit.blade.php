@@ -49,51 +49,6 @@
 
             @csrf
             @method('PUT')
-
-            {{-- CATEGORY --}}
-            <div>
-                <label for="category" class="block mb-2 font-semibold text-slate-900 dark:text-white">
-
-                    Question Category
-                    <span class="text-red-500">*</span>
-                </label>
-
-                <select id="category" name="category" required
-                    class="w-full rounded-xl
-                    border-slate-300 dark:border-slate-600
-                    dark:bg-slate-900 dark:text-white
-                    focus:border-blue-500 focus:ring-blue-500
-                    @error('category') border-red-500 @enderror">
-
-                    <option value="">
-                        Select question category
-                    </option>
-
-                    <option value="main_idea" {{ old('category', $question->category) === 'main_idea' ? 'selected' : '' }}>
-                        Main Idea
-                    </option>
-
-                    <option value="detail" {{ old('category', $question->category) === 'detail' ? 'selected' : '' }}>
-                        Specific Detail
-                    </option>
-
-                    <option value="inference" {{ old('category', $question->category) === 'inference' ? 'selected' : '' }}>
-                        Inference
-                    </option>
-
-                    <option value="vocabulary"
-                        {{ old('category', $question->category) === 'vocabulary' ? 'selected' : '' }}>
-                        Vocabulary
-                    </option>
-                </select>
-
-                @error('category')
-                    <p class="mt-2 text-sm font-semibold text-red-500">
-                        {{ $message }}
-                    </p>
-                @enderror
-            </div>
-
             {{-- QUESTION --}}
             <div>
                 <label for="question" class="block mb-2 font-semibold text-slate-900 dark:text-white">

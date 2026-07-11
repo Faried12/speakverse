@@ -40,7 +40,6 @@ class ListeningQuestionController extends Controller
         ListeningQuestion::create([
             'lesson_id' => $material->lesson_id,
             'listening_material_id' => $material->id,
-            'category' => $validated['category'],
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
@@ -96,7 +95,6 @@ class ListeningQuestionController extends Controller
         ListeningQuestion::create([
             'lesson_id' => $lesson->id,
             'listening_material_id' => null,
-            'category' => $validated['category'],
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
@@ -134,7 +132,6 @@ class ListeningQuestionController extends Controller
         $validated = $this->validateQuestion($request);
 
         $question->update([
-            'category' => $validated['category'],
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
@@ -170,10 +167,6 @@ class ListeningQuestionController extends Controller
         Request $request
     ): array {
         return $request->validate([
-            'category' => [
-                'required',
-                'in:main_idea,detail,interpretation,vocabulary',
-            ],
             'instruction' => [
                 'nullable',
                 'string',

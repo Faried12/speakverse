@@ -38,7 +38,6 @@ class ReadingQuestionController extends Controller
         ReadingQuestion::create([
             'lesson_id' => $material->lesson_id,
             'reading_material_id' => $material->id,
-            'category' => $validated['category'],
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -93,7 +92,6 @@ class ReadingQuestionController extends Controller
         ReadingQuestion::create([
             'lesson_id' => $lesson->id,
             'reading_material_id' => null,
-            'category' => $validated['category'],
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -130,7 +128,6 @@ class ReadingQuestionController extends Controller
         $validated = $this->validateQuestion($request);
 
         $question->update([
-            'category' => $validated['category'],
             'question' => $validated['question'],
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
@@ -165,10 +162,6 @@ class ReadingQuestionController extends Controller
         Request $request
     ): array {
         return $request->validate([
-            'category' => [
-                'required',
-                'in:main_idea,detail,inference,vocabulary',
-            ],
             'question' => [
                 'required',
                 'string',
