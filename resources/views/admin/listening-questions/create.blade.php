@@ -155,7 +155,7 @@
                     </label>
 
                     <input id="{{ $field }}" type="text" name="{{ $field }}" value="{{ old($field) }}"
-                        {{ $isOptional ? '' : 'required' }} placeholder="Enter option {{ $label }}"
+                        {{ in_array($option, ['a', 'b']) ? 'required' : '' }} placeholder="Enter option {{ $label }}"
                         class="w-full rounded-xl
                         border-slate-300 dark:border-slate-600
                         dark:bg-slate-900 dark:text-white

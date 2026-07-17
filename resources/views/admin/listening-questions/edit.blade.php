@@ -119,7 +119,7 @@
                     </label>
 
                     <input id="{{ $field }}" type="text" name="{{ $field }}"
-                        value="{{ old($field, $question->$field) }}" {{ $isOptional ? '' : 'required' }}
+                        value="{{ old($field, $question->$field) }}" {{ in_array($option, ['a', 'b']) ? 'required' : '' }}
                         class="w-full rounded-xl
                         border-slate-300 dark:border-slate-600
                         dark:bg-slate-900 dark:text-white

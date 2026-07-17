@@ -40,13 +40,16 @@ class ListeningQuestionController extends Controller
         ListeningQuestion::create([
             'lesson_id' => $material->lesson_id,
             'listening_material_id' => $material->id,
+
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
+
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
-            'option_c' => $validated['option_c'],
-            'option_d' => $validated['option_d'],
+            'option_c' => $validated['option_c'] ?? null,
+            'option_d' => $validated['option_d'] ?? null,
             'option_e' => $validated['option_e'] ?? null,
+
             'correct_answer' => $validated['correct_answer'],
             'score' => $validated['score'],
         ]);
@@ -134,11 +137,13 @@ class ListeningQuestionController extends Controller
         $question->update([
             'instruction' => $validated['instruction'] ?? null,
             'question' => $validated['question'],
+
             'option_a' => $validated['option_a'],
             'option_b' => $validated['option_b'],
-            'option_c' => $validated['option_c'],
-            'option_d' => $validated['option_d'],
+            'option_c' => $validated['option_c'] ?? null,
+            'option_d' => $validated['option_d'] ?? null,
             'option_e' => $validated['option_e'] ?? null,
+
             'correct_answer' => $validated['correct_answer'],
             'score' => $validated['score'],
         ]);
@@ -163,9 +168,8 @@ class ListeningQuestionController extends Controller
         );
     }
 
-    private function validateQuestion(
-        Request $request
-    ): array {
+    private function validateQuestion(Request $request): array
+    {
         return $request->validate([
             'instruction' => [
                 'nullable',
@@ -184,11 +188,11 @@ class ListeningQuestionController extends Controller
                 'string',
             ],
             'option_c' => [
-                'required',
+                'nullable',
                 'string',
             ],
             'option_d' => [
-                'required',
+                'nullable',
                 'string',
             ],
             'option_e' => [
