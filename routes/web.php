@@ -22,6 +22,7 @@ use App\Http\Controllers\StudentListeningController;
 use App\Http\Controllers\StudentAssessmentController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\MissionController;
+use App\Http\Controllers\Admin\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -205,9 +206,8 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::resource('vocabulary-pretests', AdminVocabularyPretestController::class)
             ->names('admin.vocabulary-pretests');
 
-        Route::get('/analytics', function () {
-            return view('admin.analytics.analytic');
-        })->name('admin.analytics');
+        Route::get('/analytics', [AnalyticsController::class, 'index'])
+            ->name('admin.analytics');
 
         Route::get('/learning', [LearningContentController::class, 'index'])
             ->name('admin.learning');
