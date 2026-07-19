@@ -40,12 +40,19 @@ class AnalyticsController extends Controller
             ->count();
 
         $completedAssessments = AssessmentSubmission::query()
+            ->whereHas('user', function ($query) {
+                $query->where('role', '!=', 'admin');
+            })
             ->where('status', 'completed')
             ->whereIn('type', ['pretest', 'posttest'])
             ->count();
 
         $completedVocabularyPretests = VocabularyPretestResult::query()
-            ->count();
+            ->whereHas('user', function ($query) {
+                $query->where('role', '!=', 'admin');
+            })
+            ->distinct('user_id')
+            ->count('user_id');
 
         $totalCompletedTests = $completedAssessments
             + $completedVocabularyPretests;
@@ -154,6 +161,9 @@ class AnalyticsController extends Controller
     {
         return round(
             (float) AssessmentSubmission::query()
+                ->whereHas('user', function ($query) {
+                    $query->where('role', '!=', 'admin');
+                })
                 ->where('status', 'completed')
                 ->where('type', $type)
                 ->whereNotNull('final_score')
@@ -171,6 +181,9 @@ class AnalyticsController extends Controller
     ): float {
         return round(
             (float) AssessmentSubmission::query()
+                ->whereHas('user', function ($query) {
+                    $query->where('role', '!=', 'admin');
+                })
                 ->where('status', 'completed')
                 ->where('skill', $skill)
                 ->where('type', $type)
@@ -189,6 +202,9 @@ class AnalyticsController extends Controller
     private function calculateAverageImprovement(): float
     {
         $submissions = AssessmentSubmission::query()
+            ->whereHas('user', function ($query) {
+                $query->where('role', '!=', 'admin');
+            })
             ->where('status', 'completed')
             ->whereIn('type', ['pretest', 'posttest'])
             ->whereNotNull('final_score')
@@ -240,7 +256,8 @@ class AnalyticsController extends Controller
     }
 
     /**
-     * Mengambil jumlah aktivitas assessment selama tujuh hari terakhir.
+     * Mengambil jumlah aktivitas pretest, posttest,
+     * dan Vocabulary Pretest selama tujuh hari terakhir.
      */
     private function getWeeklyActivity(): Collection
     {
@@ -249,13 +266,21 @@ class AnalyticsController extends Controller
                 $date = Carbon::today()->subDays($daysAgo);
 
                 $assessmentCount = AssessmentSubmission::query()
+                    ->whereHas('user', function ($query) {
+                        $query->where('role', '!=', 'admin');
+                    })
                     ->where('status', 'completed')
+                    ->whereIn('type', ['pretest', 'posttest'])
                     ->whereDate('submitted_at', $date->toDateString())
                     ->count();
 
                 $vocabularyCount = VocabularyPretestResult::query()
+                    ->whereHas('user', function ($query) {
+                        $query->where('role', '!=', 'admin');
+                    })
                     ->whereDate('created_at', $date->toDateString())
-                    ->count();
+                    ->distinct('user_id')
+                    ->count('user_id');
 
                 return [
                     'date' => $date->toDateString(),
