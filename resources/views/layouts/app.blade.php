@@ -103,14 +103,6 @@ document.documentElement.classList.toggle('dark', darkMode)"
 
                             </a>
 
-                            <a href="{{ route('practice') }}"
-                                class="text-sm font-semibold transition
-                                {{ request()->routeIs('practice') ? 'text-cyan-400' : 'text-slate-600 dark:text-slate-300 hover:text-cyan-400' }}">
-
-                                Practice
-
-                            </a>
-
                             <a href="{{ route('progress') }}"
                                 class="text-sm font-semibold transition
                                 {{ request()->routeIs('progress') ? 'text-cyan-400' : 'text-slate-600 dark:text-slate-300 hover:text-cyan-400' }}">
@@ -222,7 +214,7 @@ document.documentElement.classList.toggle('dark', darkMode)"
 
                                     </a>
 
-                                    <a href="#"
+                                    <a href="{{ route('progress') }}"
                                         class="flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-slate-100 dark:hover:bg-white/[0.06] transition text-sm font-medium">
 
                                         <span>📈</span>
@@ -312,16 +304,6 @@ document.documentElement.classList.toggle('dark', darkMode)"
             : 'hover:bg-slate-100 dark:hover:bg-white/10' }}">
 
                     Missions
-
-                </a>
-
-                <a href="{{ route('practice') }}"
-                    class="px-4 py-3 rounded-2xl transition
-        {{ request()->routeIs('practice')
-            ? 'bg-cyan-500/10 text-cyan-400 font-semibold'
-            : 'hover:bg-slate-100 dark:hover:bg-white/10' }}">
-
-                    Practice
 
                 </a>
 

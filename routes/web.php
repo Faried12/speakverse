@@ -122,17 +122,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Practice & Progress
+    | Progress
     |--------------------------------------------------------------------------
     */
 
-    Route::get('/practice', function () {
-        return view('practice.index');
-    })->name('practice');
-
     Route::get('/progress', [ProgressController::class, 'index'])
         ->name('progress');
-
+        
     /*
     |--------------------------------------------------------------------------
     | Quest Pages
