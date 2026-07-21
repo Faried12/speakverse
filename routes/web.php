@@ -23,6 +23,7 @@ use App\Http\Controllers\StudentAssessmentController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\MissionController;
 use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\StudentDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,13 +43,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        if (Auth::user()->role === 'admin') {
-            return redirect('/admin/dashboard');
-        }
-
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])
+        ->name('dashboard');
 
     /*
     |--------------------------------------------------------------------------

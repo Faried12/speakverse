@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Lesson;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Unit extends Model
 {
@@ -13,11 +13,36 @@ class Unit extends Model
         'description',
         'order_number',
         'type',
-        'status'
+        'status',
     ];
 
-    public function lessons()
+    /**
+     * Seluruh lesson dalam unit.
+     */
+    public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    /**
+     * Seluruh progress pembelajaran dalam unit.
+     */
+    public function lessonProgress(): HasMany
+    {
+        return $this->hasMany(
+            UserLessonProgress::class,
+            'unit_id'
+        );
+    }
+
+    /**
+     * Seluruh submission assessment dalam unit.
+     */
+    public function assessmentSubmissions(): HasMany
+    {
+        return $this->hasMany(
+            AssessmentSubmission::class,
+            'unit_id'
+        );
     }
 }

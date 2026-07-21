@@ -3,15 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Unit;
-use App\Models\ReadingMaterial;
-use App\Models\SpeakingMaterial;
-use App\Models\ListeningMaterial;
-use App\Models\WritingMaterial;
-use App\Models\ReadingQuestion;
-use App\Models\ListeningQuestion;
-use App\Models\WritingQuestion;
-use App\Models\SpeakingQuestion;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lesson extends Model
 {
@@ -21,55 +14,93 @@ class Lesson extends Model
         'title',
         'description',
         'order_number',
-        'status'
+        'status',
     ];
 
-    public function unit()
+    /**
+     * Unit pemilik lesson.
+     */
+    public function unit(): BelongsTo
     {
         return $this->belongsTo(Unit::class);
     }
 
-    public function readingMaterial()
+    /**
+     * Materi reading dalam lesson.
+     */
+    public function readingMaterials(): HasMany
     {
         return $this->hasMany(ReadingMaterial::class);
     }
 
-    public function speakingMaterials()
+    /**
+     * Materi speaking dalam lesson.
+     */
+    public function speakingMaterials(): HasMany
     {
         return $this->hasMany(SpeakingMaterial::class);
     }
 
-    public function writingMaterials()
+    /**
+     * Materi writing dalam lesson.
+     */
+    public function writingMaterials(): HasMany
     {
         return $this->hasMany(WritingMaterial::class);
     }
 
-    public function listeningMaterials()
+    /**
+     * Materi listening dalam lesson.
+     */
+    public function listeningMaterials(): HasMany
     {
         return $this->hasMany(ListeningMaterial::class);
     }
 
-    public function readingQuestions()
+    /**
+     * Pertanyaan reading langsung pada lesson.
+     */
+    public function readingQuestions(): HasMany
     {
         return $this->hasMany(ReadingQuestion::class, 'lesson_id')
             ->whereNull('reading_material_id');
     }
 
-    public function listeningQuestions()
+    /**
+     * Pertanyaan listening langsung pada lesson.
+     */
+    public function listeningQuestions(): HasMany
     {
         return $this->hasMany(ListeningQuestion::class, 'lesson_id')
             ->whereNull('listening_material_id');
     }
 
-    public function writingQuestions()
+    /**
+     * Pertanyaan writing langsung pada lesson.
+     */
+    public function writingQuestions(): HasMany
     {
         return $this->hasMany(WritingQuestion::class, 'lesson_id')
             ->whereNull('writing_material_id');
     }
 
-    public function speakingQuestions()
+    /**
+     * Pertanyaan speaking langsung pada lesson.
+     */
+    public function speakingQuestions(): HasMany
     {
         return $this->hasMany(SpeakingQuestion::class, 'lesson_id')
             ->whereNull('speaking_material_id');
+    }
+
+    /**
+     * Progress pengguna untuk lesson ini.
+     */
+    public function progress(): HasMany
+    {
+        return $this->hasMany(
+            UserLessonProgress::class,
+            'lesson_id'
+        );
     }
 }
