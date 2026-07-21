@@ -54,7 +54,7 @@
                                 } else {
                                     $route = route('admin.reading-materials.index', $lesson->id);
                                     $label = 'Reading Materials';
-                                    $count = $lesson->readingMaterial->count();
+                                    $count = $lesson->readingMaterials->count();
                                 }
 
                                 $colorClass = 'text-blue-600 dark:text-blue-400';

@@ -10,7 +10,7 @@ class LearningContentController extends Controller
     public function index()
     {
         $units = Unit::with([
-            'lessons.readingMaterial',
+            'lessons.readingMaterials',
             'lessons.listeningMaterials',
             'lessons.speakingMaterials',
             'lessons.writingMaterials',
