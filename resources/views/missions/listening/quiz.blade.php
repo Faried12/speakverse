@@ -93,7 +93,7 @@
                                 </div>
                             @endif
 
-                            <h6 class="text-lg md:text-xl font-bold mb-8 leading-relaxed">
+                            <h6 class="text-lg md:text-xl font-normal mb-8 leading-relaxed">
                                 {{ $question->question }}
                             </h6>
 
