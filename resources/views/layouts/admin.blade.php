@@ -141,9 +141,9 @@ document.documentElement.classList.toggle('dark', darkMode)"
                     </a>
 
                     <!-- USERS -->
-                    <a href="{{ route('admin.users') }}"
+                    <a href="{{ route('admin.users.index') }}"
                         class="flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 font-semibold
-                        {{ request()->routeIs('admin.users')
+                        {{ request()->routeIs('admin.users.*')
                             ? 'bg-cyan-500/10 text-cyan-400 shadow-lg shadow-cyan-500/5'
                             : 'hover:bg-slate-100 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300' }}">
 

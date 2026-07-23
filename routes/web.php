@@ -24,6 +24,7 @@ use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\MissionController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -187,13 +188,9 @@ Route::middleware(['auth', 'verified', 'admin'])
         Route::get('/profile', [ProfileController::class, 'edit'])
             ->name('admin.profile.edit');
 
-        Route::get('/users', function () {
-            $users = \App\Models\User::latest('created_at')->get(['*']);
-
-            return view('admin.users.index', [
-                'users' => $users
-            ]);
-        })->name('admin.users');
+        Route::resource('users', UserController::class)
+            ->except(['show'])
+            ->names('admin.users');
 
         Route::resource('vocabulary-pretests', AdminVocabularyPretestController::class)
             ->names('admin.vocabulary-pretests');

@@ -1,6 +1,26 @@
 @extends('layouts.admin')
 
 @section('content')
+    @if (session('success'))
+        <div
+            class="mb-6 rounded-2xl border border-green-500/20
+        bg-green-500/10 px-5 py-4 text-green-600 dark:text-green-400">
+
+            {{ session('success') }}
+
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div
+            class="mb-6 rounded-2xl border border-red-500/20
+        bg-red-500/10 px-5 py-4 text-red-600 dark:text-red-400">
+
+            {{ session('error') }}
+
+        </div>
+    @endif
+
     <!-- HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-8">
 
@@ -16,18 +36,18 @@
 
         </div>
 
-        <button
+        <a href="{{ route('admin.users.create') }}"
             class="w-full sm:w-auto
             px-6 py-4 rounded-2xl
             bg-gradient-to-r from-cyan-500 to-blue-600
-            text-white font-bold
+            text-white font-bold text-center
             shadow-lg shadow-cyan-500/20
             hover:scale-[1.02]
             transition-all duration-200">
 
             + Add User
 
-        </button>
+        </a>
 
     </div>
 
@@ -116,28 +136,36 @@
                 <!-- ACTION -->
                 <div class="grid grid-cols-2 gap-3 mt-5">
 
-                    <button
+                    <a href="{{ route('admin.users.edit', $user) }}"
                         class="py-3 rounded-2xl
                         bg-slate-100 dark:bg-white/5
                         hover:bg-slate-200 dark:hover:bg-white/10
                         transition-all duration-200
-                        font-semibold">
+                        font-semibold text-center">
 
                         Edit
 
-                    </button>
+                    </a>
 
-                    <button
-                        class="py-3 rounded-2xl
-                        bg-red-500/10
-                        text-red-400
-                        hover:bg-red-500/20
-                        transition-all duration-200
-                        font-semibold">
+                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                        onsubmit="return confirm('Yakin ingin menghapus user {{ addslashes($user->name) }}?')">
 
-                        Delete
+                        @csrf
+                        @method('DELETE')
 
-                    </button>
+                        <button type="submit"
+                            class="w-full py-3 rounded-2xl
+            bg-red-500/10
+            text-red-400
+            hover:bg-red-500/20
+            transition-all duration-200
+            font-semibold">
+
+                            Delete
+
+                        </button>
+
+                    </form>
 
                 </div>
 
@@ -308,28 +336,36 @@
 
                                 <div class="flex items-center justify-end gap-3">
 
-                                    <button
+                                    <a href="{{ route('admin.users.edit', $user) }}"
                                         class="px-5 py-3 rounded-2xl
-                                        bg-slate-100 dark:bg-white/5
-                                        hover:bg-slate-200 dark:hover:bg-white/10
-                                        transition-all duration-200
-                                        font-semibold">
+            bg-slate-100 dark:bg-white/5
+            hover:bg-slate-200 dark:hover:bg-white/10
+            transition-all duration-200
+            font-semibold">
 
                                         Edit
 
-                                    </button>
+                                    </a>
 
-                                    <button
-                                        class="px-5 py-3 rounded-2xl
-                                        bg-red-500/10
-                                        text-red-400
-                                        hover:bg-red-500/20
-                                        transition-all duration-200
-                                        font-semibold">
+                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus user {{ addslashes($user->name) }}?')">
 
-                                        Delete
+                                        @csrf
+                                        @method('DELETE')
 
-                                    </button>
+                                        <button type="submit"
+                                            class="px-5 py-3 rounded-2xl
+                bg-red-500/10
+                text-red-400
+                hover:bg-red-500/20
+                transition-all duration-200
+                font-semibold">
+
+                                            Delete
+
+                                        </button>
+
+                                    </form>
 
                                 </div>
 
